@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %}
+
+{% block content %} 
+    
+    <div class="page-header-header">
+        <h1 class="text-titles"><strong>Consultar Balance de la Empresa.</strong></h1>
+    </div>
+    
+    </br><p class="lead">Ingresa el codigo de tu empresa y el año que deseas consultar.</p>
+    
+    <!-- Opciones para consultar los balances -->
+    <div align="center" class="busqueda">
+        <form method="POST" action="{% url 'analisisFinanciero:filtrarBalance' %}">
+            {% csrf_token %} 
+
+            <div class="form__group2 field">
+                <input type="text" name="codEmpresa"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el código de la empresa." required maxlength="15"></br>
+                <label for="codEmpresa" class="form__label2">Codigo Empresa</label>
+            </div>
+
+            <div class="form__group2 field">
+                <input type="number" name="año"  id = "año" class="form__field2" placeholder="Ingresa el año." required pattern="([0-9]{4})" maxlength="4"></br>
+                <label for="año" class="form__label2">Año</label>
+            </div>
+
+            <div class="form__group2 field">
+                <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Consultar">
+                <label for="consultarBalance">
+                <span class="iborrainputfile">Consultar</span>
+            </div>
+
+            </br>
+            
+        </form>
+    </div>
+
+    <div class="table-responsive" style="width:85%; display:inline-block;">
+        <table class="table table-hover text-center">
+            <thead>
+        	   <tr>
+                    <th class="text-center">C&oacute;digo Empresa</th>
+            		<th class="text-center">Nombre Empresa</th>
+                    <th class="text-center">C&oacute;digo Cuenta</th>
+            	    <th class="text-center">Nombre Cuenta</th>
+            	    <th class="text-center">valor</th>
+                    <th class="text-center">Tipo Cuenta</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if queryset %}
+            {% for bal in queryset %}
+                <tr>
+                    <td>{{ bal.codEmpresa }}</td>
+                    <td>{{ bal.codEmpresa.nombreEmpresa }}</td>
+                    <td>{{ bal.codCuenta }}</td>
+                    <td>{{ bal.codCuenta.nombreCuenta }}</td>
+                    <td>{{ bal.valor}}</td>
+                    <td>{{ bal.codCuenta.codTipoCuenta.nombreTipoCuenta }}</td>
+                </tr>
+            {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    <div>
+    
+
+{% endblock %}

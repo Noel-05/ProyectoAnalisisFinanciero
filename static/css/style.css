@@ -1,0 +1,140 @@
+/**********File Inputs**********/
+.container-input {
+    text-align: center;
+    background: #282828;
+    border-top: 5px solid #c39f77;
+    padding: 50px 0;
+    border-radius: 6px;
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.container-input-boton {
+    text-align: center;
+    background: white;
+    border-top: 5px solid white;
+    padding: 50px 0;
+    border-radius: 6px;
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+    max-width: 80%;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+}
+
+.inputfile + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    margin-right: 0.25em;
+}
+
+.iborrainputfile {
+	font-size:16px; 
+	font-weight:normal;
+	font-family: "Montserrat", sans-serif;
+}
+
+/* style 2 */
+
+.inputfile-2 + label {
+    color: rgb(5, 214, 36);
+    border: 2px solid currentColor;
+}
+.inputfile-2:focus + label,
+.inputfile-2.has-focus + label,
+.inputfile-2 + label:hover {
+    color: #3cab1e;
+}
+
+
+.inputfile-3 + label {
+    color: rgb(20, 83, 231);
+    border: 2px solid currentColor;
+}
+.inputfile-3:focus + label,
+.inputfile-3.has-focus + label,
+.inputfile-3 + label:hover {
+    color: #1a419b;
+}
+
+
+.page-header-header{
+    padding-bottom:10px;
+    margin:0px 100px 5px;
+    border-bottom:1px solid red;
+}
+
+
+/*Estilo Para el Imput */
+
+
+
+.form__group2 {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 38%;
+}
+
+.form__field2 {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid gray;
+  outline: 0;
+  font-size: 15px;
+  color: black;
+  padding: 7px 0;
+  background: transparent;
+  transition: 0.2s;
+}
+
+.form__label2 {
+  position: relative;
+  top: 0;
+  display: inline-block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: gray;
+}
+
+.form__field2:focus {
+  padding-bottom: 6px;  
+  font-weight: 100;
+  border-width: 3px;
+  border-image: linear-gradient(to right,rgb(107, 255, 21), rgb(5, 214, 36));
+  border-image-slice: 1;
+}
+.form__label2 {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: black;
+    font-weight:700;    
+  }
+/* reset input */

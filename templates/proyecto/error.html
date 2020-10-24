@@ -1,0 +1,12 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}  
+    <div class="page-header-header">
+        <h1 class="text-titles"><strong>Error al subir el Archivo.</strong></h1>
+    </div>
+    
+    </br><p class="lead">¡Oops, ocurrio un error!</p>
+    </br><p class="lead">Porfavor verifica que las cuentas sean las mismas que registraste en el Catalogo de Cuentas.</p>
+    </br><img src = "{% static 'assets/img/ExcelError.jpg' %}" width="250" height="250">
+{% endblock %}  
