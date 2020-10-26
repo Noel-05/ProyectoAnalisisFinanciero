@@ -10,5 +10,7 @@ urlpatterns = [
     path('analisisFinanciero/subirBalance/', subirBalance, name="subirBalance"),
     path('analisisFinanciero/consultaBalance', consultarBalance, name="consultarBalance"),
     path('analisisFinanciero/Balances', filtrarBalance, name="filtrarBalance"),
+    path('analisisFinanciero/consultaRazonActividad', consultarRazonActividad, name="consultarRazonActividad"),
+    path('analisisFinanciero/ratiosActividad', ratiosActividad, name="ratiosActividad"),
 
 ]

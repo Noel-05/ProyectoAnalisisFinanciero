@@ -14,6 +14,7 @@ class ActividadEconomica(models.Model):
     codActividadEconomica = models.CharField(primary_key=True, max_length=15, null=False)
     nombreActividadEconomica = models.CharField(max_length=100, null=False)
     descripcionActividadEconomica = models.CharField(max_length=100, null=True, blank=True)
+    codSector = models.ForeignKey(Sector, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombreActividadEconomica
@@ -113,9 +114,10 @@ class RatiosEmpresa(models.Model):
     codRatio = models.ForeignKey(Ratio, on_delete=models.CASCADE)
     codEmpresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     valorRatioEmpresa = models.DecimalField(max_digits=6, decimal_places=2, null=False)
+    año = models.IntegerField(null=False)
     
     class Meta:
-        unique_together = ("codEmpresa", "codRatio")
+        unique_together = ("codEmpresa", "codRatio", "año")
     
     def __str__(self):
         return self.codEmpresa.__str__()

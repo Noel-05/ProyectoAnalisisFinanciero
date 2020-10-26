@@ -116,7 +116,7 @@
 					</a>
 					<ul class="list-unstyled full-box dashboard-sideBar-Menu">
 						<li>
-							<a href="subject.html"><i class="zmdi zmdi-badge-check zmdi-hc-fw"></i> Actividad </a>
+							<a href="{% url 'analisisFinanciero:consultarRazonActividad' %}"><i class="zmdi zmdi-badge-check zmdi-hc-fw"></i> Actividad </a>
 						</li>
 						<li>
 							<a href="subject.html"><i class="zmdi zmdi-badge-check zmdi-hc-fw"></i> Liquidez </a>
@@ -128,6 +128,14 @@
 							<a href="salon.html"><i class="zmdi zmdi-badge-check zmdi-hc-fw"></i> Rentabilidad </a>
 						</li>
 					</ul>
+				</li>
+
+				</br>
+
+				<li>
+					<a href="">
+						<i class="zmdi zmdi-book zmdi-hc-fw"></i> Informes
+					</a>
 				</li>
 
 				</br>
@@ -189,6 +197,7 @@
 		
 	</section>
 
+	
 	<!-- Dialog help -->
 	<div class="modal fade" tabindex="-1" role="dialog" id="Dialog-Help">
 	  	<div class="modal-dialog" role="document">
@@ -212,6 +221,9 @@
 	<script>
 		$.material.init();
 	</script>
+
+	{% block modal %}
+	{% endblock %}
 
 	{% block js %}
 	{% endblock %}

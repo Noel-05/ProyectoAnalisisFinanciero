@@ -6,7 +6,7 @@
         <h1 class="text-titles"><strong>Consultar Balance de la Empresa.</strong></h1>
     </div>
     
-    </br><p class="lead">Ingresa el codigo de tu empresa y el año que deseas consultar.</p>
+    </br><p class="lead">Ingresa el c&oacute;digo de tu empresa y el a&ntilde;o que deseas consultar.</p>
     
     <!-- Opciones para consultar los balances -->
     <div align="center" class="busqueda">
@@ -15,12 +15,12 @@
 
             <div class="form__group2 field">
                 <input type="text" name="codEmpresa"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el código de la empresa." required maxlength="15"></br>
-                <label for="codEmpresa" class="form__label2">Codigo Empresa</label>
+                <label for="codEmpresa" class="form__label2">C&oacute;digo Empresa</label>
             </div>
 
             <div class="form__group2 field">
                 <input type="number" name="año"  id = "año" class="form__field2" placeholder="Ingresa el año." required pattern="([0-9]{4})" maxlength="4"></br>
-                <label for="año" class="form__label2">Año</label>
+                <label for="año" class="form__label2">A&ntilde;o</label>
             </div>
 
             <div class="form__group2 field">
@@ -38,7 +38,7 @@
         <table class="table table-hover text-center">
             <thead>
         	   <tr>
-                    <th class="text-center">C&oacute;digo Empresa</th>
+                    <th class="text-center">A&ntilde;o</th>
             		<th class="text-center">Nombre Empresa</th>
                     <th class="text-center">C&oacute;digo Cuenta</th>
             	    <th class="text-center">Nombre Cuenta</th>
@@ -50,7 +50,7 @@
             {% if queryset %}
             {% for bal in queryset %}
                 <tr>
-                    <td>{{ bal.codEmpresa }}</td>
+                    <td>{{ bal.año }}</td>
                     <td>{{ bal.codEmpresa.nombreEmpresa }}</td>
                     <td>{{ bal.codCuenta }}</td>
                     <td>{{ bal.codCuenta.nombreCuenta }}</td>
