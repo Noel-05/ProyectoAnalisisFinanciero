@@ -38,8 +38,9 @@
         <table class="table table-hover text-center">
             <thead>
         	   <tr>
+                    <th class="text-center">Empresa</th>
                     <th class="text-center">A&ntilde;o</th>
-                    <th class="text-center">Raz&oacute;n</th>
+                    {% comment %} <th class="text-center">Raz&oacute;n</th> {% endcomment %}
                     <th class="text-center">Ratio</th>
             		<th class="text-center">Valor Ratio</th>
             	    {% comment %} <th class="text-center">An&aacute;lisis</th> {% endcomment %}
@@ -49,8 +50,9 @@
             {% if consulta %}
             {% for con in consulta %}
                 <tr>
+                    <td>{{ con.codEmpresa.nombreEmpresa }}</td>
                     <td>{{ con.año }}</td>
-                    <td>{{ con.codRatio.codRazon.nombreRazon }}</td>
+                    {% comment %} <td>{{ con.codRatio.codRazon.nombreRazon }}</td> {% endcomment %}
                     <td>{{ con.codRatio.nombreRatio }}</td>
                     <td>{{ con.valorRatioEmpresa }}</td>
                     {% comment %} <td><a data-toggle="modal" data-target="#RazonCirculante" ><i>An&aacute;lisis</i></a></td> {% endcomment %}
