@@ -3,14 +3,14 @@
 {% block content %} 
     
     <div class="page-header-header">
-        <h1 class="text-titles"><strong>Consultar Raz&oacute;n de Actividad.</strong></h1>
+        <h1 class="text-titles"><strong>Consultar Raz&oacute;n de Liquidez.</strong></h1>
     </div>
     
     </br><p class="lead">Ingresa el c&oacute;digo de tu empresa y el a&ntilde;o en que deseas consultar los ratios de est&aacute; raz&oacute;n.</p>
     
     <!-- Opciones para consultar los balances -->
     <div align="center" class="busqueda">
-        <form method="POST" action="{% url 'analisisFinanciero:ratiosActividad' %}">
+        <form method="POST" action="{% url 'analisisFinanciero:ratiosLiquidez' %}">
             {% csrf_token %} 
 
             <div class="form__group2 field">
@@ -24,8 +24,8 @@
             </div>
 
             <div class="form__group2 field">
-                <input type="submit" name="submit" id="consultarActividad" class="inputfile inputfile-3"  value="Consultar">
-                <label for="consultarActividad">
+                <input type="submit" name="submit" id="consultarLiquidez" class="inputfile inputfile-3"  value="Consultar">
+                <label for="consultarLiquidez">
                 <span class="iborrainputfile">Consultar</span>
             </div>
 
