@@ -68,9 +68,12 @@ def filtrarBalance(request):
         año = request.POST['año']
 
         queryset = CuentaBalance.objects.filter(codEmpresa=codEmpresa, año=año).order_by('codCuenta')
+        empresa = Empresa.objects.get(codEmpresa=codEmpresa)
 
         contexto = {
             'queryset': queryset, 
+            'año': año,
+            'empresa': empresa,
         }
 
         return render(
@@ -331,6 +334,7 @@ def ratiosActividad(request):
         
         #Para imprimir los ratios de está razón
         recuperar = RatiosEmpresa.objects.filter(codEmpresa_id=codEmpresa, año=año).order_by('codRatio')
+        empresa = Empresa.objects.get(codEmpresa=codEmpresa)
         razon = "ACT"
         consulta=[]
         i=0
@@ -343,6 +347,8 @@ def ratiosActividad(request):
         contexto = {
             'queryset': queryset,
             'consulta': consulta, 
+            'empresa': empresa,
+            'año': año,
         }
 
         return render(
@@ -442,7 +448,7 @@ def ratiosLiquidez(request):
             ratioRazCirc = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonCirculante, codEmpresa_id=codEmpresa, año=año)
             ratioRazCirc.save()
 
-        # -> Ratio Razon de Capital de Trabajo
+        # -> Ratio Razon Rápida
         codRatio="RR"
         comprobarRR = RatiosEmpresa.objects.filter(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
         if(len(comprobarRR) == 0):
@@ -456,7 +462,7 @@ def ratiosLiquidez(request):
             ratioRazCaptTrab = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonCapitalTrabajo, codEmpresa_id=codEmpresa, año=año)
             ratioRazCaptTrab.save()
 
-        # -> Ratio Razon de Capital de Trabajo
+        # -> Ratio Razon de Efectivo
         codRatio="RE"
         comprobarRE = RatiosEmpresa.objects.filter(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
         if(len(comprobarRE) == 0):
@@ -468,6 +474,7 @@ def ratiosLiquidez(request):
 
         #Para imprimir los ratios de está razón
         recuperar = RatiosEmpresa.objects.filter(codEmpresa_id=codEmpresa, año=año).order_by('codRatio')
+        empresa = Empresa.objects.get(codEmpresa=codEmpresa)
         razon = "LIQ"
         consulta=[]
         i=0
@@ -485,6 +492,8 @@ def ratiosLiquidez(request):
         contexto = {
             'queryset': queryset,
             'consulta': consulta, 
+            'empresa': empresa,
+            'año': año,
         }
 
         return render(
@@ -610,6 +619,7 @@ def ratiosApalancamiento(request):
 
         #Para imprimir los ratios de está razón
         recuperar = RatiosEmpresa.objects.filter(codEmpresa_id=codEmpresa, año=año).order_by('codRatio')
+        empresa = Empresa.objects.get(codEmpresa=codEmpresa)
         razon = "APA"
         consulta=[]
         i=0
@@ -627,6 +637,8 @@ def ratiosApalancamiento(request):
         contexto = {
             'queryset': queryset,
             'consulta': consulta, 
+            'empresa': empresa,
+            'año': año,
         }
 
         return render(
@@ -774,30 +786,30 @@ def ratiosRentabilidad(request):
             patrimonioPromedio = patrimonio
         
         #Calculo de los Ratios
-        razonRentNetaPatr = utilidadNeta / patrimonioPromedio
+        razonRentNetaPatr = (utilidadNeta / patrimonioPromedio) * 100
 
-        razonRentActivo = utilidadNeta / activoTotalPromedio
+        razonRentActivo = (utilidadNeta / activoTotalPromedio) * 100
 
-        razonRentVentas = utilidadNeta / ingresos
+        razonRentVentas = (utilidadNeta / ingresos) * 100
 
-        razonRentInv = (ingresos - costoVentas) / costoVentas
+        razonRentInv = ((ingresos - costoVentas) / costoVentas) * 100
         
         #razonRentxAccion = utilidadNeta / numeroAcciones
         
 
         #Guardar en BD los Ratios
 
-        # -> Ratio Razon de Rentabilidad Neta del Patrimonio
+        # -> Ratio Rentabilidad Neta del Patrimonio
         codRatio="RNP"
         comprobarRNP = RatiosEmpresa.objects.filter(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
         if(len(comprobarRNP) == 0):
             ratioRentNetaPatr = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonRentNetaPatr , codEmpresa_id=codEmpresa, año=año)
             ratioRentNetaPatr.save()
         
-        # -> Ratio Razon de Rentabilidad del Activo
-        codRatio="RDA"
-        comprobarRDA = RatiosEmpresa.objects.filter(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
-        if(len(comprobarRDA) == 0):
+        # -> Ratio Rentabilidad del Activo
+        codRatio="RDAC"
+        comprobarRDAC = RatiosEmpresa.objects.filter(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+        if(len(comprobarRDAC) == 0):
             ratioRentActivo = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonRentActivo , codEmpresa_id=codEmpresa, año=año)
             ratioRentActivo.save()
 
@@ -820,6 +832,7 @@ def ratiosRentabilidad(request):
         
         #Para imprimir los ratios de está razón
         recuperar = RatiosEmpresa.objects.filter(codEmpresa_id=codEmpresa, año=año).order_by('codRatio')
+        empresa = Empresa.objects.get(codEmpresa=codEmpresa)
         razon = "REN"
         consulta=[]
         i=0
@@ -832,6 +845,8 @@ def ratiosRentabilidad(request):
         contexto = {
             'queryset': queryset,
             'consulta': consulta, 
+            'empresa': empresa,
+            'año': año,
         }
 
         return render(
@@ -839,3 +854,443 @@ def ratiosRentabilidad(request):
             'proyecto/ConsultaRazonRentabilidad.html', 
             contexto
         )
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+def consultarAnalisisDupont(request):
+    return render(
+        request,
+        'proyecto/ConsultaAnalisisDupont.html'
+    )
+
+
+
+def analisisDupont(request):
+    if request.method == 'POST':
+
+        codEmpresa = request.POST['codEmpresa']
+        año = request.POST['año']
+        queryset = CuentaBalance.objects.filter(codEmpresa=codEmpresa, año=año)
+
+        #Por si no existe el balance de ese año que no me de error
+        if (len(queryset) == 0):
+            contexto = {
+                'queryset': queryset, 
+            }
+            return render(
+                request,
+                'proyecto/ConsultaAnalisisDupont.html', contexto
+            )
+
+        #Obtengo los datos del año anterior para sacar Promedio
+        año2 = int(año) - 1
+        queryset2 = CuentaBalance.objects.filter(codEmpresa=codEmpresa, año=año2)
+
+
+    #PROCEDIMIENTO DE CALCULO DE RATIOS.
+
+        #Recuperacion de valores para el año solicitado
+        i=0
+        while(i < len(queryset)):
+            tipo = queryset[i].codCuenta.codTipoCuenta_id
+            if(tipo == "EFEC"):
+                efectivo = queryset[i].valor
+            elif(tipo == "INV"):
+                inventario = queryset[i].valor
+            elif(tipo == "ACCIR"):
+                actCirculante = queryset[i].valor
+            elif(tipo == "PASTOT"):
+                pasivoTotal = queryset[i].valor
+            elif(tipo == "COSVEN"):
+                costoVentas = queryset[i].valor
+            elif(tipo == "CxC"):
+                cuentasXCobrar = queryset[i].valor
+            elif(tipo == "ACFI"):
+                activoFijo = queryset[i].valor
+            elif(tipo == "ACTO"):
+                activoTotal = queryset[i].valor
+            elif(tipo == "PASCIR"):
+                pasivoCirc = queryset[i].valor
+            elif(tipo == "CxP"):
+                cuentasXPagar = queryset[i].valor
+            elif(tipo == "PATR"):
+                patrimonio = queryset[i].valor
+            elif(tipo == "UTBR"):
+                utilidadBruta = queryset[i].valor
+            elif(tipo == "ING"):
+                ingresos = queryset[i].valor
+            elif(tipo == "UTOP"):
+                utilidadOperativa = queryset[i].valor
+            elif(tipo == "GASTFI"):
+                gastosFijo = queryset[i].valor
+            elif(tipo == "UTAI"):
+                utilidadAntesImp = queryset[i].valor
+            elif(tipo == "UTNET"):
+                utilidadNeta = queryset[i].valor
+                
+            i+=1
+        
+        #Recuperacion de valores para el año anterior para sacar el Promedio
+        if( len(queryset2) != 0):
+            activoTotal2 = 0
+            patrimonio2 = 0
+
+            j=0
+            while(j < len(queryset2)):
+                tipo2 = queryset2[j].codCuenta.codTipoCuenta_id
+                if(tipo2 == "EFEC"):
+                    efectivo2 = queryset2[j].valor
+                elif(tipo2 == "INV"):
+                    inventario2 = queryset2[j].valor
+                elif(tipo2 == "ACCIR"):
+                    actCirculante2 = queryset2[j].valor
+                elif(tipo2 == "PASTOT"):
+                    pasivoTotal2 = queryset2[j].valor
+                elif(tipo2 == "COSVEN"):
+                    costoVentas2 = queryset2[j].valor
+                elif(tipo2 == "CxC"):
+                    cuentasXCobrar2 = queryset2[j].valor
+                elif(tipo2 == "ACFI"):
+                    activoFijo2 = queryset2[j].valor
+                elif(tipo2 == "ACTO"):
+                    activoTotal2 = queryset2[j].valor
+                elif(tipo2 == "PASCIR"):
+                    pasivoCirc2 = queryset2[j].valor
+                elif(tipo2 == "CxP"):
+                    cuentasXPagar2 = queryset2[j].valor
+                elif(tipo2 == "PATR"):
+                    patrimonio2 = queryset2[j].valor
+                elif(tipo2 == "UTBR"):
+                    utilidadBruta2 = queryset2[j].valor
+                elif(tipo2 == "ING"):
+                    ingresos2 = queryset2[j].valor
+                elif(tipo2 == "UTOP"):
+                    utilidadOperativa2 = queryset2[j].valor
+                elif(tipo2 == "GASTFI"):
+                    gastosFijo2 = queryset2[j].valor
+                elif(tipo2 == "UTAI"):
+                    utilidadAntesImp2 = queryset2[j].valor
+                elif(tipo2 == "UTNET"):
+                    utilidadNeta2 = queryset2[j].valor
+
+                j+=1
+        
+            #Calculo de las cuentas que se usan en Promedio
+            if(activoTotal2 > 0):
+                activoTotalPromedio = (activoTotal2 + activoTotal) / 2
+            else:
+                activoTotalPromedio = activoTotal
+
+            if(patrimonio2 > 0):
+                patrimonioPromedio = (patrimonio2 + patrimonio) / 2
+            else:
+                patrimonioPromedio = patrimonio
+            
+        else:
+            #En caso que no haya registros de años anteriores
+            activoTotalPromedio = activoTotal
+            patrimonioPromedio = patrimonio
+        
+        
+        #Calculo de los Ratios
+        margenNeto = utilidadNeta / ingresos
+
+        rotacionActivos = ingresos / activoTotalPromedio
+
+        multiplicadorCapital = activoTotalPromedio / patrimonioPromedio
+
+        roe = margenNeto * rotacionActivos * multiplicadorCapital
+
+        roa = utilidadNeta / activoTotalPromedio
+        
+
+        #Guardar en BD los Ratios
+
+        # -> Ratio Margen Neto
+        codRatio="MN"
+        comprobarMN = RatiosEmpresa.objects.filter(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+        if(len(comprobarMN) == 0):
+            ratioMargenNeto = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=margenNeto, codEmpresa_id=codEmpresa, año=año)
+            ratioMargenNeto.save()
+
+        # -> Ratio Rotacion de Activos
+        codRatio="RDA"
+        comprobarRDA = RatiosEmpresa.objects.filter(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+        if(len(comprobarRDA) == 0):
+            ratioRotacAct = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=rotacionActivos, codEmpresa_id=codEmpresa, año=año)
+            ratioRotacAct.save()
+        
+        # -> Ratio Multiplicador de Capital
+        codRatio="MDC"
+        comprobarMDC = RatiosEmpresa.objects.filter(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+        if(len(comprobarMDC) == 0):
+            ratioMultCap = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=multiplicadorCapital, codEmpresa_id=codEmpresa, año=año)
+            ratioMultCap.save()
+
+        # -> ROE
+        codRatio="ROE"
+        comprobarROE = RatiosEmpresa.objects.filter(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+        if(len(comprobarROE) == 0):
+            ratioROE = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=roe, codEmpresa_id=codEmpresa, año=año)
+            ratioROE.save()
+
+        # -> ROA
+        codRatio="ROA"
+        comprobarROA = RatiosEmpresa.objects.filter(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+        if(len(comprobarROA) == 0):
+            ratioROA = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=roa, codEmpresa_id=codEmpresa, año=año)
+            ratioROA.save()
+
+
+    #FIN PROCEDIMIENTO DE CALCULO DE RATIOS.
+
+        #Para imprimir los ratios de está razón
+        recuperar = RatiosEmpresa.objects.filter(codEmpresa_id=codEmpresa, año=año).order_by('codRatio')
+        empresa = Empresa.objects.get(codEmpresa=codEmpresa)
+        razon = "AND"
+        consulta=[]
+        i=0
+        while(i < len(recuperar)):
+            prueba = recuperar[i].codRatio.codRazon_id
+            print(prueba)
+            if( prueba == razon):
+                consulta.append((recuperar[i]))
+                print(consulta)
+            i+=1
+
+        print(" ")
+        print(consulta)
+
+        contexto = {
+            'queryset': queryset,
+            'consulta': consulta, 
+            'empresa': empresa,
+            'año': año,
+        }
+
+        return render(
+            request,
+            'proyecto/ConsultaAnalisisDupont.html',
+            contexto
+        )
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+def consultarAnalisisHorizontal(request):
+    return render(
+        request,
+        'proyecto/ConsultaAnalisisHorizontal.html'
+    )
+
+
+
+def analisisHorizontal(request):
+    if request.method == 'POST':
+
+        codEmpresa = request.POST['codEmpresa']
+        año = request.POST['año']
+        añoActual = int(año)
+        queryset = CuentaBalance.objects.filter(codEmpresa=codEmpresa, año=año)
+
+        #Por si no existe el balance de ese año que no me de error
+        if (len(queryset) == 0):
+            contexto = {
+                'queryset': queryset, 
+            }
+            return render(
+                request,
+                'proyecto/ConsultaAnalisisHorizontal.html', contexto
+            )
+
+        #Obtengo los datos del año anterior para sacar Promedio
+        año2 = int(año) - 1
+        queryset2 = CuentaBalance.objects.filter(codEmpresa=codEmpresa, año=año2)
+
+        #Por si no existe el balance del año anterior que termine
+        if (len(queryset2) == 0):
+            contexto = {
+                'queryset2': queryset2, 
+            }
+            return render(
+                request,
+                'proyecto/ConsultaAnalisisHorizontal.html', contexto
+            )
+
+
+    #PROCEDIMIENTO DE CALCULO DE ANALISIS HORIZONTAL.
+
+        #Recuperacion de valores para el año solicitado
+        absoluta = []
+        i=0
+        while(i < len(queryset)):
+            codCuenta = queryset[i].codCuenta
+
+            valor1 = queryset[i].valor
+            valor2 = queryset2[i].valor
+            valorAbsoluto = valor1 - valor2
+            valorRelativo = (valorAbsoluto / valor2) * 100
+            #absoluta.append((valor, queryset[i].año, queryset[i].codEmpresa ))
+
+            comprobar = AnalisisHorizontal.objects.filter(codEmpresa_id=codEmpresa, codCuenta_id=codCuenta, añoActual=año)
+            if(len(comprobar) == 0):
+                analisisHorizontal = AnalisisHorizontal(codEmpresa_id=codEmpresa, codCuenta_id=codCuenta, añoActual=añoActual, valorActual=valor1, añoAnterior=año2, valorAnterior=valor2, valorAbsoluto=valorAbsoluto, valorRelativo=valorRelativo)
+                analisisHorizontal.save()
+            
+            i+=1
+       
+    #FIN PROCEDIMIENTO DE CALCULO DE ANALISIS HORIZONTAL.
+
+        #Para Imprimir
+        analHoriz = AnalisisHorizontal.objects.filter(codEmpresa=codEmpresa, añoActual=año).order_by('codCuenta')
+        empresa = Empresa.objects.get(codEmpresa=codEmpresa)
+
+        contexto = {
+            'queryset': queryset,
+            'analHoriz': analHoriz,
+            'empresa': empresa,
+            'año': año,
+            'año2': año2,
+        }
+
+        return render(
+            request,
+            'proyecto/ConsultaAnalisisHorizontal.html',
+            contexto
+        )
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+def consultarAnalisisVertical(request):
+    return render(
+        request,
+        'proyecto/ConsultaAnalisisVertical.html'
+    )
+
+
+
+def analisisVertical(request):
+    if request.method == 'POST':
+
+        codEmpresa = request.POST['codEmpresa']
+        año = request.POST['año']
+        queryset = CuentaBalance.objects.filter(codEmpresa=codEmpresa, año=año)
+
+        #Por si no existe el balance de ese año que no me de error
+        if (len(queryset) == 0):
+            contexto = {
+                'queryset': queryset, 
+            }
+            return render(
+                request,
+                'proyecto/ConsultaAnalisisVertical.html', contexto
+            )
+
+
+    #PROCEDIMIENTO DE CALCULO DE ANALISIS VERTICAL.
+
+        #Recuperacion de valores para el año solicitado
+        i=0
+        while(i < len(queryset)):
+            tipo = queryset[i].codCuenta.codTipoCuenta_id
+            if(tipo == "EFEC"):
+                efectivo = queryset[i].valor
+            elif(tipo == "INV"):
+                inventario = queryset[i].valor
+            elif(tipo == "ACCIR"):
+                actCirculante = queryset[i].valor
+            elif(tipo == "PASTOT"):
+                pasivoTotal = queryset[i].valor
+            elif(tipo == "COSVEN"):
+                costoVentas = queryset[i].valor
+            elif(tipo == "CxC"):
+                cuentasXCobrar = queryset[i].valor
+            elif(tipo == "ACFI"):
+                activoFijo = queryset[i].valor
+            elif(tipo == "ACTO"):
+                activoTotal = queryset[i].valor
+            elif(tipo == "PASCIR"):
+                pasivoCirc = queryset[i].valor
+            elif(tipo == "CxP"):
+                cuentasXPagar = queryset[i].valor
+            elif(tipo == "PATR"):
+                patrimonio = queryset[i].valor
+            elif(tipo == "UTBR"):
+                utilidadBruta = queryset[i].valor
+            elif(tipo == "ING"):
+                ingresos = queryset[i].valor
+            elif(tipo == "UTOP"):
+                utilidadOperativa = queryset[i].valor
+            elif(tipo == "GASTFI"):
+                gastosFijo = queryset[i].valor
+            elif(tipo == "UTAI"):
+                utilidadAntesImp = queryset[i].valor
+            elif(tipo == "UTNET"):
+                utilidadNeta = queryset[i].valor
+                
+            i+=1
+
+        #Recuperacion de valores para el año solicitado
+        i=0
+        while(i < len(queryset)):
+            rubro = queryset[i].codCuenta.codRubro_id
+
+            if(rubro == "ACT"):
+                valor = queryset[i].valor
+                cuenta = queryset[i].codCuenta
+                resultado = (valor / activoTotal) * 100
+
+                comprobar = AnalisisVertical.objects.filter(codEmpresa_id=codEmpresa, codCuenta_id=cuenta, año=año)
+                if(len(comprobar) == 0):
+                    analisisVertical = AnalisisVertical(codEmpresa_id=codEmpresa, codCuenta_id=cuenta, año=año, valor=resultado, codRubro_id=rubro)
+                    analisisVertical.save()
+
+            elif(rubro == "PAS"):
+                valor = queryset[i].valor
+                cuenta = queryset[i].codCuenta
+                resultado = (valor / pasivoTotal) * 100
+
+                comprobar = AnalisisVertical.objects.filter(codEmpresa_id=codEmpresa, codCuenta_id=cuenta, año=año)
+                if(len(comprobar) == 0):
+                    analisisVertical = AnalisisVertical(codEmpresa_id=codEmpresa, codCuenta_id=cuenta, año=año, valor=resultado, codRubro_id=rubro)
+                    analisisVertical.save()
+
+            elif(rubro == "UTL"):
+                valor = queryset[i].valor
+                cuenta = queryset[i].codCuenta
+                resultado = (valor / ingresos) * 100
+
+                comprobar = AnalisisVertical.objects.filter(codEmpresa_id=codEmpresa, codCuenta_id=cuenta, año=año)
+                if(len(comprobar) == 0):
+                    analisisVertical = AnalisisVertical(codEmpresa_id=codEmpresa, codCuenta_id=cuenta, año=año, valor=resultado, codRubro_id=rubro)
+                    analisisVertical.save()
+            
+            i+=1
+
+    #FIN PROCEDIMIENTO DE CALCULO DE ANALISIS VERTICAL.
+
+        #Para Imprimir
+        analVert = AnalisisVertical.objects.filter(codEmpresa=codEmpresa, año=año).order_by('codRubro', 'codCuenta')
+        empresa = Empresa.objects.get(codEmpresa=codEmpresa)
+
+        contexto = {
+            'queryset': queryset,
+            'analVert': analVert,
+            'empresa': empresa,
+            'año': año,
+        }
+
+        return render(
+            request,
+            'proyecto/ConsultaAnalisisVertical.html',
+            contexto
+        )
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+

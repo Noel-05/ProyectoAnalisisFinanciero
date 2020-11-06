@@ -1,0 +1,4 @@
+codEmpresa,nombreEmpresa,descripcionEmpresa,codActividadEconomica_id
+AAN,"Anglo American","Empresa de mineria",MIN
+UES,"Universidad de El Salvador",NULL,MIN
+USAM,"Universidad Salvadoreña Alberto Masferrer",NULL,EXT

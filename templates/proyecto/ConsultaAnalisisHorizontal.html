@@ -3,18 +3,17 @@
 {% block content %} 
     
     <div class="page-header-header">
-        <h1 class="text-titles"><strong>Consultar Raz&oacute;n de Actividad.</strong></h1>
+        <h1 class="text-titles"><strong>An&aacute;lisis Horizontal.</strong></h1>
     </div>
-
-     
+    
     {% if queryset %}
 
         <!-- Opciones para consultar los balances -->
         <div align="center" class="busqueda">
             <div class="form__group2 field">
-                <input type="submit" name="submit" id="consultarActividad" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='{% url 'analisisFinanciero:consultarRazonActividad' %}'">
-                <label for="consultarActividad">
-                <span class="iborrainputfile" onclick="window.location.href='{% url 'analisisFinanciero:consultarRazonActividad' %}'">Consultar Otro</span>
+                <input type="submit" name="submit" id="analisisHorizontal" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='{% url 'analisisFinanciero:consultarAnalisisHorizontal' %}'">
+                <label for="analisisHorizontal">
+                <span class="iborrainputfile" onclick="window.location.href='{% url 'analisisFinanciero:consultarAnalisisHorizontal' %}'">Consultar Otro</span>
             </div>
             </br>
         </div>
@@ -25,7 +24,7 @@
 
         <!-- Opciones para consultar los balances -->
         <div align="center" class="busqueda">
-            <form method="POST" action="{% url 'analisisFinanciero:ratiosActividad' %}">
+            <form method="POST" action="{% url 'analisisFinanciero:analisisHorizontal' %}">
                 {% csrf_token %} 
 
                 <div class="form__group2 field">
@@ -39,8 +38,8 @@
                 </div>
 
                 <div class="form__group2 field">
-                    <input type="submit" name="submit" id="consultarActividad" class="inputfile inputfile-3"  value="Consultar">
-                    <label for="consultarActividad">
+                    <input type="submit" name="submit" id="analisisHorizontal" class="inputfile inputfile-3"  value="Consultar">
+                    <label for="analisisHorizontal">
                     <span class="iborrainputfile">Consultar</span>
                 </div>
 
@@ -74,29 +73,32 @@
     </div>
 
 
-
-    <div class="table-responsive" style="width:50%; display:inline-block;">
+    <div class="table-responsive" style="width:85%; display:inline-block;">
         <table class="table table-hover text-center">
-            {% if consulta %}
+        
+            {% if analHoriz %}
             <thead>
-        	   <tr>
-                    {% comment %} <th class="text-center">Raz&oacute;n</th> {% endcomment %}
-                    <th class="text-center">Ratio</th>
-            		<th class="text-center">Valor Ratio</th>
-            	    {% comment %} <th class="text-center">An&aacute;lisis</th> {% endcomment %}
+                <tr>
+            	    <th class="text-center">Cuenta</th>
+                    <th class="text-center">{{ año }}</th>
+                    <th class="text-center">{{ año2 }}</th>
+                    <th class="text-center">Valor Absoluto</th>
+                    <th class="text-center">Valor Relativo</th>
                 </tr>
             </thead>
             <tbody>
-            {% for con in consulta %}
-                <tr>
-                    {% comment %} <td>{{ con.codRatio.codRazon.nombreRazon }}</td> {% endcomment %}
-                    <td>{{ con.codRatio.nombreRatio }}</td>
-                    <td>{{ con.valorRatioEmpresa }}</td>
-                    {% comment %} <td><a data-toggle="modal" data-target="#RazonCirculante" ><i>An&aacute;lisis</i></a></td> {% endcomment %}
-                </tr>
-            {% endfor %}
+                {% for an in analHoriz %}
+                    <tr>
+                        <td>{{ an.codCuenta.nombreCuenta }}</td> 
+                        <td>$ {{ an.valorActual }}</td> 
+                        <td>$ {{ an.valorAnterior }}</td> 
+                        <td>$ {{ an.valorAbsoluto|floatformat:2 }}</td> 
+                        <td>{{ an.valorRelativo|floatformat:2 }} %</td> 
+                    </tr>
+                {% endfor %} 
             </tbody>
             {% endif %}
+
         </table>
 
     </div>

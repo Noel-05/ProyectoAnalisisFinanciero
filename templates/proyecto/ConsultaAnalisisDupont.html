@@ -3,18 +3,17 @@
 {% block content %} 
     
     <div class="page-header-header">
-        <h1 class="text-titles"><strong>Consultar Raz&oacute;n de Actividad.</strong></h1>
+        <h1 class="text-titles"><strong>Consultar An&aacute;lisis Dupont.</strong></h1>
     </div>
-
-     
+    
     {% if queryset %}
 
         <!-- Opciones para consultar los balances -->
         <div align="center" class="busqueda">
             <div class="form__group2 field">
-                <input type="submit" name="submit" id="consultarActividad" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='{% url 'analisisFinanciero:consultarRazonActividad' %}'">
-                <label for="consultarActividad">
-                <span class="iborrainputfile" onclick="window.location.href='{% url 'analisisFinanciero:consultarRazonActividad' %}'">Consultar Otro</span>
+                <input type="submit" name="submit" id="analisisDupont" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='{% url 'analisisFinanciero:consultarAnalisisDupont' %}'">
+                <label for="analisisDupont">
+                <span class="iborrainputfile" onclick="window.location.href='{% url 'analisisFinanciero:consultarAnalisisDupont' %}'">Consultar Otro</span>
             </div>
             </br>
         </div>
@@ -25,7 +24,7 @@
 
         <!-- Opciones para consultar los balances -->
         <div align="center" class="busqueda">
-            <form method="POST" action="{% url 'analisisFinanciero:ratiosActividad' %}">
+            <form method="POST" action="{% url 'analisisFinanciero:analisisDupont' %}">
                 {% csrf_token %} 
 
                 <div class="form__group2 field">
@@ -39,8 +38,8 @@
                 </div>
 
                 <div class="form__group2 field">
-                    <input type="submit" name="submit" id="consultarActividad" class="inputfile inputfile-3"  value="Consultar">
-                    <label for="consultarActividad">
+                    <input type="submit" name="submit" id="analisisDupont" class="inputfile inputfile-3"  value="Consultar">
+                    <label for="analisisDupont">
                     <span class="iborrainputfile">Consultar</span>
                 </div>
 
@@ -74,7 +73,6 @@
     </div>
 
 
-
     <div class="table-responsive" style="width:50%; display:inline-block;">
         <table class="table table-hover text-center">
             {% if consulta %}
@@ -91,7 +89,7 @@
                 <tr>
                     {% comment %} <td>{{ con.codRatio.codRazon.nombreRazon }}</td> {% endcomment %}
                     <td>{{ con.codRatio.nombreRatio }}</td>
-                    <td>{{ con.valorRatioEmpresa }}</td>
+                    <td>{{ con.valorRatioEmpresa|floatformat:2 }}</td>
                     {% comment %} <td><a data-toggle="modal" data-target="#RazonCirculante" ><i>An&aacute;lisis</i></a></td> {% endcomment %}
                 </tr>
             {% endfor %}

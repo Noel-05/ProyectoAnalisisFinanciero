@@ -1,0 +1,35 @@
+codCuenta,nombreCuenta,codEmpresa_id,codRubro_id,codTipoCuenta_id
+11.000,"Efectivo y Equivalente",AAN,ACT,EFEC
+11.001,Inventarios,AAN,ACT,INV
+11.002,"Total Activos Corrientes",AAN,ACT,ACCIR
+11.003,"Total Pasivos",AAN,PAS,PASTOT
+11.004,"Costo de Ventas",AAN,UTL,COSVEN
+11.005,"Cuentas por cobrar",AAN,ACT,CxC
+11.006,"Total Activo Fijo",AAN,ACT,ACFI
+11.007,"Total Activos",AAN,ACT,ACTO
+11.008,"Total Pasivos Circulantes",AAN,PAS,PASCIR
+11.009,"Cuentas por Pagar",AAN,PAS,CxP
+11.011,"Total Patrimonio",AAN,PAS,PATR
+11.012,"Utilidad Bruta",AAN,UTL,UTBR
+11.013,Ingresos,AAN,UTL,ING
+11.015,"Utilidad de Operacion",AAN,UTL,UTOP
+11.016,"Gastos Financieros",AAN,UTL,GASTFI
+11.017,"Utilidad Antes de Impuestos",AAN,UTL,UTAI
+11.018,"Utilidad Neta",AAN,UTL,UTNET
+11000,"Efectivo y Equivalente",UES,ACT,EFEC
+11001,Inventarios,UES,ACT,INV
+11002,"Total Activos Corrientes",UES,ACT,ACCIR
+11003,"Total Pasivos",UES,PAS,PASTOT
+11004,"Costo de Ventas",UES,UTL,COSVEN
+11005,"Cuentas por cobrar",UES,ACT,CxC
+11006,"Total Activo Fijo",UES,ACT,ACFI
+11007,"Total Activos",UES,ACT,ACTO
+11008,"Total Pasivos Circulantes",UES,PAS,PASCIR
+11009,"Cuentas por Pagar",UES,PAS,CxP
+11010,"Total Patrimonio",UES,PAS,PATR
+11011,"Utilidad Bruta",UES,UTL,UTBR
+11012,Ingresos,UES,UTL,ING
+11013,"Utilidad de Operacion",UES,UTL,UTOP
+11014,"Gastos Financieros",UES,UTL,GASTFI
+11015,"Utilidad Antes de Impuestos",UES,UTL,UTAI
+11016,"Utilidad Neta",UES,UTL,UTNET

@@ -1,0 +1,28 @@
+codRatio,nombreRatio,codRazon_id
+GE,"Grado de Endeudamiento",APA
+GP,"Grado de Propiedad",APA
+IMB,"Índice de Margen Bruto",ACT
+IMO,"Índice de Margen Operativo",ACT
+IRAF,"Índice de Rotación de Activos Fijos",ACT
+IRAT,"Índice de Rotación de Activos Totales",ACT
+MDC,"Multiplicador de Capital",AND
+MN,"Margen Neto",AND
+RC,"Razón de Circulante o Liquidez Corriente",LIQ
+RCGF,"Razón de Cobertura de Gastos Financieros",APA
+RCT,"Razón de Capital de Trabajo",LIQ
+RDA,"Rotación de Activos",AND
+RDAC,"Rentabilidad del Activo",REN
+RDI,"Razón de Días de Inventario",ACT
+RE,"Razón de Efectivo",LIQ
+REP,"Razón de Endeudamiento Patrimonial",APA
+RNP,"Rentabilidad Neta del Patrimonio",REN
+ROA,ROA,AND
+ROE,ROE,AND
+RPMC,"Razón de Periodo Medio de Cobranza",ACT
+RPMP,"Razón de Periodo Medio de Pago",ACT
+RR,"Razón Rápida o Prueba Ácida",LIQ
+RRCC,"Razón de Rotación de Cuentas por Cobrar",ACT
+RRCP,"Razón de Rotación de Cuentas por Pagar",ACT
+RRI,"Razón de Rotación de Inventario",ACT
+RSI,"Rentabilidad Sobre Inversión",REN
+RSV,"Rentabilidad Sobre Ventas",REN

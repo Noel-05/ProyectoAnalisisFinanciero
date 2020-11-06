@@ -6,40 +6,79 @@
         <h1 class="text-titles"><strong>Consultar Balance de la Empresa.</strong></h1>
     </div>
     
-    </br><p class="lead">Ingresa el c&oacute;digo de tu empresa y el a&ntilde;o que deseas consultar.</p>
-    
-    <!-- Opciones para consultar los balances -->
-    <div align="center" class="busqueda">
-        <form method="POST" action="{% url 'analisisFinanciero:filtrarBalance' %}">
-            {% csrf_token %} 
+    {% if queryset %}
 
+        <!-- Opciones para consultar los balances -->
+        <div align="center" class="busqueda">
             <div class="form__group2 field">
-                <input type="text" name="codEmpresa"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el código de la empresa." required maxlength="15"></br>
-                <label for="codEmpresa" class="form__label2">C&oacute;digo Empresa</label>
+                <input type="submit" name="submit" id="analisisVertical" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='{% url 'analisisFinanciero:consultarAnalisisVertical' %}'">
+                <label for="analisisVertical">
+                <span class="iborrainputfile" onclick="window.location.href='{% url 'analisisFinanciero:consultarAnalisisVertical' %}'">Consultar Otro</span>
             </div>
-
-            <div class="form__group2 field">
-                <input type="number" name="año"  id = "año" class="form__field2" placeholder="Ingresa el año." required pattern="([0-9]{4})" maxlength="4"></br>
-                <label for="año" class="form__label2">A&ntilde;o</label>
-            </div>
-
-            <div class="form__group2 field">
-                <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Consultar">
-                <label for="consultarBalance">
-                <span class="iborrainputfile">Consultar</span>
-            </div>
-
             </br>
-            
-        </form>
+        </div>
+
+    {% else %}
+        
+        </br></br><p class="lead">Ingresa el c&oacute;digo de tu empresa y el a&ntilde;o que deseas consultar.</p></br>
+
+        <!-- Opciones para consultar los balances -->
+        <div align="center" class="busqueda">
+            <form method="POST" action="{% url 'analisisFinanciero:filtrarBalance' %}">
+                {% csrf_token %} 
+
+                <div class="form__group2 field">
+                    <input type="text" name="codEmpresa"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el código de la empresa." required maxlength="15"></br>
+                    <label for="codEmpresa" class="form__label2">C&oacute;digo Empresa</label>
+                </div></br>
+
+                <div class="form__group2 field">
+                    <input type="number" name="año"  id = "año" class="form__field2" placeholder="Ingresa el año." required pattern="([0-9]{4})" maxlength="4"></br>
+                    <label for="año" class="form__label2">A&ntilde;o</label>
+                </div>
+
+                <div class="form__group2 field">
+                    <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Consultar">
+                    <label for="consultarBalance">
+                    <span class="iborrainputfile">Consultar</span>
+                </div>
+
+                </br>
+                
+            </form>
+        </div>
+
+    {% endif %}
+
+
+    {% if queryset %}
+        <div class="table-responsive" style="width:50%; display:inline-block;">
+    {% else %}
+        <div class="table-responsive" style="width:50%; display:none;">
+    {% endif %}
+        <table class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th class="text-center">Empresa</th>
+                    <th class="text-center" style="color:#7d7f7d;"><i>{{ empresa.nombreEmpresa }}</i></th>
+                </tr>
+            </thead>
+            <thead>
+                <tr>
+                    <th class="text-center">A&ntilde;o</th>
+                    <th class="text-center" style="color:#7d7f7d;"><i>{{ año }}</i></th>
+                </tr>
+            </thead>
+        </table>
     </div>
+
 
     <div class="table-responsive" style="width:85%; display:inline-block;">
         <table class="table table-hover text-center">
+            
+            {% if queryset %}
             <thead>
         	   <tr>
-                    <th class="text-center">A&ntilde;o</th>
-            		<th class="text-center">Nombre Empresa</th>
                     <th class="text-center">C&oacute;digo Cuenta</th>
             	    <th class="text-center">Nombre Cuenta</th>
             	    <th class="text-center">valor</th>
@@ -47,19 +86,17 @@
                 </tr>
             </thead>
             <tbody>
-            {% if queryset %}
             {% for bal in queryset %}
                 <tr>
-                    <td>{{ bal.año }}</td>
-                    <td>{{ bal.codEmpresa.nombreEmpresa }}</td>
                     <td>{{ bal.codCuenta }}</td>
                     <td>{{ bal.codCuenta.nombreCuenta }}</td>
                     <td>$ {{ bal.valor}}</td>
                     <td>{{ bal.codCuenta.codTipoCuenta.nombreTipoCuenta }}</td>
                 </tr>
             {% endfor %}
-            {% endif %}
             </tbody>
+            {% endif %}
+            
         </table>
     <div>
     

@@ -1,0 +1,18 @@
+codTipoCuenta,nombreTipoCuenta
+ACCIR,"Activo Circulante"
+ACFI,"Activo Fijo"
+ACTO,"Activo Total"
+COSVEN,"Costo de Ventas"
+CxC,"Cuentas por Cobrar"
+CxP,"Cuentas por Pagar"
+EFEC,Efectivo
+GASTFI,"Gastos Financieros"
+ING,Ingresos
+INV,Inventario
+PASCIR,"Pasivo Circulante"
+PASTOT,"Pasivo Total"
+PATR,Patrimonio
+UTAI,"Utilidad Antes de Impuesto"
+UTBR,"Utilidad Bruta"
+UTNET,"Utilidad Neta"
+UTOP,"Utilidad Operativa"

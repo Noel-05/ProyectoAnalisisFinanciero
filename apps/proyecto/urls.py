@@ -24,4 +24,12 @@ urlpatterns = [
     path('analisisFinanciero/consultaRazonRentabilidad', consultarRazonRentabilidad, name="consultarRazonRentabilidad"),
     path('analisisFinanciero/ratiosRentabilidad', ratiosRentabilidad, name="ratiosRentabilidad"),
 
+    path('analisisFinanciero/consultaAnalisisDupont', consultarAnalisisDupont, name="consultarAnalisisDupont"),
+    path('analisisFinanciero/analisisDupont', analisisDupont, name="analisisDupont"),
+
+    path('analisisFinanciero/consultaAnalisisHorizontal', consultarAnalisisHorizontal, name="consultarAnalisisHorizontal"),
+    path('analisisFinanciero/analisisHorizontal', analisisHorizontal, name="analisisHorizontal"),
+
+    path('analisisFinanciero/consultaAnalisisVertical', consultarAnalisisVertical, name="consultarAnalisisVertical"),
+    path('analisisFinanciero/analisisVertical', analisisVertical, name="analisisVertical"),
 ]
