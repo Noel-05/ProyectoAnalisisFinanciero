@@ -79,8 +79,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'analisis',
-        'USER': 'renderos',
-        'PASSWORD': 'renderos',
+        'USER': 'mysqluser',
+        'PASSWORD': 'mysqlpass',
         'HOST': 'localhost',
         'PORT': '3306',
     }
