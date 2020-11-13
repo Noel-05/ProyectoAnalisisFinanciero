@@ -71,14 +71,19 @@
 
 				</br>
 
+				
 				<li>
 					<a href="#!" class="btn-sideBar-SubMenu">
 						<i class="zmdi zmdi-local-store zmdi-hc-fw"></i> Empresa <i class="zmdi zmdi-caret-down pull-right"></i>
 					</a>
-					<ul class="list-unstyled full-box">
+					<ul class="list-unstyled full-box dashboard-sideBar-Menu">
 						<li>
-							<a href="registration.html"><i class="zmdi zmdi-bookmark-outline zmdi-hc-fw"></i>Crear Empresa</a>
+							<a href="{% url 'analisisFinanciero:insertarEmpresa' %}"><i class="zmdi zmdi-assignment-o zmdi-hc-fw"></i> Agregar </a>
 						</li>
+						<li>
+							<a href="{% url 'analisisFinanciero:consultarEmpresa' %}"><i class="zmdi zmdi-view-list zmdi-hc-fw"></i> Consultar </a>
+						</li>
+						
 					</ul>
 				</li>
 
@@ -150,10 +155,10 @@
 					</a>
 					<ul class="list-unstyled full-box dashboard-sideBar-Menu">
 						<li>
-							<a href="{% url 'analisisFinanciero:insertarRatioSector' %}"><i class="zmdi zmdi-badge-check zmdi-hc-fw"></i> Agregar </a>
+							<a href="{% url 'analisisFinanciero:insertarRatioSector' %}"><i class="zmdi zmdi-assignment-o zmdi-hc-fw"></i> Agregar </a>
 						</li>
 						<li>
-							<a href="{% url 'analisisFinanciero:consultarRatioSector' %}"><i class="zmdi zmdi-badge-check zmdi-hc-fw"></i> Consultar </a>
+							<a href="{% url 'analisisFinanciero:consultarRatioSector' %}"><i class="zmdi zmdi-view-list zmdi-hc-fw"></i> Consultar </a>
 						</li>
 						
 						

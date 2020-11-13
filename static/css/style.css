@@ -140,3 +140,6 @@
 /* reset input */
 
 
+textarea{
+    resize: none;
+}

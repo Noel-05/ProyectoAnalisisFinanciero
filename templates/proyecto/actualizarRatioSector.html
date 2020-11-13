@@ -10,7 +10,7 @@
         </br></br><p class="lead">Ingresa el nuevo valor del Ratio.</p></br>
 
         <div align="center" class="busqueda">
-            <form method="POST" action="{% url 'analisisFinanciero:guardarModificacion' %}">
+            <form method="POST" action="{% url 'analisisFinanciero:guardarModificacionRatioSector' %}">
                 {% csrf_token %}
 
                 <div class="table-responsive" style="width:50%; display:inline-block;">
@@ -36,7 +36,7 @@
                 </br>
         
                 <div class="form__group2 field">
-                    <input type="text" name="valorRatio"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el nuevo valor" required maxlength="5"></br>
+                    <input type="text" name="valorRatio"  value="{{queryset.parametroComparacion|floatformat:2}}" id = "codEmpresa" class="form__field2" placeholder="Ingresa el nuevo valor" required maxlength="5"></br>
                     <label for="codEmpresa" class="form__label2">Valor del Ratio</label>
                 </div> 
 

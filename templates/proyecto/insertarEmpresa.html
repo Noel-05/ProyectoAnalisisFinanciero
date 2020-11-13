@@ -3,20 +3,18 @@
 {% block content %} 
     
     <div class="page-header-header">
-        <h1 class="text-titles"><strong>Agregar Ratio por Sector.</strong></h1>
+        <h1 class="text-titles"><strong>Agregar nueva Empresa.</strong></h1>
     </div>
            
-        </br></br><p class="lead">Ingresa los datos para crear un Ratio por Actividad Econ&oacute;mica.</p></br>
-        
-        </br>
-    
+        </br></br><p class="lead">Ingresa los datos para crear una Empresa.</p></br>
+
         {% if exist %}
           <p>{{exist}}</p>
           </br>
         {% endif %}
-      
+
         <div align="center" class="busqueda">
-            <form method="POST" action="{% url 'analisisFinanciero:insertarRatioSector' %}">
+            <form method="POST" action="{% url 'analisisFinanciero:insertarEmpresa' %}">
                 {% csrf_token %} 
 
                 <div class="form__group2 field">                
@@ -34,30 +32,31 @@
                         {% endfor %}
                         </select>
                     </div>
-                </div></br>
+                </div>               
 
-                <div class="form__group2 field">                    
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="inputGroupSelect01">Tipo Ratio Financiero</label>
-                        </div>
-                        <select name="ratios" class="custom-select" id="inputGroupSelect01">
-                          <option selected="selected">Selecciona el Ratio Financiero</option>
+                </br>
 
-                        {% for rat in ratio %}
-                          <option value="{{ rat.codRatio }}">{{ rat.nombreRatio }}</option>
-                        {% endfor %}
-                        </select>
-                    </div>
+                <div class="form__group2 field">
+                    <input type="text" name="codE"  id = "codEmpresa" class="form__field2" placeholder="Ingresa un codigo identificador" required maxlength="15"></br>
+                    <label for="codEmpresa" class="form__label2">Codigo de Empresa</label>
+                </div>
+            
+                </br>
+
+                <div class="form__group2 field">
+                  <input type="text" name="nomE"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el nombre de la empresa" required maxlength="100"></br>
+                  <label for="codEmpresa" class="form__label2">Nombre de Empresa</label>
                 </div>
 
                 </br>
 
                 <div class="form__group2 field">
-                    <input type="text" name="valorRatio"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el valor del ratio" required maxlength="5"></br>
-                    <label for="codEmpresa" class="form__label2">Valor del Ratio</label>
+                   
+                  <textarea  type="text" name="descE"  id = "codEmpresa" class="form__field2" placeholder="Ingresa una descripcion de la empresa"  maxlength="250" cols="30" rows="5"></textarea> </br>                 
+                  
+                  <label for="codEmpresa" class="form__label2">Descripci&oacute;n</label>
                 </div>
-            
+
                 </br>
 
                 <div class="form__group2 field">

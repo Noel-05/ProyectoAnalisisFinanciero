@@ -37,7 +37,14 @@ urlpatterns = [
     path('analisisFinanciero/consultarRatioSector', consultarRatioSector, name="consultarRatioSector"),
     #path('analisisFinanciero/consultarRatioSector/<codAct>/<codRat>', consultarRatioSector, name="consultarRatioSector"),
     path('analisisFinanciero/actualizarRatioSector', actualizarRatioSector, name="actualizarRatioSector"),
-    path('analisisFinanciero/guardarModificacion', guardarModificacion, name="guardarModificacion"),
+    path('analisisFinanciero/guardarModificacionRatioSector', guardarModificacionRatioSector, name="guardarModificacionRatioSector"),
     path('analisisFinanciero/eliminarRatioSecto', eliminarRatioSector, name="eliminarRatioSector"),
+
+    path('analisisFinanciero/insertarEmpresa', insertarEmpresa, name="insertarEmpresa"),
+    path('analisisFinanciero/consultarEmpresa', consultarEmpresa, name="consultarEmpresa"),
+    path('analisisFinanciero/actualizarEmpresa', actualizarEmpresa, name="actualizarEmpresa"),
+    path('analisisFinanciero/guardarModificacionEmpresa', guardarModificacionEmpresa, name="guardarModificacionEmpresa"),
+    path('analisisFinanciero/eliminarEmpresa', eliminarEmpresa, name="eliminarEmpresa"),
+
 
 ]
