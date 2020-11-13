@@ -1,0 +1,57 @@
+{% extends 'base/base.html' %}
+
+{% block content %} 
+    
+    <div class="page-header-header">
+        <h1 class="text-titles"><strong>Actualizar Ratio por Sector.</strong></h1>
+    </div>
+    
+
+        </br></br><p class="lead">Ingresa el nuevo valor del Ratio.</p></br>
+
+        <div align="center" class="busqueda">
+            <form method="POST" action="{% url 'analisisFinanciero:guardarModificacion' %}">
+                {% csrf_token %}
+
+                <div class="table-responsive" style="width:50%; display:inline-block;">
+                
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Actividad Econ&oacute;mica</th>
+                                <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.codActividadEconomica}}</i></th>
+                                <input type="hidden" name="codAct" value="{{queryset.codActividadEconomica.codActividadEconomica}}"/>
+                                    
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th class="text-center">Ratio Financiero</th>
+                                <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.codRatio}}</i></th>
+                                <input type="hidden" name="codRat" value="{{queryset.codRatio.codRatio}}"/>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                </br>
+        
+                <div class="form__group2 field">
+                    <input type="text" name="valorRatio"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el nuevo valor" required maxlength="5"></br>
+                    <label for="codEmpresa" class="form__label2">Valor del Ratio</label>
+                </div> 
+
+                </br>
+
+                <div class="form__group2 field">
+                    <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Actualizar">
+                    <label for="consultarBalance">
+                    <span class="iborrainputfile">Actualizar</span>
+                </div>
+
+                </br>
+                
+            </form>
+        </div>
+    
+
+{% endblock %}

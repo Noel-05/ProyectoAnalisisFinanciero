@@ -125,14 +125,14 @@ class RatiosEmpresa(models.Model):
 
 class RatiosSector(models.Model):
     codRatio = models.ForeignKey(Ratio, on_delete=models.CASCADE)
-    codSector = models.ForeignKey(Sector, on_delete=models.CASCADE)
+    codActividadEconomica = models.ForeignKey(ActividadEconomica, on_delete=models.CASCADE)
     parametroComparacion = models.DecimalField(max_digits=6, decimal_places=3, null=False)
 
     class Meta:
-        unique_together = ("codSector", "codRatio")
+        unique_together = ("codActividadEconomica", "codRatio")
 
     def __str__(self):
-        return self.codSector.__str__()
+        return self.codActividadEconomica.__str__()
 
 
 class AnalisisHorizontal(models.Model):

@@ -1,0 +1,69 @@
+{% extends 'base/base.html' %}
+
+{% block content %} 
+    
+    <div class="page-header-header">
+        <h1 class="text-titles"><strong>Agregar Ratio por Sector.</strong></h1>
+    </div>
+           
+        </br></br><p class="lead">Ingresa los datos para crear un Ratio por Actividad Econ&oacute;mica.</p></br>
+
+        
+        <div align="center" class="busqueda">
+            <form method="POST" action="{% url 'analisisFinanciero:insertarRatioSector' %}">
+                {% csrf_token %} 
+
+                <div class="form__group2 field">                
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Actividad Economica</label>
+                        </div>
+                        <select name="actividades" class="custom-select" id="inputGroupSelect01">
+                          <option selected="selected">Selecciona la Actividad Econ&oacute;mica</option>
+
+                        {% for act in actividad %}
+
+                          <option value="{{ act.codActividadEconomica }}">{{ act.nombreActividadEconomica }}</option>
+
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div></br>
+
+                <div class="form__group2 field">                    
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Tipo Ratio Financiero</label>
+                        </div>
+                        <select name="ratios" class="custom-select" id="inputGroupSelect01">
+                          <option selected="selected">Selecciona el Ratio Financiero</option>
+
+                        {% for rat in ratio %}
+                          <option value="{{ rat.codRatio }}">{{ rat.nombreRatio }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                </br>
+
+                <div class="form__group2 field">
+                    <input type="text" name="valorRatio"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el valor del ratio" required maxlength="5"></br>
+                    <label for="codEmpresa" class="form__label2">Valor del Ratio</label>
+                </div>
+            
+                </br>
+
+                <div class="form__group2 field">
+                    <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Consultar">
+                    <label for="consultarBalance">
+                    <span class="iborrainputfile">Guardar</span>
+                </div>
+
+                </br>
+                
+            </form>
+        </div>
+
+
+{% endblock %}

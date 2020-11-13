@@ -32,4 +32,12 @@ urlpatterns = [
 
     path('analisisFinanciero/consultaAnalisisVertical', consultarAnalisisVertical, name="consultarAnalisisVertical"),
     path('analisisFinanciero/analisisVertical', analisisVertical, name="analisisVertical"),
+
+    path('analisisFinanciero/insertarRatioSector', insertarRatioSector, name="insertarRatioSector"),
+    path('analisisFinanciero/consultarRatioSector', consultarRatioSector, name="consultarRatioSector"),
+    #path('analisisFinanciero/consultarRatioSector/<codAct>/<codRat>', consultarRatioSector, name="consultarRatioSector"),
+    path('analisisFinanciero/actualizarRatioSector', actualizarRatioSector, name="actualizarRatioSector"),
+    path('analisisFinanciero/guardarModificacion', guardarModificacion, name="guardarModificacion"),
+    path('analisisFinanciero/eliminarRatioSecto', eliminarRatioSector, name="eliminarRatioSector"),
+
 ]

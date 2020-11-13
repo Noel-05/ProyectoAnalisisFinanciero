@@ -1294,3 +1294,148 @@ def analisisVertical(request):
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
+#---------------------------CRUD DE LA TABLA proyecto_ratiossector
+def insertarRatioSector(request):
+
+    if request.method == 'POST':
+
+        actividadEco = request.POST['actividades']
+        ratioEco = request.POST['ratios']
+        valorRatio = request.POST['valorRatio']
+        
+        if actividadEco and ratioEco and valorRatio:        
+            regfilter1 = ActividadEconomica.objects.filter(codActividadEconomica=actividadEco)
+            regfilter2 = Ratio.objects.filter(codRatio=ratioEco)
+        
+            if regfilter1 and regfilter2:
+                queryset = RatiosSector(
+                    codRatio=Ratio.objects.get(codRatio=ratioEco), 
+                    codActividadEconomica=ActividadEconomica.objects.get(codActividadEconomica=actividadEco), 
+                    parametroComparacion=valorRatio
+                )
+                queryset.save()
+
+
+    actividad = ActividadEconomica.objects.all
+    ratio = Ratio.objects.all
+
+    contexto = {
+        'actividad':actividad,
+        'ratio':ratio,
+    }
+
+    return render(request,'proyecto/insertarRatioSector.html', contexto)
+
+
+
+def consultarRatioSector(request):
+
+    actividad = ActividadEconomica.objects.all
+    ratio = Ratio.objects.all
+    queryset = RatiosSector.objects.all
+
+    contexto = {
+            'actividad':actividad,
+            'ratio':ratio,
+            'queryset':queryset,
+    }
+
+    if request.method=='POST':
+
+        actividadEco = request.POST['actividades']
+        ratioEco = request.POST['ratios']           
+
+        if actividadEco and ratioEco:
+            queryset = RatiosSector.objects.filter(codActividadEconomica=actividadEco, codRatio=ratioEco)
+
+            if queryset:              
+                contexto = {
+                    'actividad':actividad,
+                    'ratio':ratio,
+                    'queryset':queryset,
+                }       
+            
+    
+    return render(request, 'proyecto/consultarRatioSector.html', contexto)
+
+
+
+def actualizarRatioSector(request):   
+
+
+    ca = request.POST['codAct']
+    cr = request.POST['codRat']
+         
+    if ca and cr:            
+        regFilter = RatiosSector.objects.get(codActividadEconomica=ca, codRatio=cr)  
+        contexto = {                
+            'queryset':regFilter,
+        } 
+
+    return render(request, 'proyecto/actualizarRatioSector.html', contexto)
+
+
+
+def guardarModificacion(request):
+
+    ca = request.POST['codAct']
+    cr = request.POST['codRat']
+    valor = request.POST['valorRatio']
+
+    regFilter = RatiosSector.objects.filter(codActividadEconomica=ca, codRatio=cr)
+
+    if regFilter:
+        queryset = RatiosSector.objects.get(codActividadEconomica=ca, codRatio=cr)  
+        queryset.parametroComparacion = valor
+        queryset.save()
+             
+
+    actividad = ActividadEconomica.objects.all
+    ratio = Ratio.objects.all
+    queryset = RatiosSector.objects.all
+
+    contexto = {
+            'actividad':actividad,
+            'ratio':ratio,
+            'queryset':queryset,
+    }
+    #return render(request, 'proyecto/consultarRatioSector.html', contexto)
+    return redirect('analisisFinanciero:consultarRatioSector')
+
+
+
+def eliminarRatioSector(request):
+
+    ca = request.POST['codAct']
+    cr = request.POST['codRat']
+
+    if ca and cr:        
+        regDelete = RatiosSector.objects.filter(codActividadEconomica=ca, codRatio=cr)
+        
+        if regDelete:
+            regDelete = RatiosSector.objects.get(codActividadEconomica=ca, codRatio=cr)
+            regDelete.delete()
+    
+    
+    actividad = ActividadEconomica.objects.all
+    ratio = Ratio.objects.all
+
+
+
+    queryset = RatiosSector.objects.all
+
+    contexto = {
+        'actividad':actividad,
+        'ratio':ratio,
+        'queryset':queryset,
+    }
+
+
+    #return render(request, 'proyecto/consultarRatioSector.html', contexto)
+    return redirect('analisisFinanciero:consultarRatioSector')
+
+#-----------------------------------------------------------------------------------------------------------------
+
+
+
+
