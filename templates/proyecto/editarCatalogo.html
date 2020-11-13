@@ -1,0 +1,85 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+   <meta name="theme-color" content="#000000" />
+
+    <title>C&aacute;talogo de Cuentas </title>
+
+     {# Cargamos la librería #}
+    {% load bootstrap4 %}
+ 
+    {# CSS Bootstrap #}
+    {% bootstrap_css %} 
+
+	{# Widget Tweaks #}
+    {% load widget_tweaks %}
+
+    {# Archivos #}
+    {% load static %}
+
+   
+
+   <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">-->
+    </head>
+
+  <body>
+	<nav aria-label="breadcrumb mb-3">
+        <ol class="breadcrumb">
+        	<li class="breadcrumb-item active">Gestionar Cátalogo</li>
+        	<li class="breadcrumb-item active">Actualizar</li>
+        </ol>
+    </nav>
+
+	<div class="formulario" align="left">
+
+    <h4>Actualizar</h4>
+
+    <form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  
+  <!-- {{ form.as_p }} -->
+  <div class="form-group">
+          <label for="codCuenta" class="txt_negrita">C&oacute;digo Cuenta</label>
+          {{ form.codCuenta|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+          <label for="nombreCuenta" class="txt_negrita">Nombre Cuenta</label>
+          {{ form.nombreCuenta|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+          <label for="codEmpresa_id" class="txt_negrita">C&oacute;digo Empresa</label>
+          {{ form.codEmpresa|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+          <label for="codRubro_id" class="txt_negrita">C&oacute;digo Rubro</label>
+          {{ form.codRubro|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+          <label for="codTipoCuenta_id" class="txt_negrita">C&oacute;digo Tipo de Cuenta</label>
+          {{ form.codTipoCuenta|add_class:"form-control" }}
+        </div>
+ 
+  <button type="submit" class="btn btn-default">Aceptar</button>
+  <input type="button" class="btn btn-default" onclick="history.back()" name="volver atrás" value="Volver">
+ 
+</form>
+
+</div>
+
+{# JS y jQuery Bootstrap #}
+{% bootstrap_javascript jquery='full' %} 
+
+
+</body>
+</html>
+
+{% endblock %}
