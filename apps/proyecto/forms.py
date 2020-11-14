@@ -18,3 +18,18 @@ class CatalogoCuentaForm(forms.ModelForm):
 		'codRubro':'Codigo del Rubro',
 		'codTipoCuenta': 'Codigo del Tipo de Cuenta',
 		}
+class CuentaBalanceForm(forms.ModelForm):
+	class Meta:
+		model=CuentaBalance
+		fields={
+		'codCuenta':forms.CharField,
+		'codEmpresa':forms.CharField,
+		'año':forms.CharField,
+		'valor':forms.CharField,
+		}
+		labels={
+		'codCuenta':'Codigo de Cuenta',
+		'codEmpresa':'Codigo de Empresa',
+		'año': 'Año',
+		'valor':'Valor',
+		}

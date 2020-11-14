@@ -87,6 +87,24 @@ def filtrarBalance(request):
             'proyecto/ConsultaBalance.html', contexto
         )
 
+class BalanceCrear(SuccessMessageMixin, CreateView):
+    model = CuentaBalance #Llamada a la clase "CatalogoCuenta" en el archivo models.py
+    form = CuentaBalanceForm #Definición del formulario ubicado en forms.py
+    fields = "__all__" #Le decimos a Django que muestre todos los campos de la tabla de nuestra Base de Datos
+    success_message='¡Balance Creado Correctamente!' #Muestra el mensaje si se ha realizado correctamente la operación
+
+    def get_success_url(self):
+        return reverse('analisisFinanciero:crearBalance')
+        
+class BalanceActualizar(SuccessMessageMixin, UpdateView): 
+    model = CuentaBalance 
+    form = CuentaBalanceForm 
+    fields = "__all__" 
+    success_message = '¡Balance Actualizado Correctamente!' 
+ 
+    
+    def get_success_url(self):               
+        return reverse('analisisFinanciero:editarBalance') 
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
