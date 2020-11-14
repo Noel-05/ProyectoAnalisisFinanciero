@@ -1,0 +1,125 @@
+{% extends 'base/base.html' %}
+
+{% block content %} 
+    
+    <div class="page-header-header">
+        <h1 class="text-titles"><strong>Consultar Ratios por Sector.</strong></h1>
+    </div>
+        
+        </br></br><p class="lead">Selecciona los parametros de busqueda</p></br>
+
+        
+        <div align="center" class="busqueda">
+            <form method="POST" action="{% url 'analisisFinanciero:consultarRatioSector' %}">
+                {% csrf_token %} 
+
+                <div class="form__group2 field">                
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Actividad Economica</label>
+                        </div>
+                        <select name="actividades" class="custom-select" id="inputGroupSelect01">
+                            <option selected="selected">Selecciona la Actividad Econ&oacute;mica</option>
+  
+                          {% for act in actividad %}
+  
+                            <option value="{{ act.codActividadEconomica }}">{{ act.nombreActividadEconomica }}</option>
+  
+                          {% endfor %}
+                          </select>
+                    </div>
+                </div>
+
+                <div class="form__group2 field">                    
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Tipo Ratio Financiero</label>
+                        </div>
+                        <select name="ratios" class="custom-select" id="inputGroupSelect01">
+                            <option selected="selected">Selecciona el Ratio Financiero</option>
+  
+                          {% for rat in ratio %}
+                            <option value="{{ rat.codRatio }}">{{ rat.nombreRatio }}</option>
+                          {% endfor %}
+                          </select>
+                    </div>
+                </div>
+
+                <div class="form__group2 field">
+                    <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Consultar">
+                    <label for="consultarBalance">
+                    <span class="iborrainputfile">Consultar</span>
+                </div>
+
+                </br>
+                
+            </form>
+        </div>
+
+
+
+    
+    <div class="table-responsive" style="width:85%; display:inline-block;">            
+
+            <table class="table table-hover text-center">
+                
+                {% if queryset %}
+                    <thead>
+                        <tr>
+                            <th class="text-center">Actividad Econ&oacute;mica</th>
+                            <th class="text-center">Ratio Financiero</th>
+                            <th class="text-center">Valor</th>
+                            <th colspan="3" class="text-center">Acci&oacute;n</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for q in queryset %}
+                            <tr>
+
+                                <form method="POST" action="{% url 'analisisFinanciero:eliminarRatioSector' %}">
+                                    
+                                    {% csrf_token %}
+
+                                    <td><input type="hidden" name="codAct" value="{{q.codActividadEconomica.codActividadEconomica}}"/>{{ q.codActividadEconomica }}</td>
+                                    <td><input type="hidden" name="codRat" value="{{q.codRatio.codRatio}}"/>{{ q.codRatio }}</td>
+                                    <td>{{ q.parametroComparacion|floatformat:2 }}</td>
+                                    <td>                                 
+                                        <input type="submit" name="btnEliminar" value="Eliminar" class="btn btn-secondary"/>
+                                    </td>
+
+                                </form>
+
+                                <form method="POST" action="{% url 'analisisFinanciero:actualizarRatioSector' %}">
+                                    
+                                    {% csrf_token %}
+
+                                    <input type="hidden" name="codAct" value="{{q.codActividadEconomica.codActividadEconomica}}"/>
+                                    <input type="hidden" name="codRat" value="{{q.codRatio.codRatio}}"/>                                
+                                    <td>                               
+                                        <input type="submit" name="btnActualizar" value="Actualizar" class="btn btn-light"/>
+                                    </td>
+
+                                </form>
+
+
+                                <!--<form method="POST" action="{% url 'analisisFinanciero:actualizarRatioSector'%}">
+                                            {% csrf_token %}
+
+                                            <input type="hidden" name="codAct" value="{{q.codActividadEconomica.codActividadEconomica}}"/>
+                                            <input type="hidden" name="codRat" value="{{q.codRatio.codRatio}}"/>
+                                            <a href="actualizarRatioSector/{{q.codActividadEconomica.codActividadEconomica}}/{{q.codRatio.codRatio}}" title="Actualizar" type="button" class="btn btn-light"> Actualizar </a>
+                                            <input type="submit" name="btnActualizar" value="Actualizar" class="btn btn-light"/> |
+
+                                 </form>-->
+                                
+                            </tr>                 
+                        {% endfor %}
+                    </tbody>
+                {% endif %}
+                
+            </table>
+     
+    <div>
+    
+
+{% endblock %}

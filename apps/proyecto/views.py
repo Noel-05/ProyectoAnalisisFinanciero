@@ -2089,3 +2089,252 @@ def informeAnalisis(request):
             'proyecto/InformeAnalisis.html',
             contexto
         )
+#---------------------------CRUD DE LA TABLA proyecto_ratiossector----------------------------------------------------------------------------
+def insertarRatioSector(request):
+    existe=""
+    if request.method == 'POST':
+
+        actividadEco = request.POST['actividades']
+        ratioEco = request.POST['ratios']
+        valorRatio = request.POST['valorRatio']
+        
+        if actividadEco and ratioEco and valorRatio:
+            regfilter1 = ActividadEconomica.objects.filter(codActividadEconomica=actividadEco)
+            regfilter2 = Ratio.objects.filter(codRatio=ratioEco)
+
+            if regfilter1 and regfilter2:
+                regFilter = RatiosSector.objects.filter(codRatio=ratioEco, codActividadEconomica=actividadEco)  
+
+                if regFilter:
+                    existe="Ya existe un registro con los datos ingresados!!!"
+                else:
+                    queryset = RatiosSector(
+                        codRatio=Ratio.objects.get(codRatio=ratioEco), 
+                        codActividadEconomica=ActividadEconomica.objects.get(codActividadEconomica=actividadEco), 
+                        parametroComparacion=valorRatio
+                    )
+                    queryset.save()
+                    existe="Registro guardado satisfactoriamente!!!"              
+                
+
+    actividad = ActividadEconomica.objects.all
+    ratio = Ratio.objects.all
+
+    contexto = {
+        'actividad':actividad,
+        'ratio':ratio,
+        'exist':existe,
+    }
+
+    return render(request,'proyecto/insertarRatioSector.html', contexto)
+
+
+
+def consultarRatioSector(request):
+
+    actividad = ActividadEconomica.objects.all
+    ratio = Ratio.objects.all
+    queryset = RatiosSector.objects.all
+
+    contexto = {
+            'actividad':actividad,
+            'ratio':ratio,
+            'queryset':queryset,
+    }
+
+    if request.method=='POST':
+
+        actividadEco = request.POST['actividades']
+        ratioEco = request.POST['ratios']           
+
+        if actividadEco and ratioEco:
+            queryset = RatiosSector.objects.filter(codActividadEconomica=actividadEco, codRatio=ratioEco)
+
+            if queryset:              
+                contexto = {
+                    'actividad':actividad,
+                    'ratio':ratio,
+                    'queryset':queryset,
+                }       
+            
+    
+    return render(request, 'proyecto/consultarRatioSector.html', contexto)
+
+
+
+def actualizarRatioSector(request):   
+
+
+    ca = request.POST['codAct']
+    cr = request.POST['codRat']
+         
+    if ca and cr:            
+        regFilter = RatiosSector.objects.get(codActividadEconomica=ca, codRatio=cr)  
+        contexto = {                
+            'queryset':regFilter,
+        } 
+
+    return render(request, 'proyecto/actualizarRatioSector.html', contexto)
+
+
+
+def guardarModificacionRatioSector(request):
+
+    ca = request.POST['codAct']
+    cr = request.POST['codRat']
+    valor = request.POST['valorRatio']
+
+    regFilter = RatiosSector.objects.filter(codActividadEconomica=ca, codRatio=cr)
+
+    if regFilter:
+        queryset = RatiosSector.objects.get(codActividadEconomica=ca, codRatio=cr)  
+        queryset.parametroComparacion = valor
+        queryset.save()
+             
+    #return render(request, 'proyecto/consultarRatioSector.html', contexto)
+    return redirect('analisisFinanciero:consultarRatioSector')
+
+
+
+def eliminarRatioSector(request):
+
+    ca = request.POST['codAct']
+    cr = request.POST['codRat']
+
+    if ca and cr:        
+        regDelete = RatiosSector.objects.filter(codActividadEconomica=ca, codRatio=cr)
+        
+        if regDelete:
+            regDelete = RatiosSector.objects.get(codActividadEconomica=ca, codRatio=cr)
+            regDelete.delete()
+
+
+    #return render(request, 'proyecto/consultarRatioSector.html', contexto)
+    return redirect('analisisFinanciero:consultarRatioSector')
+
+#-----------------------------------------------------------------------------------------------------------------
+
+
+#---------------------------CRUD DE LA TABLA proyecto_empresa----------------------------------------------------------------------------
+def insertarEmpresa(request):
+    existe=""
+    if request.method == 'POST':
+
+        actividadEco = request.POST['actividades']
+        codEmpresa = request.POST['codE']
+        nomEmpresa = request.POST['nomE']
+        descripcion = request.POST['descE']
+        
+        if actividadEco and codEmpresa and nomEmpresa:
+            regfilter1 = ActividadEconomica.objects.filter(codActividadEconomica=actividadEco)
+
+            if regfilter1:            
+                regfilter = Empresa.objects.filter(codEmpresa=codEmpresa, codActividadEconomica=actividadEco)
+            
+                if regfilter:
+                    existe="Ya existe un registro con los datos ingresados!!!"
+
+                else:
+                    queryset = Empresa(
+                        codEmpresa=codEmpresa,
+                        codActividadEconomica=ActividadEconomica.objects.get(codActividadEconomica=actividadEco),
+                        nombreEmpresa=nomEmpresa, 
+                        descripcionEmpresa=descripcion
+                    )
+                    queryset.save()
+                    existe="Registro guardado satisfactoriamente!!!"
+
+
+    actividad = ActividadEconomica.objects.all
+
+    contexto = {
+        'actividad':actividad,
+        'exist':existe
+    }
+
+    return render(request,'proyecto/insertarEmpresa.html', contexto)
+
+
+
+def consultarEmpresa(request):
+
+    emp = Empresa.objects.all
+    queryset =Empresa.objects.all
+
+    contexto = {
+            'empresas':emp,
+            'queryset':queryset,
+    }
+
+    if request.method=='POST':
+
+        empresa = request.POST['empresas']          
+
+        if empresa:
+            queryset = Empresa.objects.filter(codEmpresa=empresa)
+
+            if queryset:              
+                contexto = {   
+                    'empresas':emp,                 
+                    'queryset':queryset,
+                }       
+            
+    
+    return render(request, 'proyecto/consultarEmpresa.html', contexto)
+
+
+
+def actualizarEmpresa(request):   
+
+
+    codEm = request.GET['codE']
+
+    contexto = {}
+         
+    if codEm:            
+        regFilter = Empresa.objects.get(codEmpresa=codEm)  
+        contexto = {  
+            'queryset':regFilter,
+        } 
+
+    return render(request, 'proyecto/actualizarEmpresa.html', contexto)
+
+
+
+def guardarModificacionEmpresa(request):
+
+    codEm = request.POST['codE']
+    nomEm = request.POST['nomE']
+    descripcion = request.POST['descE']
+
+    regFilter = Empresa.objects.filter(codEmpresa=codEm)
+
+    if regFilter:
+        queryset = Empresa.objects.get(codEmpresa=codEm)
+        queryset.nombreEmpresa = nomEm
+        queryset.descripcionEmpresa = descripcion
+        queryset.save()
+             
+    #return render(request, 'proyecto/consultarRatioSector.html', contexto)
+    return redirect('analisisFinanciero:consultarEmpresa')
+
+
+
+def eliminarEmpresa(request):
+    
+    codEm = request.POST['codE']
+
+    if codEm:        
+        regDelete = Empresa.objects.filter(codEmpresa=codEm)
+        
+        if regDelete:
+            regDelete = Empresa.objects.get(codEmpresa=codEm)
+            regDelete.delete()    
+            
+
+    #return render(request, 'proyecto/consultarRatioSector.html', contexto)
+    return redirect('analisisFinanciero:consultarEmpresa')
+
+#-----------------------------------------------------------------------------------------------------------------
+
+
