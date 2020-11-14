@@ -103,6 +103,9 @@
 							<a href="{% url 'analisisFinanciero:subirBalance' %}"><i class="zmdi zmdi-money-box zmdi-hc-fw"></i>Agregar Balance</a>
 						</li>
 						<li>
+							<a href="{% url 'analisisFinanciero:subirBalance' %}"><i class="zmdi zmdi-money-box zmdi-hc-fw"></i>Subir Balance</a>
+						</li>
+						<li>
 							<a href="{% url 'analisisFinanciero:consultarBalance' %}"><i class="zmdi zmdi-collection-item zmdi-hc-fw"></i>Consultar Balance</a>
 						</li>
 					</ul>
@@ -142,7 +145,7 @@
 				</br>
 
 				<li>
-					<a href="">
+					<a href="{% url 'analisisFinanciero:consultarInformes'%}">
 						<i class="zmdi zmdi-book zmdi-hc-fw"></i> Informes
 					</a>
 				</li>

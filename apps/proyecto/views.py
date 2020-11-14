@@ -1294,3 +1294,798 @@ def analisisVertical(request):
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
+
+def consultarInformes(request):
+    return render(
+        request,
+        'proyecto/InformeAnalisis.html',
+    )
+
+
+
+def informeAnalisis(request):
+    if request.method == 'POST':
+
+        codActividadEconomica = request.POST['codActividadEconomica']
+        año = request.POST['año']
+
+        sector = ActividadEconomica.objects.filter(codActividadEconomica=codActividadEconomica)
+        valRatioSector = RatiosSector.objects.filter(codActividadEconomica=codActividadEconomica)
+        empresas = RatiosEmpresa.objects.filter(año=año)
+
+        #CALCULO DEL PROMEDIO PARA CADA SECTOR
+
+        #----LIQ-------
+        sumaRC = 0
+        sumaRCT = 0
+        sumaRE = 0
+        sumaRR = 0
+        sumaRDAC = 0
+        #----ACT-------
+        sumaIMB = 0
+        sumaIMO = 0
+        sumaIRAF = 0
+        sumaIRAT = 0
+        sumaRDI = 0
+        sumaRPMC = 0
+        sumaRPMP = 0
+        sumaRRCC = 0
+        sumaRRCP = 0
+        sumaRRI = 0
+        #----APA--------
+        sumaGE = 0
+        sumaGP = 0
+        sumaRCGF = 0
+        sumaREP = 0
+        #----REN--------
+        sumaRDAC = 0
+        sumaRNP = 0
+        sumaRSI = 0
+        sumaRSV = 0
+
+
+        #-------------
+        contRC = 1
+        contRCT = 1
+        contRE = 1
+        contRR = 1
+        contRDAC = 1
+        #-------------
+        contIMB = 1
+        contIMO = 1
+        contIRAF = 1
+        contIRAT = 1
+        contRDI = 1
+        contRPMC = 1
+        contRPMP = 1
+        contRRCC = 1
+        contRRCP = 1
+        contRRI = 1
+        #-------------
+        contGE = 1
+        contGP = 1
+        contRCGF = 1
+        contREP = 1
+        #-------------
+        contRDAC = 1
+        contRNP = 1
+        contRSI = 1
+        contRSV = 1
+
+
+        #Guardo la Suma del valor de ese ratio de todas las empresas
+        i=0
+        while(i < len(empresas)):
+            sectorEmpresa = empresas[i].codEmpresa.codActividadEconomica_id
+            valorRatio = empresas[i].valorRatioEmpresa
+            tipoRatio = empresas[i].codRatio_id
+
+            if(sectorEmpresa == codActividadEconomica):
+                if(tipoRatio == "RC"):
+                    sumaRC = sumaRC + valorRatio
+                    contRC+=1
+                elif(tipoRatio == "RCT"):
+                    sumaRCT = sumaRCT + valorRatio
+                    contRCT+=1
+                elif(tipoRatio == "RR"):
+                    sumaRR = sumaRE + valorRatio
+                    contRR+=1
+                elif(tipoRatio == "RE"):
+                    sumaRE = sumaRE + valorRatio
+                    contRE+=1
+                elif(tipoRatio == "RDAC"):
+                    sumaRDAC = sumaRDAC + valorRatio
+                    contRDAC+=1
+                #----------------------------------------
+                elif(tipoRatio == "IMB"):
+                    sumaIMB = sumaIMB + valorRatio
+                    contIMB+=1
+                elif(tipoRatio == "IMO"):
+                    sumaIMO = sumaIMO + valorRatio
+                    contIMO+=1
+                elif(tipoRatio == "IRAF"):
+                    sumaIRAF = sumaIRAF + valorRatio
+                    contIRAF+=1
+                elif(tipoRatio == "IRAT"):
+                    sumaIRAT = sumaIRAT + valorRatio
+                    contIRAT+=1
+                elif(tipoRatio == "RDI"):
+                    sumaRDI = sumaRDI + valorRatio
+                    contRDI+=1
+                elif(tipoRatio == "RPMC"):
+                    sumaRPMC = sumaRPMC + valorRatio
+                    contRPMC+=1
+                elif(tipoRatio == "RPMP"):
+                    sumaRPMP = sumaRPMP + valorRatio
+                    contRPMP+=1
+                elif(tipoRatio == "RRCC"):
+                    sumaRRCC = sumaRRCC + valorRatio
+                    contRRCC+=1
+                elif(tipoRatio == "RRCP"):
+                    sumaRRCP = sumaRRCP + valorRatio
+                    contRRCP+=1
+                elif(tipoRatio == "RRI"):
+                    sumaRRI = sumaRRI + valorRatio
+                    contRRI+=1
+                #----------------------------------------
+                elif(tipoRatio == "GE"):
+                    sumaGE = sumaGE + valorRatio
+                    contGE+=1
+                elif(tipoRatio == "GP"):
+                    sumaGP = sumaGP + valorRatio
+                    contGP+=1
+                elif(tipoRatio == "RCGF"):
+                    sumaRCGF = sumaRCGF + valorRatio
+                    contRCGF+=1
+                elif(tipoRatio == "REP"):
+                    sumaREP = sumaREP + valorRatio
+                    contREP+=1
+                #----------------------------------------
+                elif(tipoRatio == "RDAC"):
+                    sumaRDAC = sumaRDAC + valorRatio
+                    contRDAC+=1
+                elif(tipoRatio == "RNP"):
+                    sumaRNP = sumaRNP + valorRatio
+                    contRNP+=1
+                elif(tipoRatio == "RSI"):
+                    sumaRSI = sumaRSI + valorRatio
+                    contRSI+=1
+                elif(tipoRatio == "RSV"):
+                    sumaRSV = sumaRSV + valorRatio
+                    contRSV+=1
+            i+=1
+
+        # Calculo del Promedio de las empresas
+        # Le resto 1 porque lo inicalice a 1 para que no de error de Div/0 cuando no se use en el while
+        if(contRC > 1):
+            promedioRC = sumaRC / (contRC - 1)
+        if(contRCT > 1):
+            promedioRCT = sumaRCT / (contRCT - 1)
+        if(contRE > 1):
+            promedioRE = sumaRE / (contRE - 1)
+        if(contRR > 1):
+            promedioRR = sumaRR / (contRR - 1)
+        if(contRDAC > 1):
+            promedioRDAC = sumaRDAC / (contRDAC - 1)
+        #-----------------------------------------------
+        if(contIMB > 1):
+            promedioIMB = sumaIMB / (contIMB - 1)
+        if(contIMO > 1):
+            promedioIMO = sumaIMO / (contIMO - 1)
+        if(contIRAF > 1):
+            promedioIRAF = sumaIRAF / (contIRAF - 1)
+        if(contIRAT > 1):
+            promedioIRAT = sumaIRAT / (contIRAT - 1)
+        if(contRDI > 1):
+            promedioRDI = sumaRDI / (contRDI - 1)
+        if(contRPMC > 1):
+            promedioRPMC = sumaRPMC / (contRPMC - 1)
+        if(contRPMP > 1):
+            promedioRPMP = sumaRPMP / (contRPMP - 1)
+        if(contRRCC > 1):
+            promedioRRCC = sumaRRCC / (contRRCC - 1)
+        if(contRRCP > 1):
+            promedioRRCP = sumaRRCP / (contRRCP - 1)
+        if(contRRI > 1):
+            promedioRRI = sumaRRI / (contRRI - 1)
+        #-----------------------------------------------
+        if(contGE > 1):
+            promedioGE = sumaGE / (contGE - 1)
+        if(contGP > 1):
+            promedioGP = sumaGP / (contGP - 1)
+        if(contRCGF > 1):
+            promedioRCGF = sumaRCGF / (contRCGF - 1)
+        if(contREP > 1):
+            promedioREP = sumaREP / (contREP - 1)
+        #-----------------------------------------------
+        if(contRDAC > 1):
+            promedioRDAC = sumaRDAC / (contRDAC - 1)
+        if(contRNP > 1):
+            promedioRNP = sumaRNP / (contRNP - 1)
+        if(contRSI > 1):
+            promedioRSI = sumaRSI / (contRSI - 1)
+        if(contRSV > 1):
+            promedioRSV = sumaRSV / (contRSV - 1)
+
+
+        cumplenRC = ""
+        cumplenRCT = ""
+        cumplenRR = ""
+        cumplenRE = ""
+        cumplenRDAC = ""
+        #--------------------
+        cumplenIMB = ""
+        cumplenIMO = ""
+        cumplenIRAF = ""
+        cumplenIRAT = ""
+        cumplenRDI = ""
+        cumplenRPMC = ""
+        cumplenRRCC = ""
+        cumplenRRCP = ""
+        cumplenRRI = ""
+        #--------------------
+        cumplenGE = ""
+        cumplenGP = ""
+        cumplenRCGF = ""
+        cumplenREP = ""
+        #--------------------
+        cumplenRDAC = ""
+        cumplenRNP = ""
+        cumplenRSI = ""
+        cumplenRSV = ""
+
+
+        #---------------------
+        noCumpleRC = ""
+        noCumpleRCT = ""
+        noCumpleRR = ""
+        noCumpleRE = ""
+        noCumpleRDAC = ""
+        #---------------------
+        noCumpleIMB = ""
+        noCumpleIMO = ""
+        noCumpleIRAF = ""
+        noCumpleIRAT = ""
+        noCumpleRDI = ""
+        noCumpleRPMC = ""
+        noCumpleRRCC = ""
+        noCumpleRRCP = ""
+        noCumpleRRI = ""
+        #---------------------
+        noCumpleGE = ""
+        noCumpleGP = ""
+        noCumpleRCGF = ""
+        noCumpleREP = ""
+        #--------------------
+        noCumpleRDAC = ""
+        noCumpleRNP = ""
+        noCumpleRSI = ""
+        noCumpleRSV = ""
+
+        #Verificacion de las empresas que son mayores que el ratio segun Promedio de Empresa.
+        j=0
+        while(j < len(empresas)):
+            sectorEmpresa = empresas[j].codEmpresa.codActividadEconomica_id
+            valorRatio = empresas[j].valorRatioEmpresa
+            tipoRatio = empresas[j].codRatio_id
+
+            if(sectorEmpresa == codActividadEconomica):
+                if(tipoRatio == "RC"):
+                    if(valorRatio >= promedioRC):
+                        cumplenRC = cumplenRC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRC = noCumpleRC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RCT"):
+                    if(valorRatio >= promedioRCT):
+                        cumplenRCT = cumplenRCT + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRCT = noCumpleRCT + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RR"):
+                    if(valorRatio >= promedioRR):
+                        cumplenRR = cumplenRR + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRR = noCumpleRR + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RE"):
+                    if(valorRatio >= promedioRE):
+                        cumplenRE = cumplenRE + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRE = noCumpleRE + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RDAC"):
+                    if(valorRatio >= promedioRDAC):
+                        cumplenRDAC = cumplenRDAC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRDAC = noCumpleRDAC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                #--------------------------------------------------------------------------------------------
+                elif(tipoRatio == "IMB"):
+                    if(valorRatio >= promedioIMB):
+                        cumplenIMB = cumplenIMB + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleIMB = noCumpleIMB + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "IMO"):
+                    if(valorRatio >= promedioIMO):
+                        cumplenIMO = cumplenIMO + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleIMO = noCumpleIMO + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]     "
+                elif(tipoRatio == "IRAF"):
+                    if(valorRatio >= promedioIRAF):
+                        cumplenIRAF = cumplenIRAF + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleIRAF = noCumpleIRAF + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "IRAT"):
+                    if(valorRatio >= promedioIRAT):
+                        cumplenIRAT = cumplenIRAT + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleIRAT = noCumpleIRAT + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RDI"):
+                    if(valorRatio >= promedioRDI):
+                        cumplenRDI = cumplenRDI + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRDI = noCumpleRDI + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RPMC"):
+                    if(valorRatio >= promedioRPMC):
+                        cumplenRPMC = cumplenRPMC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRPMC = noCumpleRPMC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RRCC"):
+                    if(valorRatio >= promedioRRCC):
+                        cumplenRRCC = cumplenRRCC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRRCC = noCumpleRRCC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RRCP"):
+                    if(valorRatio >= promedioRRCP):
+                        cumplenRRCP = cumplenRRCP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRRCP = noCumpleRRCP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RRI"):
+                    if(valorRatio >= promedioRRI):
+                        cumplenRRI = cumplenRRI + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRRI = noCumpleRRI + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                #--------------------------------------------------------------------------------------------
+                elif(tipoRatio == "GE"):
+                    if(valorRatio >= promedioGE):
+                        cumplenGE = cumplenGE + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleGE = noCumpleGE + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "GP"):
+                    if(valorRatio >= promedioGP):
+                        cumplenGP = cumplenGP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleGP = noCumpleGP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RCGF"):
+                    if(valorRatio >= promedioRCGF):
+                        cumplenRCGF = cumplenRCGF + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRCGF = noCumpleRCGF + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "REP"):
+                    if(valorRatio >= promedioREP):
+                        cumplenREP = cumplenREP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleREP = noCumpleREP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                #--------------------------------------------------------------------------------------------
+                elif(tipoRatio == "RDAC"):
+                    if(valorRatio >= promedioRDAC):  
+                        cumplenRDAC = cumplenRDAC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRDAC = noCumpleRDAC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RNP"):
+                    if(valorRatio >= promedioRNP):
+                        cumplenRNP = cumplenRNP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRNP = noCumpleRNP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RSI"):
+                    if(valorRatio >= promedioRSI):
+                        cumplenRSI = cumplenRSI + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRSI = noCumpleRSI + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                elif(tipoRatio == "RSV"):
+                    if(valorRatio >= promedioRSV):
+                        cumplenRSV = cumplenRSV + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleRSV = noCumpleRSV + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+            j+=1
+
+
+        #----LIQ-------
+        valSectorRC = 0
+        valSectorRCT = 0
+        valSectorRE = 0
+        valSectorRR = 0
+        valSectorRDAC = 0
+        #----ACT-------
+        valSectorIMB = 0
+        valSectorIMO = 0
+        valSectorIRAF = 0
+        valSectorIRAT = 0
+        valSectorRDI = 0
+        valSectorRPMC = 0
+        valSectorRPMP = 0
+        valSectorRRCC = 0
+        valSectorRRCP = 0
+        valSectorRRI = 0
+        #----APA--------
+        valSectorGE = 0
+        valSectorGP = 0
+        valSectorRCGF = 0
+        valSectorREP = 0
+        #----REN--------
+        valSectorRDAC = 0
+        valSectorRNP = 0
+        valSectorRSI = 0
+        valSectorRSV = 0
+
+        #Recuperacion del valor de cada Ratio de la tabla Ratio Empresa segun el Tipo de Ratio
+        z=0
+        while(z < len(valRatioSector)):
+            valSectorTipoRatio = valRatioSector[z].codRatio_id
+            valSectorActEco = valRatioSector[z].codActividadEconomica_id
+
+            if(valSectorActEco == codActividadEconomica):
+                if(valSectorTipoRatio == "RC"):
+                    valSectorRC = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RCT"):
+                    valSectorRCT = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RR"):
+                    valSectorRR = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RE"):
+                    valSectorRE = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RDAC"):
+                    valSectorRDAC = valRatioSector[z].parametroComparacion
+                #-----------------------------------------------------------------
+                elif(valSectorTipoRatio == "IMB"):
+                    valSectorIMB = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "IMO"):
+                    valSectorIMO = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "IRAF"):
+                    valSectorIRAF = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "IRAT"):
+                    valSectorIRAT = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RDI"):
+                    valSectorRDI = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RPMC"):
+                    valSectorRPMC = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RPMP"):
+                    valSectorRPMP = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RRCC"):
+                    valSectorRRCC = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RRCP"):
+                    valSectorRRCP = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RRI"):
+                    valSectorRRI = valRatioSector[z].parametroComparacion
+                #-----------------------------------------------------------------
+                elif(valSectorTipoRatio == "GE"):
+                    valSectorGE = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "GP"):
+                    valSectorGP = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RCGF"):
+                    valSectorRCGF = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "REP"):
+                    valSectorREP = valRatioSector[z].parametroComparacion
+                #-----------------------------------------------------------------
+                elif(valSectorTipoRatio == "RDAC"):
+                    valSectorRDAC = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RNP"):
+                    valSectorRNP = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RSI"):
+                    valSectorRSI = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RSV"):
+                    valSectorRSV = valRatioSector[z].parametroComparacion
+            z+=1
+
+
+        cumplenSectorRC = ""
+        cumplenSectorRCT = ""
+        cumplenSectorRR = ""
+        cumplenSectorRE = ""
+        cumplenSectorRDAC = ""
+        #--------------------
+        cumplenSectorIMB = ""
+        cumplenSectorIMO = ""
+        cumplenSectorIRAF = ""
+        cumplenSectorIRAT = ""
+        cumplenSectorRDI = ""
+        cumplenSectorRPMC = ""
+        cumplenSectorRRCC = ""
+        cumplenSectorRRCP = ""
+        cumplenSectorRRI = ""
+        #--------------------
+        cumplenSectorGE = ""
+        cumplenSectorGP = ""
+        cumplenSectorRCGF = ""
+        cumplenSectorREP = ""
+        #--------------------
+        cumplenSectorRDAC = ""
+        cumplenSectorRNP = ""
+        cumplenSectorRSI = ""
+        cumplenSectorRSV = ""
+
+
+        noCumpleSectorRC = ""
+        noCumpleSectorRCT = ""
+        noCumpleSectorRR = ""
+        noCumpleSectorRE = ""
+        noCumpleSectorRDAC = ""
+        #---------------------
+        noCumpleSectorIMB = ""
+        noCumpleSectorIMO = ""
+        noCumpleSectorIRAF = ""
+        noCumpleSectorIRAT = ""
+        noCumpleSectorRDI = ""
+        noCumpleSectorRPMC = ""
+        noCumpleSectorRRCC = ""
+        noCumpleSectorRRCP = ""
+        noCumpleSectorRRI = ""
+        #---------------------
+        noCumpleSectorGE = ""
+        noCumpleSectorGP = ""
+        noCumpleSectorRCGF = ""
+        noCumpleSectorREP = ""
+        #--------------------
+        noCumpleSectorRDAC = ""
+        noCumpleSectorRNP = ""
+        noCumpleSectorRSI = ""
+        noCumpleSectorRSV = ""
+
+
+        #Verificacion de las empresas que son mayores que el ratio segun el Ratio de Empresa.
+        x=0
+        while(x < len(empresas)):
+            sectorEmpresa = empresas[x].codEmpresa.codActividadEconomica_id
+            valorRatio = empresas[x].valorRatioEmpresa
+            tipoRatio = empresas[x].codRatio_id
+
+            if(sectorEmpresa == codActividadEconomica):
+                if(tipoRatio == "RC"):
+                    if(valorRatio >= valSectorRC):
+                        cumplenSectorRC = cumplenSectorRC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRC = noCumpleSectorRC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RCT"):
+                    if(valorRatio >= valSectorRCT):
+                        cumplenSectorRCT = cumplenSectorRCT + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRCT = noCumpleSectorRCT + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RR"):
+                    if(valorRatio >= valSectorRR):
+                        cumplenSectorRR = cumplenSectorRR + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRR = noCumpleSectorRR + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RE"):
+                    if(valorRatio >= valSectorRE):
+                        cumplenSectorRE = cumplenSectorRE + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRE = noCumpleSectorRE + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RDAC"):
+                    if(valorRatio >= valSectorRDAC):
+                        cumplenSectorRDAC = cumplenSectorRDAC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRDAC = noCumpleSectorRDAC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                #----------------------------------------------------------------------------------------------------------
+                elif(tipoRatio == "IMB"):
+                    if(valorRatio >= valSectorIMB):
+                        cumplenSectorIMB = cumplenSectorIMB + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorIMB = noCumpleSectorIMB + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "IMO"):
+                    if(valorRatio >= valSectorIMO):
+                        cumplenSectorIMO = cumplenSectorIMO + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorIMO = noCumpleSectorIMO + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "IRAF"):
+                    if(valorRatio >= valSectorIRAF):
+                        cumplenSectorIRAF = cumplenSectorIRAF + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorIRAF = noCumpleSectorIRAF + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "IRAT"):
+                    if(valorRatio >= valSectorIRAT):
+                        cumplenSectorIRAT = cumplenSectorIRAT + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorIRAT = noCumpleSectorIRAT + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RDI"):
+                    if(valorRatio >= valSectorRDI):
+                        cumplenSectorRDI = cumplenSectorRDI + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRDI = noCumpleSectorRDI + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RPMC"):
+                    if(valorRatio >= valSectorRPMC):
+                        cumplenSectorRPMC = cumplenSectorRPMC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRPMC = noCumpleSectorRPMC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RRCC"):
+                    if(valorRatio >= valSectorRRCC):
+                        cumplenSectorRRCC = cumplenSectorRRCC+ " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRRCC = noCumpleSectorRRCC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RRCP"):
+                    if(valorRatio >= valSectorRRCP):
+                        cumplenSectorRRCP = cumplenSectorRRCP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRRCP = noCumpleSectorRRCP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RRI"):
+                    if(valorRatio >= valSectorRRI):
+                        cumplenSectorRRI = cumplenSectorRRI + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRRI = noCumpleSectorRRI + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                #----------------------------------------------------------------------------------------------------------
+                elif(tipoRatio == "GE"):
+                    if(valorRatio >= valSectorGE):
+                        cumplenSectorGE = cumplenSectorGE + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorGE = noCumpleSectorGE + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "GP"):
+                    if(valorRatio >= valSectorGP):
+                        cumplenSectorGP = cumplenSectorGP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorGP = noCumpleSectorGP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RCGF"):
+                    if(valorRatio >= valSectorRCGF):
+                        cumplenSectorRCGF = cumplenSectorRCGF + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRCGF = noCumpleSectorRCGF + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "REP"):
+                    if(valorRatio >= valSectorREP):
+                        cumplenSectorREP = cumplenSectorREP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorREP = noCumpleSectorREP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                #----------------------------------------------------------------------------------------------------------
+                elif(tipoRatio == "RDAC"):
+                    if(valorRatio >= valSectorRDAC):
+                        cumplenSectorRDAC = cumplenSectorRDAC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRDAC = noCumpleSectorRDAC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RNP"):
+                    if(valorRatio >= valSectorRNP):
+                        cumplenSectorRNP = cumplenSectorRNP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRNP = noCumpleSectorRNP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RSI"):
+                    if(valorRatio >= valSectorRSI):
+                        cumplenSectorRSI = cumplenSectorRSI + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRSI = noCumpleSectorRSI + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                elif(tipoRatio == "RSV"):
+                    if(valorRatio >= valSectorRSV):
+                        cumplenSectorRSV = cumplenSectorRSV + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                    else:
+                        noCumpleSectorRSV = noCumpleSectorRSV + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+            x+=1
+
+        
+        #Guardar en la Base de Datos los registros para ver que empresas son las que cumplen.
+        k=0
+        while(k < len(empresas)):
+            sectorEmpresa = empresas[k].codEmpresa.codActividadEconomica_id
+            valorRatio = empresas[k].valorRatioEmpresa
+            tipoRatio = empresas[k].codRatio_id
+
+            if(sectorEmpresa == codActividadEconomica):
+                if(tipoRatio == "RC"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRC = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRC, promEmpresas=promedioRC, empresasCumplenEmpresa=cumplenRC, empresasCumplenSector=cumplenSectorRC)
+                        ratiosEmpresaSectorRC.save()
+                elif(tipoRatio == "RCT"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRCT = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRCT, promEmpresas=promedioRCT, empresasCumplenEmpresa=cumplenRCT, empresasCumplenSector=cumplenSectorRCT)
+                        ratiosEmpresaSectorRCT.save()
+                elif(tipoRatio == "RR"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRR = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRR, promEmpresas=promedioRR, empresasCumplenEmpresa=cumplenRR, empresasCumplenSector=cumplenSectorRR)
+                        ratiosEmpresaSectorRR.save()
+                elif(tipoRatio == "RE"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRE = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRE, promEmpresas=promedioRE, empresasCumplenEmpresa=cumplenRE, empresasCumplenSector=cumplenSectorRE)
+                        ratiosEmpresaSectorRE.save()
+                elif(tipoRatio == "RDAC"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRDAC = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRDAC, promEmpresas=promedioRDAC, empresasCumplenEmpresa=cumplenRDAC, empresasCumplenSector=cumplenSectorRDAC)
+                        ratiosEmpresaSectorRDAC.save()
+                #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                elif(tipoRatio == "IMB"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorIMB = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorIMB, promEmpresas=promedioIMB, empresasCumplenEmpresa=cumplenIMB, empresasCumplenSector=cumplenSectorIMB)
+                        ratiosEmpresaSectorIMB.save()
+                elif(tipoRatio == "IMO"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorIMO = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorIMO, promEmpresas=promedioIMO, empresasCumplenEmpresa=cumplenIMO, empresasCumplenSector=cumplenSectorIMO)
+                        ratiosEmpresaSectorIMO.save()
+                elif(tipoRatio == "IRAF"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorIRAF = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorIRAF, promEmpresas=promedioIRAF, empresasCumplenEmpresa=cumplenIRAF, empresasCumplenSector=cumplenSectorIRAF)
+                        ratiosEmpresaSectorIRAF.save()
+                elif(tipoRatio == "IRAT"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorIRAT = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorIRAT, promEmpresas=promedioIRAT, empresasCumplenEmpresa=cumplenIRAT, empresasCumplenSector=cumplenSectorIRAT)
+                        ratiosEmpresaSectorIRAT.save()
+                elif(tipoRatio == "RDI"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRDI = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRDI, promEmpresas=promedioRDI, empresasCumplenEmpresa=cumplenRDI, empresasCumplenSector=cumplenSectorRDI)
+                        ratiosEmpresaSectorRDI.save()
+                elif(tipoRatio == "RPMC"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRPMC = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRPMC, promEmpresas=promedioRPMC, empresasCumplenEmpresa=cumplenRPMC, empresasCumplenSector=cumplenSectorRPMC)
+                        ratiosEmpresaSectorRPMC.save()
+                elif(tipoRatio == "RRCC"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRRCC = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRRCC, promEmpresas=promedioRRCC, empresasCumplenEmpresa=cumplenRRCC, empresasCumplenSector=cumplenSectorRRCC)
+                        ratiosEmpresaSectorRRCC.save()
+                elif(tipoRatio == "RRCP"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRRCP = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRRCP, promEmpresas=promedioRRCP, empresasCumplenEmpresa=cumplenRRCP, empresasCumplenSector=cumplenSectorRRCP)
+                        ratiosEmpresaSectorRRCP.save()
+                elif(tipoRatio == "RRI"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRRI = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRRI, promEmpresas=promedioRRI, empresasCumplenEmpresa=cumplenRRI, empresasCumplenSector=cumplenSectorRRI)
+                        ratiosEmpresaSectorRRI.save()
+                #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                elif(tipoRatio == "GE"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorGE = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorGE, promEmpresas=promedioGE, empresasCumplenEmpresa=cumplenGE, empresasCumplenSector=cumplenSectorGE)
+                        ratiosEmpresaSectorGE.save()
+                elif(tipoRatio == "GP"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorGP = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorGP, promEmpresas=promedioGP, empresasCumplenEmpresa=cumplenGP, empresasCumplenSector=cumplenSectorGP)
+                        ratiosEmpresaSectorGP.save()
+                elif(tipoRatio == "RCGF"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRCGF = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRCGF, promEmpresas=promedioRCGF, empresasCumplenEmpresa=cumplenRCGF, empresasCumplenSector=cumplenSectorRCGF)
+                        ratiosEmpresaSectorRCGF.save()
+                elif(tipoRatio == "REP"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorREP = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorREP, promEmpresas=promedioREP, empresasCumplenEmpresa=cumplenREP, empresasCumplenSector=cumplenSectorREP)
+                        ratiosEmpresaSectorREP.save()
+                #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                elif(tipoRatio == "RDAC"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRDAC = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRDAC, promEmpresas=promedioRDAC, empresasCumplenEmpresa=cumplenRDAC, empresasCumplenSector=cumplenSectorRDAC)
+                        ratiosEmpresaSectorRDAC.save()
+                elif(tipoRatio == "RNP"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRNP = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRNP, promEmpresas=promedioRNP, empresasCumplenEmpresa=cumplenRNP, empresasCumplenSector=cumplenSectorRNP)
+                        ratiosEmpresaSectorRNP.save()
+                elif(tipoRatio == "RSI"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRSI = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRSI, promEmpresas=promedioRSI, empresasCumplenEmpresa=cumplenRSI, empresasCumplenSector=cumplenSectorRSI)
+                        ratiosEmpresaSectorRSI.save()
+                elif(tipoRatio == "RSV"):
+                    comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                    if(len(comprobar) == 0):
+                        ratiosEmpresaSectorRSV = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRSV, promEmpresas=promedioRSV, empresasCumplenEmpresa=cumplenRSV, empresasCumplenSector=cumplenSectorRSV)
+                        ratiosEmpresaSectorRSV.save()
+            k+=1
+
+
+        #FIN DEL CALCULO DEL PROMEDIO DE CADA SECTOR
+
+        queryset = RatiosEmpresaSector.objects.filter(codActividadEconomica=codActividadEconomica, año=año)
+
+        contexto = {
+            'queryset': queryset,
+            'sector': sector,
+        }
+
+        return render(
+            request,
+            'proyecto/InformeAnalisis.html',
+            contexto
+        )

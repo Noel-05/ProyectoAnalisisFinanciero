@@ -10,6 +10,7 @@ class Sector(models.Model):
     def __str__(self):
         return self.nombreSector
 
+
 class ActividadEconomica(models.Model):
     codActividadEconomica = models.CharField(primary_key=True, max_length=15, null=False)
     nombreActividadEconomica = models.CharField(max_length=100, null=False)
@@ -32,7 +33,7 @@ class Empresa(models.Model):
 
 class TipoCuenta(models.Model):
     codTipoCuenta = models.CharField(primary_key=True, max_length=15, null=False)
-    nombreTipoCuenta =models.CharField(max_length=50, null=False)
+    nombreTipoCuenta =models.CharField(max_length=100, null=False)
 
     def __str__(self):
         return self.nombreTipoCuenta
@@ -40,7 +41,7 @@ class TipoCuenta(models.Model):
 
 class Rubro(models.Model):
     codRubro = models.CharField(primary_key=True, max_length=50, null=False)
-    nombreRubro = models.CharField(max_length=50, null=False)
+    nombreRubro = models.CharField(max_length=100, null=False)
 
     def __str__(self):
         return self.codRubro
@@ -65,7 +66,7 @@ class CuentaBalance(models.Model):
     codCuenta = models.ForeignKey(CatalogoCuenta, on_delete=models.CASCADE)
     codEmpresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     año = models.IntegerField(null=False)
-    valor = models.DecimalField(max_digits=10, decimal_places=2, null=False)
+    valor = models.DecimalField(max_digits=18, decimal_places=2, null=False)
 
     class Meta:
         unique_together = ("codEmpresa", "codCuenta", "año")
@@ -113,7 +114,7 @@ class Ratio(models.Model):
 class RatiosEmpresa(models.Model):
     codRatio = models.ForeignKey(Ratio, on_delete=models.CASCADE)
     codEmpresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
-    valorRatioEmpresa = models.DecimalField(max_digits=6, decimal_places=3, null=False)
+    valorRatioEmpresa = models.DecimalField(max_digits=18, decimal_places=3, null=False)
     año = models.IntegerField(null=False)
     
     class Meta:
@@ -125,25 +126,25 @@ class RatiosEmpresa(models.Model):
 
 class RatiosSector(models.Model):
     codRatio = models.ForeignKey(Ratio, on_delete=models.CASCADE)
-    codSector = models.ForeignKey(Sector, on_delete=models.CASCADE)
-    parametroComparacion = models.DecimalField(max_digits=6, decimal_places=3, null=False)
+    codActividadEconomica = models.ForeignKey(ActividadEconomica, on_delete=models.CASCADE)
+    parametroComparacion = models.DecimalField(max_digits=18, decimal_places=3, null=False)
 
     class Meta:
-        unique_together = ("codSector", "codRatio")
+        unique_together = ("codActividadEconomica", "codRatio")
 
     def __str__(self):
-        return self.codSector.__str__()
+        return self.codActividadEconomica.__str__()
 
 
 class AnalisisHorizontal(models.Model):
     codEmpresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     codCuenta = models.ForeignKey(CatalogoCuenta, on_delete=models.CASCADE)
     añoActual = models.IntegerField(null=False)
-    valorActual = models.DecimalField(max_digits=10, decimal_places=2, null=False)
+    valorActual = models.DecimalField(max_digits=18, decimal_places=2, null=False)
     añoAnterior = models.IntegerField(null=False)
-    valorAnterior = models.DecimalField(max_digits=10, decimal_places=2, null=False)
-    valorAbsoluto = models.DecimalField(max_digits=10, decimal_places=3, null=False)
-    valorRelativo = models.DecimalField(max_digits=10, decimal_places=3, null=False)
+    valorAnterior = models.DecimalField(max_digits=18, decimal_places=2, null=False)
+    valorAbsoluto = models.DecimalField(max_digits=18, decimal_places=3, null=False)
+    valorRelativo = models.DecimalField(max_digits=18, decimal_places=3, null=False)
 
     class Meta:
             unique_together = ("codEmpresa", "codCuenta", "añoActual")
@@ -157,10 +158,26 @@ class AnalisisVertical(models.Model):
     codCuenta = models.ForeignKey(CatalogoCuenta, on_delete=models.CASCADE)
     codRubro = models.ForeignKey(Rubro, on_delete=models.CASCADE)
     año = models.IntegerField(null=False)
-    valor = models.DecimalField(max_digits=10, decimal_places=3, null=False)
+    valor = models.DecimalField(max_digits=18, decimal_places=3, null=False)
     
     class Meta:
             unique_together = ("codEmpresa", "codCuenta", "año")
 
     def __str__(self):
         return self.codEmpresa.__str__() + self.codCuenta.__str__() + self.año.__str__()
+
+
+class RatiosEmpresaSector(models.Model):
+    codActividadEconomica = models.ForeignKey(ActividadEconomica, on_delete=models.CASCADE)
+    año = models.IntegerField(null=False)
+    codRatio = models.ForeignKey(Ratio, on_delete=models.CASCADE)
+    valorSector = models.DecimalField(max_digits=18, decimal_places=3, null=False)
+    promEmpresas = models.DecimalField(max_digits=18, decimal_places=3, null=False)
+    empresasCumplenSector = models.CharField(max_length=300, null=False)
+    empresasCumplenEmpresa = models.CharField(max_length=300, null=False)
+    
+    class Meta:
+        unique_together = ("codActividadEconomica", "año", "codRatio")
+    
+    def __str__(self):
+        return self.codActividadEconomica.__str__() + self.año.__str__() + self.codRatio.__str__()

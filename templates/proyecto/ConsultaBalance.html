@@ -83,6 +83,7 @@
             	    <th class="text-center">Nombre Cuenta</th>
             	    <th class="text-center">valor</th>
                     <th class="text-center">Tipo Cuenta</th>
+                    <th class="text-center">Acci&oacute;n</th>
                 </tr>
             </thead>
             <tbody>
@@ -91,7 +92,10 @@
                     <td>{{ bal.codCuenta }}</td>
                     <td>{{ bal.codCuenta.nombreCuenta }}</td>
                     <td>$ {{ bal.valor}}</td>
-                    <td>{{ bal.codCuenta.codTipoCuenta.nombreTipoCuenta }}</td>
+                    <td>{{ bal.codCuenta.codTipoCuenta.nombreTipoCuenta }}</td>                            
+                    <td>
+                        <input type="submit" name="btnActualizar" value="Actualizar" class="btn btn-secondary"/>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -99,6 +103,5 @@
             
         </table>
     <div>
-    
 
 {% endblock %}

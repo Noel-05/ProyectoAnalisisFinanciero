@@ -138,3 +138,8 @@
     font-weight:700;    
   }
 /* reset input */
+
+
+textarea{
+    resize: none;
+}

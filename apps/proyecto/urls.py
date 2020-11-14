@@ -32,4 +32,7 @@ urlpatterns = [
 
     path('analisisFinanciero/consultaAnalisisVertical', consultarAnalisisVertical, name="consultarAnalisisVertical"),
     path('analisisFinanciero/analisisVertical', analisisVertical, name="analisisVertical"),
+
+    path('analisisFinanciero/consultarInformes', consultarInformes, name="consultarInformes"),
+    path('analisisFinanciero/analisisInformes', informeAnalisis, name="informeAnalisis"),
 ]
