@@ -2,12 +2,17 @@ from django.urls import path, include
 from .views import *
 from django.contrib.auth.decorators import login_required
 
+from django.conf import settings
+from django.conf.urls.static import static 
+ 
 app_name = 'analisisFinanciero'
 
 urlpatterns = [
     path('', index),
     path('analisisFinanciero/index/', index, name='index'),
     
+    path('analisisFinanciero/crearBalance', BalanceCrear.as_view(template_name = "proyecto/crearBalance.html"), name='crearBalance'),
+    path('analisisFinanciero/editarBalance/<str:pk>', BalanceActualizar.as_view(template_name = "proyecto/editarBalance.html"), name='editarBalance'),
     path('analisisFinanciero/consultaBalance', consultarBalance, name="consultarBalance"),
     path('analisisFinanciero/subirBalance/', subirBalance, name="subirBalance"),
     path('analisisFinanciero/Balances', filtrarBalance, name="filtrarBalance"),
@@ -35,6 +40,7 @@ urlpatterns = [
 
     path('analisisFinanciero/consultarInformes', consultarInformes, name="consultarInformes"),
     path('analisisFinanciero/analisisInformes', informeAnalisis, name="informeAnalisis"),
+    
     path('analisisFinanciero/insertarRatioSector', insertarRatioSector, name="insertarRatioSector"),
     path('analisisFinanciero/consultarRatioSector', consultarRatioSector, name="consultarRatioSector"),
     #path('analisisFinanciero/consultarRatioSector/<codAct>/<codRat>', consultarRatioSector, name="consultarRatioSector"),
@@ -47,4 +53,11 @@ urlpatterns = [
     path('analisisFinanciero/actualizarEmpresa', actualizarEmpresa, name="actualizarEmpresa"),
     path('analisisFinanciero/guardarModificacionEmpresa', guardarModificacionEmpresa, name="guardarModificacionEmpresa"),
     path('analisisFinanciero/eliminarEmpresa', eliminarEmpresa, name="eliminarEmpresa"),
+
+    path('analisisFinanciero/catalogo', CatalogoListado.as_view(template_name = "proyecto/catalogo.html"), name='catalogo'),
+    path('analisisFinanciero/crearCatalogo', CatalogoCrear.as_view(template_name = "proyecto/crearCatalogo.html"), name='crearCatalogo'),
+    path('analisisFinanciero/editarCatalogo/<str:pk>', CatalogoActualizar.as_view(template_name = "proyecto/editarCatalogo.html"), name='editarCatalogo'),
+    path('analisisFinanciero/eliminarCatalogo/<str:pk>', CatalogoEliminar.as_view(), name='eliminarCatalogo'),
+    path('analisisFinanciero/detalleCatalogo/<str:pk>', CatalogoDetalle.as_view(template_name = "proyecto/detalleCatalogo.html"), name='detalleCatalogo'),
+
 ]

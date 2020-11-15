@@ -1,0 +1,76 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+   <meta name="theme-color" content="#000000" />
+
+    <title>Crear Balance </title>
+
+     {# Cargamos la librería #}
+    {% load bootstrap4 %}
+ 
+    {# CSS Bootstrap #}
+    {% bootstrap_css %} 
+
+	{# Widget Tweaks #}
+    {% load widget_tweaks %}
+
+    {# Archivos #}
+    {% load static %}
+
+   
+
+   <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">-->
+    </head>
+
+  <body>
+    
+
+	<div class="formulario" align="left">
+
+    <h4>Crear Balance </h4>
+
+  	<form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- {{ form.as_p }} -->
+        <div class="form-group">
+        	<label for="codCuenta" class="txt_negrita">C&oacute;digo Cuenta</label>
+        	{{ form.codCuenta|add_class:"form-control" }}
+        </div>
+
+        <div class="form-group">
+        	<label for="codEmpresa_id" class="txt_negrita">C&oacute;digo Empresa</label>
+        	{{ form.codEmpresa|add_class:"form-control" }}
+
+        </div>
+        <div class="form-group">
+        	<label for="año" class="txt_negrita">Año</label>
+        	{{ form.año|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+        	<label for="valor" class="txt_negrita">Valor</label>
+        	{{ form.valor|add_class:"form-control" }}
+        </div>
+        <button type="submit" class="btn btn-default">Aceptar</button>
+        <button type="reset" class="btn btn-default">Cancelar</button></p>
+        
+    </form>
+
+     </div>
+
+{# JS y jQuery Bootstrap #}
+{% bootstrap_javascript jquery='full' %} 
+
+
+</body>
+</html>
+
+{% endblock %}

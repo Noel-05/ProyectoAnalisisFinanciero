@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.proyecto',
     'import_export',
+    'bootstrap4',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -79,8 +81,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'analisis',
-        'USER': 'renderos',
-        'PASSWORD': 'renderos',
+        'USER': 'melendez',
+        'PASSWORD': 'melendez',
         'HOST': 'localhost',
         'PORT': '3306',
     }

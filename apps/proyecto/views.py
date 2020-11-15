@@ -10,9 +10,15 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic.edit import FormView
 from django.contrib.auth import login, logout
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView,TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import *
 from .forms import *
 from django.conf import settings
+from django.urls import reverse
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import DetailView
+from django import forms
 
 import tablib
 from tablib import Dataset
@@ -81,6 +87,24 @@ def filtrarBalance(request):
             'proyecto/ConsultaBalance.html', contexto
         )
 
+class BalanceCrear(SuccessMessageMixin, CreateView):
+    model = CuentaBalance #Llamada a la clase "CatalogoCuenta" en el archivo models.py
+    form = CuentaBalanceForm #Definición del formulario ubicado en forms.py
+    fields = "__all__" #Le decimos a Django que muestre todos los campos de la tabla de nuestra Base de Datos
+    success_message='¡Balance Creado Correctamente!' #Muestra el mensaje si se ha realizado correctamente la operación
+
+    def get_success_url(self):
+        return reverse('analisisFinanciero:crearBalance')
+        
+class BalanceActualizar(SuccessMessageMixin, UpdateView): 
+    model = CuentaBalance 
+    form = CuentaBalanceForm 
+    fields = "__all__" 
+    success_message = '¡Balance Actualizado Correctamente!' 
+ 
+    
+    def get_success_url(self):               
+        return reverse('analisisFinanciero:editarBalance') 
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2335,6 +2359,43 @@ def eliminarEmpresa(request):
     #return render(request, 'proyecto/consultarRatioSector.html', contexto)
     return redirect('analisisFinanciero:consultarEmpresa')
 
+
 #-----------------------------------------------------------------------------------------------------------------
 
 
+
+class CatalogoListado(ListView):
+    model = CatalogoCuenta #Llamada a la clase "CatalogoCuenta" en el archivo models.py
+
+class CatalogoCrear(SuccessMessageMixin, CreateView):
+    model = CatalogoCuenta #Llamada a la clase "CatalogoCuenta" en el archivo models.py
+    form = CatalogoCuentaForm #Definición del formulario ubicado en forms.py
+    fields = "__all__" #Le decimos a Django que muestre todos los campos de la tabla de nuestra Base de Datos
+    success_message='--Catalogo Creado Correctamente--' #Muestra el mensaje si se ha realizado correctamente la operación
+
+    def get_success_url(self):
+        return reverse('analisisFinanciero:catalogo')
+
+class CatalogoDetalle(DetailView):
+    model = CatalogoCuenta 
+
+class CatalogoActualizar(SuccessMessageMixin, UpdateView): 
+    model = CatalogoCuenta 
+    form = CatalogoCuentaForm 
+    fields = "__all__" 
+    success_message = '--Catalogo Actualizado Correctamente--' 
+ 
+    
+    def get_success_url(self):               
+        return reverse('analisisFinanciero:catalogo') 
+
+class CatalogoEliminar(SuccessMessageMixin, DeleteView): 
+    model = CatalogoCuenta
+    form = CatalogoCuentaForm
+    fields = "__all__"     
+ 
+    # Redireccionamos a la página principal luego de eliminar un registro 
+    def get_success_url(self): 
+        success_message = '--Catalogo Eliminado Correctamente--' 
+        messages.success (self.request, (success_message))       
+        return reverse('analisisFinanciero:catalogo') 

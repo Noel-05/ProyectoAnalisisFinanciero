@@ -49,10 +49,10 @@ class Rubro(models.Model):
 
 class CatalogoCuenta(models.Model):
     codCuenta = models.CharField(primary_key=True, max_length=50, null=False)
-    codEmpresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     nombreCuenta = models.CharField(max_length=100, null=False)
-    codTipoCuenta = models.ForeignKey(TipoCuenta, on_delete=models.CASCADE)
+    codEmpresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     codRubro = models.ForeignKey(Rubro, on_delete=models.CASCADE)
+    codTipoCuenta = models.ForeignKey(TipoCuenta, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ("codEmpresa", "codCuenta")
