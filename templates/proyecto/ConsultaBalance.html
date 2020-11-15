@@ -11,9 +11,9 @@
         <!-- Opciones para consultar los balances -->
         <div align="center" class="busqueda">
             <div class="form__group2 field">
-                <input type="submit" name="submit" id="analisisVertical" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='{% url 'analisisFinanciero:consultarAnalisisVertical' %}'">
+                <input type="submit" name="submit" id="analisisVertical" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='{% url 'analisisFinanciero:consultarBalance' %}'">
                 <label for="analisisVertical">
-                <span class="iborrainputfile" onclick="window.location.href='{% url 'analisisFinanciero:consultarAnalisisVertical' %}'">Consultar Otro</span>
+                <span class="iborrainputfile" onclick="window.location.href='{% url 'analisisFinanciero:consultarBalance' %}'">Consultar Otro</span>
             </div>
             </br>
         </div>
@@ -91,11 +91,22 @@
                 <tr>
                     <td>{{ bal.codCuenta }}</td>
                     <td>{{ bal.codCuenta.nombreCuenta }}</td>
-                    <td>$ {{ bal.valor}}</td>
-                    <td>{{ bal.codCuenta.codTipoCuenta.nombreTipoCuenta }}</td>                            
-                    <td>
-                        <input type="submit" name="btnActualizar" value="Actualizar" class="btn btn-secondary"/>
-                    </td>
+                    {% load l10n %}
+                    <td>$ {{ bal.valor|unlocalize }}</td>
+                    <td>{{ bal.codCuenta.codTipoCuenta.nombreTipoCuenta }}</td>  
+
+                    <form method="POST" action="{% url 'analisisFinanciero:actualizarBalance' %}">
+                        {% csrf_token %}
+
+                        <input type="hidden" name="codCuenta" value="{{bal.codCuenta}}"/>
+                        <input type="hidden" name="año" value="{{bal.año}}"/>                                
+                        <input type="hidden" name="codEmpresa" value="{{bal.codEmpresa}}"/>  
+                        <td>                               
+                            <input type="submit" name="btnActualizar" value="Actualizar" class="btn btn-light"/>
+                        </td>
+
+                    </form>
+
                 </tr>
             {% endfor %}
             </tbody>

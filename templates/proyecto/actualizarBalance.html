@@ -1,0 +1,83 @@
+{% extends 'base/base.html' %}
+
+{% block content %} 
+    
+    <div class="page-header-header">
+        <h1 class="text-titles"><strong>Actualizar Balance.</strong></h1>
+    </div>
+
+    </br></br><p class="lead">Ingresa el nuevo valor del balance.</p></br>
+
+        <div align="center" class="busqueda">
+            <form method="POST" action="{% url 'analisisFinanciero:guardarModificacionBalance' %}">
+                {% csrf_token %} 
+
+                <div class="table-responsive" style="width:50%; display:inline-block;">
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th class="text-center">C&oacute;digo Empresa</th>
+                                <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.codEmpresa}}</i></th>
+                                <input type="hidden" name="codEmpresa" value="{{queryset.codEmpresa}}"/>
+                            </tr>
+                        </thead>                        
+                    </table>
+                </div>
+
+                <div class="table-responsive" style="width:50%; display:inline-block;">
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th class="text-center">C&oacute;digo Cuenta</th>
+                                <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.codCuenta}}</i></th>
+                                <input type="hidden" name="codCuenta" value="{{queryset.codCuenta}}"/>
+                            </tr>
+                        </thead>                        
+                    </table>
+                </div>
+
+                <div class="table-responsive" style="width:50%; display:inline-block;">
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Nombre Cuenta</th>
+                                <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.codCuenta.nombreCuenta}}</i></th>
+                            </tr>
+                        </thead>                        
+                    </table>
+                </div>
+
+                <div class="table-responsive" style="width:50%; display:inline-block;">
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th class="text-center">A&ntilde;o</th>
+                                <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.año}}</i></th>
+                                <input type="hidden" name="año" value="{{queryset.año}}"/>
+                            </tr>
+                        </thead>                        
+                    </table>
+                </div>
+
+                </br> </br>
+
+                <div class="form__group2 field">
+                    {% load l10n %}
+                    <input type="text" name="valorBalance" value="{{queryset.valor|unlocalize}}"  id = "valor" class="form__field2" placeholder="Ingresa el nuevo valor." required maxlength="18" ></br>
+                    <label for="valor" class="form__label2">Valor</label>
+                </div>
+
+                </br>
+
+                <div class="form__group2 field">
+                    <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Actualizar">
+                    <label for="consultarBalance">
+                    <span class="iborrainputfile">Actualizar</span>
+                </div>
+
+                </br>
+                
+            </form>
+        </div>
+
+{% endblock %}

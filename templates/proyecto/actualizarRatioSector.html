@@ -36,7 +36,8 @@
                 </br>
         
                 <div class="form__group2 field">
-                    <input type="text" name="valorRatio"  value="{{queryset.parametroComparacion|floatformat:2}}" id = "codEmpresa" class="form__field2" placeholder="Ingresa el nuevo valor" required maxlength="5"></br>
+                    {% load l10n %}
+                    <input type="text" name="valorRatio"  value="{{queryset.parametroComparacion|unlocalize}}" id = "codEmpresa" class="form__field2" placeholder="Ingresa el nuevo valor" required maxlength="5"></br>
                     <label for="codEmpresa" class="form__label2">Valor del Ratio</label>
                 </div> 
 

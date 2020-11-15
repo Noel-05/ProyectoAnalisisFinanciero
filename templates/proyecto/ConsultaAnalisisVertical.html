@@ -80,7 +80,7 @@
             <thead>
                 <tr>
             	    <th class="text-center">Cuenta</th>
-                    <th class="text-center">{{ año }}</th>
+                    {% comment %} <th class="text-center">{{ año }}</th> {% endcomment %}
                     <th class="text-center">Valor</th>
                 </tr>
             </thead>
@@ -88,8 +88,9 @@
                 {% for an in analVert %}
                     <tr>
                         <td>{{ an.codCuenta.nombreCuenta }}</td> 
-                        <td>$ {{ an.valor }}</td> 
-                        <td>{{ an.valor|floatformat:2 }} %</td> 
+                        {% load l10n %}
+                        {% comment %} <td>$ {{ an.valor }}</td>  {% endcomment %}
+                        <td>{{ an.valor|unlocalize }} %</td> 
                     </tr>
                 {% endfor %} 
             </tbody>

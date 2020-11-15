@@ -81,8 +81,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'analisis',
-        'USER': 'melendez',
-        'PASSWORD': 'melendez',
+        'USER': 'renderos',
+        'PASSWORD': 'renderos',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -120,6 +120,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+DECIMAL_SEPARATOR = '.'
 
 
 # Static files (CSS, JavaScript, Images)

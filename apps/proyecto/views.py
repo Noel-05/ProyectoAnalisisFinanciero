@@ -289,6 +289,10 @@ def ratiosActividad(request):
         if(len(comprobarRRI) == 0):
             ratioRazRotInv = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonRotInve , codEmpresa_id=codEmpresa, año=año)
             ratioRazRotInv.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonRotInve
+            obtenerRRI.save()
         
         # -> Ratio Razon de Dias de Inventario
         codRatio="RDI"
@@ -296,6 +300,10 @@ def ratiosActividad(request):
         if(len(comprobarRDI) == 0):
             ratioRazDiasInven = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonDiasInve , codEmpresa_id=codEmpresa, año=año)
             ratioRazDiasInven.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonDiasInve
+            obtenerRRI.save()
 
         # -> Ratio Razon de Rotacion C x C
         codRatio="RRCC"
@@ -303,6 +311,10 @@ def ratiosActividad(request):
         if(len(comprobarRRCC) == 0):
             ratioRazRotCxC = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonRotCxC , codEmpresa_id=codEmpresa, año=año)
             ratioRazRotCxC.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonRotCxC
+            obtenerRRI.save()
         
         # -> Ratio Razon de Periodo Medio de Cobranza
         codRatio="RPMC"
@@ -310,6 +322,10 @@ def ratiosActividad(request):
         if(len(comprobarRPMC) == 0):
             ratioRazPerMedCobr = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonPerMedCobro , codEmpresa_id=codEmpresa, año=año)
             ratioRazPerMedCobr.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonPerMedCobro
+            obtenerRRI.save()
         
         # -> Ratio Razon de Rotacion de Cuentas por Pagar
         codRatio="RRCP"
@@ -317,6 +333,10 @@ def ratiosActividad(request):
         if(len(comprobarRRCP) == 0):
             ratioRazRotCxP = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonRotCxP , codEmpresa_id=codEmpresa, año=año)
             ratioRazRotCxP.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonRotCxP
+            obtenerRRI.save()
 
         # -> Ratio Razon de Periodo Medio de Pago
         codRatio="RPMP"
@@ -324,6 +344,10 @@ def ratiosActividad(request):
         if(len(comprobarRPMP) == 0):
             ratioRazPerMedPago = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonPerMedPago , codEmpresa_id=codEmpresa, año=año)
             ratioRazPerMedPago.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonPerMedPago
+            obtenerRRI.save()
 
         # -> Ratio Razon de Indice de Rotacion de Activos Totales
         codRatio="IRAT"
@@ -331,6 +355,10 @@ def ratiosActividad(request):
         if(len(comprobarIRAT) == 0):
             ratioIndiceRotActTot = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=indiceRotActTot , codEmpresa_id=codEmpresa, año=año)
             ratioIndiceRotActTot.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = indiceRotActTot
+            obtenerRRI.save()
         
         # -> Ratio Razon de Indice de Rotacion de Activos Fijos
         codRatio="IRAF"
@@ -338,6 +366,10 @@ def ratiosActividad(request):
         if(len(comprobarIRAF) == 0):
             ratioIndiceRotActFij = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=indiceRotActFij , codEmpresa_id=codEmpresa, año=año)
             ratioIndiceRotActFij.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = indiceRotActFij
+            obtenerRRI.save()
 
         # -> Ratio Razon de Indice de Margen Bruto
         codRatio="IMB"
@@ -345,6 +377,10 @@ def ratiosActividad(request):
         if(len(comprobarIMB) == 0):
             ratioIndiceMargenBruto = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=indiceMargenBruto , codEmpresa_id=codEmpresa, año=año)
             ratioIndiceMargenBruto.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = indiceMargenBruto
+            obtenerRRI.save()
         
         # -> Ratio Razon de Indice de Margen Operativo
         codRatio="IMO"
@@ -352,6 +388,10 @@ def ratiosActividad(request):
         if(len(comprobarIMO) == 0):
             ratioIndiceMargenOper = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=indiceMargenOperativo , codEmpresa_id=codEmpresa, año=año)
             ratioIndiceMargenOper.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = indiceMargenOperativo
+            obtenerRRI.save()
 
 
     #FIN PROCEDIMIENTO DE CALCULO DE RATIOS.
@@ -471,6 +511,10 @@ def ratiosLiquidez(request):
         if(len(comprobarRC) == 0):
             ratioRazCirc = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonCirculante, codEmpresa_id=codEmpresa, año=año)
             ratioRazCirc.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonCirculante
+            obtenerRRI.save()
 
         # -> Ratio Razon Rápida
         codRatio="RR"
@@ -478,6 +522,10 @@ def ratiosLiquidez(request):
         if(len(comprobarRR) == 0):
             ratioRazRapida = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonRapida, codEmpresa_id=codEmpresa, año=año)
             ratioRazRapida.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonRapida
+            obtenerRRI.save()
         
         # -> Ratio Razon de Capital de Trabajo
         codRatio="RCT"
@@ -485,6 +533,10 @@ def ratiosLiquidez(request):
         if(len(comprobarRCT) == 0):
             ratioRazCaptTrab = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonCapitalTrabajo, codEmpresa_id=codEmpresa, año=año)
             ratioRazCaptTrab.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonCapitalTrabajo
+            obtenerRRI.save()
 
         # -> Ratio Razon de Efectivo
         codRatio="RE"
@@ -492,6 +544,10 @@ def ratiosLiquidez(request):
         if(len(comprobarRE) == 0):
             ratioRazEfectivo = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonEfectivo, codEmpresa_id=codEmpresa, año=año)
             ratioRazEfectivo.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonEfectivo
+            obtenerRRI.save()
 
 
     #FIN PROCEDIMIENTO DE CALCULO DE RATIOS.
@@ -616,6 +672,10 @@ def ratiosApalancamiento(request):
         if(len(comprobarGE) == 0):
             ratioGradoEndeuda = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=gradoEndeudamiento, codEmpresa_id=codEmpresa, año=año)
             ratioGradoEndeuda.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = gradoEndeudamiento
+            obtenerRRI.save()
 
         # -> Ratio Grado de Propiedad
         codRatio="GP"
@@ -623,6 +683,10 @@ def ratiosApalancamiento(request):
         if(len(comprobarGP) == 0):
             ratioGradoProp = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=gradoPropiedad, codEmpresa_id=codEmpresa, año=año)
             ratioGradoProp.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = gradoPropiedad
+            obtenerRRI.save()
         
         # -> Ratio Razon de Cobertura de Gastos Financieros
         codRatio="RCGF"
@@ -630,6 +694,10 @@ def ratiosApalancamiento(request):
         if(len(comprobarRCGF) == 0):
             ratioRazCobertGastFin = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonCoberturaGastFinanc, codEmpresa_id=codEmpresa, año=año)
             ratioRazCobertGastFin.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonCoberturaGastFinanc
+            obtenerRRI.save()
 
         # -> Ratio Razon de Endeudamiento Patrimonial
         codRatio="REP"
@@ -637,6 +705,10 @@ def ratiosApalancamiento(request):
         if(len(comprobarREP) == 0):
             ratioRazEndeudaPatr = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonEndeudaPatrimonial, codEmpresa_id=codEmpresa, año=año)
             ratioRazEndeudaPatr.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonEndeudaPatrimonial
+            obtenerRRI.save()
 
 
     #FIN PROCEDIMIENTO DE CALCULO DE RATIOS.
@@ -829,6 +901,10 @@ def ratiosRentabilidad(request):
         if(len(comprobarRNP) == 0):
             ratioRentNetaPatr = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonRentNetaPatr , codEmpresa_id=codEmpresa, año=año)
             ratioRentNetaPatr.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonRentNetaPatr
+            obtenerRRI.save()
         
         # -> Ratio Rentabilidad del Activo
         codRatio="RDAC"
@@ -836,6 +912,10 @@ def ratiosRentabilidad(request):
         if(len(comprobarRDAC) == 0):
             ratioRentActivo = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonRentActivo , codEmpresa_id=codEmpresa, año=año)
             ratioRentActivo.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonRentActivo
+            obtenerRRI.save()
 
         # -> Ratio Razon de Rentabilidad Sobre las Ventas
         codRatio="RSV"
@@ -843,6 +923,10 @@ def ratiosRentabilidad(request):
         if(len(comprobarRSV) == 0):
             ratioRentSobreVent= RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonRentVentas , codEmpresa_id=codEmpresa, año=año)
             ratioRentSobreVent.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonRentVentas
+            obtenerRRI.save()
         
         # -> Ratio Razon de Rentabilidad Sobre la Inversión
         codRatio="RSI"
@@ -850,6 +934,10 @@ def ratiosRentabilidad(request):
         if(len(comprobarRSI) == 0):
             ratioRentSobreInv = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=razonRentInv , codEmpresa_id=codEmpresa, año=año)
             ratioRentSobreInv.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = razonRentInv
+            obtenerRRI.save()
 
 
     #FIN PROCEDIMIENTO DE CALCULO DE RATIOS.
@@ -1038,6 +1126,10 @@ def analisisDupont(request):
         if(len(comprobarMN) == 0):
             ratioMargenNeto = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=margenNeto, codEmpresa_id=codEmpresa, año=año)
             ratioMargenNeto.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = margenNeto
+            obtenerRRI.save()
 
         # -> Ratio Rotacion de Activos
         codRatio="RDA"
@@ -1045,6 +1137,10 @@ def analisisDupont(request):
         if(len(comprobarRDA) == 0):
             ratioRotacAct = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=rotacionActivos, codEmpresa_id=codEmpresa, año=año)
             ratioRotacAct.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = rotacionActivos
+            obtenerRRI.save()
         
         # -> Ratio Multiplicador de Capital
         codRatio="MDC"
@@ -1052,6 +1148,10 @@ def analisisDupont(request):
         if(len(comprobarMDC) == 0):
             ratioMultCap = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=multiplicadorCapital, codEmpresa_id=codEmpresa, año=año)
             ratioMultCap.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = multiplicadorCapital
+            obtenerRRI.save()
 
         # -> ROE
         codRatio="ROE"
@@ -1059,6 +1159,10 @@ def analisisDupont(request):
         if(len(comprobarROE) == 0):
             ratioROE = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=roe, codEmpresa_id=codEmpresa, año=año)
             ratioROE.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = roe
+            obtenerRRI.save()
 
         # -> ROA
         codRatio="ROA"
@@ -1066,6 +1170,10 @@ def analisisDupont(request):
         if(len(comprobarROA) == 0):
             ratioROA = RatiosEmpresa(codRatio_id=codRatio, valorRatioEmpresa=roa, codEmpresa_id=codEmpresa, año=año)
             ratioROA.save()
+        else:
+            obtenerRRI = RatiosEmpresa.objects.get(codRatio_id=codRatio, codEmpresa_id=codEmpresa, año=año)
+            obtenerRRI.valorRatioEmpresa = roa
+            obtenerRRI.save()
 
 
     #FIN PROCEDIMIENTO DE CALCULO DE RATIOS.
@@ -1163,6 +1271,14 @@ def analisisHorizontal(request):
             if(len(comprobar) == 0):
                 analisisHorizontal = AnalisisHorizontal(codEmpresa_id=codEmpresa, codCuenta_id=codCuenta, añoActual=añoActual, valorActual=valor1, añoAnterior=año2, valorAnterior=valor2, valorAbsoluto=valorAbsoluto, valorRelativo=valorRelativo)
                 analisisHorizontal.save()
+            else:
+                obtenerRRI = AnalisisHorizontal.objects.get(codEmpresa_id=codEmpresa, codCuenta_id=codCuenta, añoActual=año)
+                obtenerRRI.valorActual = valor1
+                obtenerRRI.añoAnterior = año2
+                obtenerRRI.valorAnterior = valor2
+                obtenerRRI.valorAbsoluto = valorAbsoluto
+                obtenerRRI.valorRelativo = valorRelativo
+                obtenerRRI.save()
             
             i+=1
        
@@ -1273,6 +1389,10 @@ def analisisVertical(request):
                 if(len(comprobar) == 0):
                     analisisVertical = AnalisisVertical(codEmpresa_id=codEmpresa, codCuenta_id=cuenta, año=año, valor=resultado, codRubro_id=rubro)
                     analisisVertical.save()
+                else:
+                    obtenerRRI = AnalisisVertical.objects.get(codEmpresa_id=codEmpresa, codCuenta_id=cuenta, año=año)
+                    obtenerRRI.valor = resultado
+                    obtenerRRI.save()
 
             elif(rubro == "PAS"):
                 valor = queryset[i].valor
@@ -1283,6 +1403,10 @@ def analisisVertical(request):
                 if(len(comprobar) == 0):
                     analisisVertical = AnalisisVertical(codEmpresa_id=codEmpresa, codCuenta_id=cuenta, año=año, valor=resultado, codRubro_id=rubro)
                     analisisVertical.save()
+                else:
+                    obtenerRRI = AnalisisVertical.objects.get(codEmpresa_id=codEmpresa, codCuenta_id=cuenta, año=año)
+                    obtenerRRI.valor = resultado
+                    obtenerRRI.save()
 
             elif(rubro == "UTL"):
                 valor = queryset[i].valor
@@ -1293,6 +1417,10 @@ def analisisVertical(request):
                 if(len(comprobar) == 0):
                     analisisVertical = AnalisisVertical(codEmpresa_id=codEmpresa, codCuenta_id=cuenta, año=año, valor=resultado, codRubro_id=rubro)
                     analisisVertical.save()
+                else:
+                    obtenerRRI = AnalisisVertical.objects.get(codEmpresa_id=codEmpresa, codCuenta_id=cuenta, año=año)
+                    obtenerRRI.valor = resultado
+                    obtenerRRI.save()
             
             i+=1
 
@@ -1988,114 +2116,269 @@ def informeAnalisis(request):
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRC = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRC, promEmpresas=promedioRC, empresasCumplenEmpresa=cumplenRC, empresasCumplenSector=cumplenSectorRC)
                         ratiosEmpresaSectorRC.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRC
+                        obtener.promEmpresas=promedioRC
+                        obtener.empresasCumplenEmpresa=cumplenRC
+                        obtener.empresasCumplenSector=cumplenSectorRC
+                        obtener.save()
+
                 elif(tipoRatio == "RCT"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRCT = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRCT, promEmpresas=promedioRCT, empresasCumplenEmpresa=cumplenRCT, empresasCumplenSector=cumplenSectorRCT)
                         ratiosEmpresaSectorRCT.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRCT
+                        obtener.promEmpresas=promedioRCT
+                        obtener.empresasCumplenEmpresa=cumplenRCT
+                        obtener.empresasCumplenSector=cumplenSectorRCT
+                        obtener.save()
                 elif(tipoRatio == "RR"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRR = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRR, promEmpresas=promedioRR, empresasCumplenEmpresa=cumplenRR, empresasCumplenSector=cumplenSectorRR)
                         ratiosEmpresaSectorRR.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRR
+                        obtener.promEmpresas=promedioRR
+                        obtener.empresasCumplenEmpresa=cumplenRR
+                        obtener.empresasCumplenSector=cumplenSectorRR
+                        obtener.save()
                 elif(tipoRatio == "RE"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRE = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRE, promEmpresas=promedioRE, empresasCumplenEmpresa=cumplenRE, empresasCumplenSector=cumplenSectorRE)
                         ratiosEmpresaSectorRE.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRE
+                        obtener.promEmpresas=promedioRE
+                        obtener.empresasCumplenEmpresa=cumplenRE
+                        obtener.empresasCumplenSector=cumplenSectorRE
+                        obtener.save()
                 elif(tipoRatio == "RDAC"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRDAC = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRDAC, promEmpresas=promedioRDAC, empresasCumplenEmpresa=cumplenRDAC, empresasCumplenSector=cumplenSectorRDAC)
                         ratiosEmpresaSectorRDAC.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRDAC
+                        obtener.promEmpresas=promedioRDAC
+                        obtener.empresasCumplenEmpresa=cumplenRDAC
+                        obtener.empresasCumplenSector=cumplenSectorRDAC
+                        obtener.save()
                 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 elif(tipoRatio == "IMB"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorIMB = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorIMB, promEmpresas=promedioIMB, empresasCumplenEmpresa=cumplenIMB, empresasCumplenSector=cumplenSectorIMB)
                         ratiosEmpresaSectorIMB.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorIMB
+                        obtener.promEmpresas=promedioIMB
+                        obtener.empresasCumplenEmpresa=cumplenIMB
+                        obtener.empresasCumplenSector=cumplenSectorIMB
+                        obtener.save()
                 elif(tipoRatio == "IMO"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorIMO = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorIMO, promEmpresas=promedioIMO, empresasCumplenEmpresa=cumplenIMO, empresasCumplenSector=cumplenSectorIMO)
                         ratiosEmpresaSectorIMO.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorIMO
+                        obtener.promEmpresas=promedioIMO
+                        obtener.empresasCumplenEmpresa=cumplenIMO
+                        obtener.empresasCumplenSector=cumplenSectorIMO
+                        obtener.save()
                 elif(tipoRatio == "IRAF"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorIRAF = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorIRAF, promEmpresas=promedioIRAF, empresasCumplenEmpresa=cumplenIRAF, empresasCumplenSector=cumplenSectorIRAF)
                         ratiosEmpresaSectorIRAF.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorIRAF
+                        obtener.promEmpresas=promedioIRAF
+                        obtener.empresasCumplenEmpresa=cumplenIRAF
+                        obtener.empresasCumplenSector=cumplenSectorIRAF
+                        obtener.save()
                 elif(tipoRatio == "IRAT"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorIRAT = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorIRAT, promEmpresas=promedioIRAT, empresasCumplenEmpresa=cumplenIRAT, empresasCumplenSector=cumplenSectorIRAT)
                         ratiosEmpresaSectorIRAT.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorIRAT
+                        obtener.promEmpresas=promedioIRAT
+                        obtener.empresasCumplenEmpresa=cumplenIRAT
+                        obtener.empresasCumplenSector=cumplenSectorIRAT
+                        obtener.save()
                 elif(tipoRatio == "RDI"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRDI = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRDI, promEmpresas=promedioRDI, empresasCumplenEmpresa=cumplenRDI, empresasCumplenSector=cumplenSectorRDI)
                         ratiosEmpresaSectorRDI.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRDI
+                        obtener.promEmpresas=promedioRDI
+                        obtener.empresasCumplenEmpresa=cumplenRDI
+                        obtener.empresasCumplenSector=cumplenSectorRDI
+                        obtener.save()
                 elif(tipoRatio == "RPMC"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRPMC = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRPMC, promEmpresas=promedioRPMC, empresasCumplenEmpresa=cumplenRPMC, empresasCumplenSector=cumplenSectorRPMC)
                         ratiosEmpresaSectorRPMC.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRPMC
+                        obtener.promEmpresas=promedioRPMC
+                        obtener.empresasCumplenEmpresa=cumplenRPMC
+                        obtener.empresasCumplenSector=cumplenSectorRPMC
+                        obtener.save()
                 elif(tipoRatio == "RRCC"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRRCC = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRRCC, promEmpresas=promedioRRCC, empresasCumplenEmpresa=cumplenRRCC, empresasCumplenSector=cumplenSectorRRCC)
                         ratiosEmpresaSectorRRCC.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRRCC
+                        obtener.promEmpresas=promedioRRCC
+                        obtener.empresasCumplenEmpresa=cumplenRRCC
+                        obtener.empresasCumplenSector=cumplenSectorRRCC
+                        obtener.save()
                 elif(tipoRatio == "RRCP"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRRCP = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRRCP, promEmpresas=promedioRRCP, empresasCumplenEmpresa=cumplenRRCP, empresasCumplenSector=cumplenSectorRRCP)
                         ratiosEmpresaSectorRRCP.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRRCP
+                        obtener.promEmpresas=promedioRRCP
+                        obtener.empresasCumplenEmpresa=cumplenRRCP
+                        obtener.empresasCumplenSector=cumplenSectorRRCP
+                        obtener.save()
                 elif(tipoRatio == "RRI"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRRI = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRRI, promEmpresas=promedioRRI, empresasCumplenEmpresa=cumplenRRI, empresasCumplenSector=cumplenSectorRRI)
                         ratiosEmpresaSectorRRI.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRRI
+                        obtener.promEmpresas=promedioRRI
+                        obtener.empresasCumplenEmpresa=cumplenRRI
+                        obtener.empresasCumplenSector=cumplenSectorRRI
+                        obtener.save()
                 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 elif(tipoRatio == "GE"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorGE = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorGE, promEmpresas=promedioGE, empresasCumplenEmpresa=cumplenGE, empresasCumplenSector=cumplenSectorGE)
                         ratiosEmpresaSectorGE.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorGE
+                        obtener.promEmpresas=promedioGE
+                        obtener.empresasCumplenEmpresa=cumplenGE
+                        obtener.empresasCumplenSector=cumplenSectorGE
+                        obtener.save()
                 elif(tipoRatio == "GP"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorGP = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorGP, promEmpresas=promedioGP, empresasCumplenEmpresa=cumplenGP, empresasCumplenSector=cumplenSectorGP)
                         ratiosEmpresaSectorGP.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorGP
+                        obtener.promEmpresas=promedioGP
+                        obtener.empresasCumplenEmpresa=cumplenGP
+                        obtener.empresasCumplenSector=cumplenSectorGP
+                        obtener.save()
                 elif(tipoRatio == "RCGF"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRCGF = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRCGF, promEmpresas=promedioRCGF, empresasCumplenEmpresa=cumplenRCGF, empresasCumplenSector=cumplenSectorRCGF)
                         ratiosEmpresaSectorRCGF.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRCGF
+                        obtener.promEmpresas=promedioRCGF
+                        obtener.empresasCumplenEmpresa=cumplenRCGF
+                        obtener.empresasCumplenSector=cumplenSectorRCGF
+                        obtener.save()
                 elif(tipoRatio == "REP"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorREP = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorREP, promEmpresas=promedioREP, empresasCumplenEmpresa=cumplenREP, empresasCumplenSector=cumplenSectorREP)
                         ratiosEmpresaSectorREP.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorREP
+                        obtener.promEmpresas=promedioREP
+                        obtener.empresasCumplenEmpresa=cumplenREP
+                        obtener.empresasCumplenSector=cumplenSectorREP
+                        obtener.save()
                 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 elif(tipoRatio == "RDAC"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRDAC = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRDAC, promEmpresas=promedioRDAC, empresasCumplenEmpresa=cumplenRDAC, empresasCumplenSector=cumplenSectorRDAC)
                         ratiosEmpresaSectorRDAC.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRDAC
+                        obtener.promEmpresas=promedioRDAC
+                        obtener.empresasCumplenEmpresa=cumplenRDAC
+                        obtener.empresasCumplenSector=cumplenSectorRDAC
+                        obtener.save()
                 elif(tipoRatio == "RNP"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRNP = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRNP, promEmpresas=promedioRNP, empresasCumplenEmpresa=cumplenRNP, empresasCumplenSector=cumplenSectorRNP)
                         ratiosEmpresaSectorRNP.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRNP
+                        obtener.promEmpresas=promedioRNP
+                        obtener.empresasCumplenEmpresa=cumplenRNP
+                        obtener.empresasCumplenSector=cumplenSectorRNP
+                        obtener.save()
                 elif(tipoRatio == "RSI"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRSI = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRSI, promEmpresas=promedioRSI, empresasCumplenEmpresa=cumplenRSI, empresasCumplenSector=cumplenSectorRSI)
                         ratiosEmpresaSectorRSI.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRSI
+                        obtener.promEmpresas=promedioRSI
+                        obtener.empresasCumplenEmpresa=cumplenRSI
+                        obtener.empresasCumplenSector=cumplenSectorRSI
+                        obtener.save()
                 elif(tipoRatio == "RSV"):
                     comprobar = RatiosEmpresaSector.objects.filter(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
                     if(len(comprobar) == 0):
                         ratiosEmpresaSectorRSV = RatiosEmpresaSector(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio, valorSector=valSectorRSV, promEmpresas=promedioRSV, empresasCumplenEmpresa=cumplenRSV, empresasCumplenSector=cumplenSectorRSV)
                         ratiosEmpresaSectorRSV.save()
+                    else:
+                        obtener = RatiosEmpresaSector.objects.get(codActividadEconomica_id=sectorEmpresa, año=año, codRatio_id=tipoRatio)
+                        obtener.valorSector=valSectorRSV
+                        obtener.promEmpresas=promedioRSV
+                        obtener.empresasCumplenEmpresa=cumplenRSV
+                        obtener.empresasCumplenSector=cumplenSectorRSV
+                        obtener.save()
             k+=1
 
 
@@ -2113,7 +2396,11 @@ def informeAnalisis(request):
             'proyecto/InformeAnalisis.html',
             contexto
         )
+
+
 #---------------------------CRUD DE LA TABLA proyecto_ratiossector----------------------------------------------------------------------------
+
+
 def insertarRatioSector(request):
     existe=""
     if request.method == 'POST':
@@ -2155,7 +2442,6 @@ def insertarRatioSector(request):
 
 
 def consultarRatioSector(request):
-
     actividad = ActividadEconomica.objects.all
     ratio = Ratio.objects.all
     queryset = RatiosSector.objects.all
@@ -2181,14 +2467,11 @@ def consultarRatioSector(request):
                     'queryset':queryset,
                 }       
             
-    
     return render(request, 'proyecto/consultarRatioSector.html', contexto)
 
 
 
 def actualizarRatioSector(request):   
-
-
     ca = request.POST['codAct']
     cr = request.POST['codRat']
          
@@ -2203,7 +2486,6 @@ def actualizarRatioSector(request):
 
 
 def guardarModificacionRatioSector(request):
-
     ca = request.POST['codAct']
     cr = request.POST['codRat']
     valor = request.POST['valorRatio']
@@ -2221,7 +2503,6 @@ def guardarModificacionRatioSector(request):
 
 
 def eliminarRatioSector(request):
-
     ca = request.POST['codAct']
     cr = request.POST['codRat']
 
@@ -2236,10 +2517,13 @@ def eliminarRatioSector(request):
     #return render(request, 'proyecto/consultarRatioSector.html', contexto)
     return redirect('analisisFinanciero:consultarRatioSector')
 
+
 #-----------------------------------------------------------------------------------------------------------------
 
 
 #---------------------------CRUD DE LA TABLA proyecto_empresa----------------------------------------------------------------------------
+
+
 def insertarEmpresa(request):
     existe=""
     if request.method == 'POST':
@@ -2281,7 +2565,6 @@ def insertarEmpresa(request):
 
 
 def consultarEmpresa(request):
-
     emp = Empresa.objects.all
     queryset =Empresa.objects.all
 
@@ -2302,15 +2585,12 @@ def consultarEmpresa(request):
                     'empresas':emp,                 
                     'queryset':queryset,
                 }       
-            
     
     return render(request, 'proyecto/consultarEmpresa.html', contexto)
 
 
 
 def actualizarEmpresa(request):   
-
-
     codEm = request.GET['codE']
 
     contexto = {}
@@ -2326,7 +2606,6 @@ def actualizarEmpresa(request):
 
 
 def guardarModificacionEmpresa(request):
-
     codEm = request.POST['codE']
     nomEm = request.POST['nomE']
     descripcion = request.POST['descE']
@@ -2345,7 +2624,6 @@ def guardarModificacionEmpresa(request):
 
 
 def eliminarEmpresa(request):
-    
     codEm = request.POST['codE']
 
     if codEm:        
@@ -2367,6 +2645,8 @@ def eliminarEmpresa(request):
 class CatalogoListado(ListView):
     model = CatalogoCuenta #Llamada a la clase "CatalogoCuenta" en el archivo models.py
 
+
+
 class CatalogoCrear(SuccessMessageMixin, CreateView):
     model = CatalogoCuenta #Llamada a la clase "CatalogoCuenta" en el archivo models.py
     form = CatalogoCuentaForm #Definición del formulario ubicado en forms.py
@@ -2376,18 +2656,23 @@ class CatalogoCrear(SuccessMessageMixin, CreateView):
     def get_success_url(self):
         return reverse('analisisFinanciero:catalogo')
 
+
+
 class CatalogoDetalle(DetailView):
     model = CatalogoCuenta 
+
+
 
 class CatalogoActualizar(SuccessMessageMixin, UpdateView): 
     model = CatalogoCuenta 
     form = CatalogoCuentaForm 
     fields = "__all__" 
-    success_message = '--Catalogo Actualizado Correctamente--' 
- 
+    success_message = '--Catalogo Actualizado Correctamente--'  
     
     def get_success_url(self):               
         return reverse('analisisFinanciero:catalogo') 
+
+
 
 class CatalogoEliminar(SuccessMessageMixin, DeleteView): 
     model = CatalogoCuenta
@@ -2399,3 +2684,37 @@ class CatalogoEliminar(SuccessMessageMixin, DeleteView):
         success_message = '--Catalogo Eliminado Correctamente--' 
         messages.success (self.request, (success_message))       
         return reverse('analisisFinanciero:catalogo') 
+
+
+#----------------------------------------------------------------------------------------------------
+
+
+def actualizarBalance(request):   
+    codEmpresa = request.POST['codEmpresa']
+    codCuenta = request.POST['codCuenta']
+    año = request.POST['año']
+         
+    if codEmpresa and codCuenta and año:            
+        regFilter = CuentaBalance.objects.get(codEmpresa=codEmpresa, año=año, codCuenta=codCuenta)
+        contexto = {                
+            'queryset':regFilter,
+        } 
+
+    return render(request, 'proyecto/actualizarBalance.html', contexto)
+
+
+
+def guardarModificacionBalance(request):
+    codEmpresa = request.POST['codEmpresa']
+    codCuenta = request.POST['codCuenta']
+    año = request.POST['año']
+    valor = request.POST['valorBalance']
+
+    regFilter = CuentaBalance.objects.filter(codEmpresa=codEmpresa, año=año, codCuenta=codCuenta)
+
+    if regFilter:
+        queryset = CuentaBalance.objects.get(codEmpresa=codEmpresa, año=año, codCuenta=codCuenta)
+        queryset.valor = valor
+        queryset.save()
+             
+    return redirect('analisisFinanciero:consultarBalance')

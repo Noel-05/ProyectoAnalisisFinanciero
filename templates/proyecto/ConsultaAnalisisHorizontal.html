@@ -90,10 +90,11 @@
                 {% for an in analHoriz %}
                     <tr>
                         <td>{{ an.codCuenta.nombreCuenta }}</td> 
-                        <td>$ {{ an.valorActual }}</td> 
-                        <td>$ {{ an.valorAnterior }}</td> 
-                        <td>$ {{ an.valorAbsoluto|floatformat:2 }}</td> 
-                        <td>{{ an.valorRelativo|floatformat:2 }} %</td> 
+                        {% load l10n %}
+                        <td>$ {{ an.valorActual|unlocalize }}</td> 
+                        <td>$ {{ an.valorAnterior|unlocalize }}</td> 
+                        <td>$ {{ an.valorAbsoluto|unlocalize }}</td> 
+                        <td>{{ an.valorRelativo|unlocalize }} %</td> 
                     </tr>
                 {% endfor %} 
             </tbody>

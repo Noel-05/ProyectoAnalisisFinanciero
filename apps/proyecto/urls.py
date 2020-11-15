@@ -11,11 +11,12 @@ urlpatterns = [
     path('', index),
     path('analisisFinanciero/index/', index, name='index'),
     
-    path('analisisFinanciero/crearBalance', BalanceCrear.as_view(template_name = "proyecto/crearBalance.html"), name='crearBalance'),
-    path('analisisFinanciero/editarBalance/<str:pk>', BalanceActualizar.as_view(template_name = "proyecto/editarBalance.html"), name='editarBalance'),
     path('analisisFinanciero/consultaBalance', consultarBalance, name="consultarBalance"),
     path('analisisFinanciero/subirBalance/', subirBalance, name="subirBalance"),
     path('analisisFinanciero/Balances', filtrarBalance, name="filtrarBalance"),
+    path('analisisFinanciero/crearBalance', BalanceCrear.as_view(template_name = "proyecto/crearBalance.html"), name='crearBalance'),
+    path('analisisFinanciero/actualizarBalance', actualizarBalance, name="actualizarBalance"),
+    path('analisisFinanciero/guardarModificacionBalance', guardarModificacionBalance, name="guardarModificacionBalance"),
 
     path('analisisFinanciero/consultaRazonActividad', consultarRazonActividad, name="consultarRazonActividad"),
     path('analisisFinanciero/ratiosActividad', ratiosActividad, name="ratiosActividad"),
@@ -40,7 +41,7 @@ urlpatterns = [
 
     path('analisisFinanciero/consultarInformes', consultarInformes, name="consultarInformes"),
     path('analisisFinanciero/analisisInformes', informeAnalisis, name="informeAnalisis"),
-    
+
     path('analisisFinanciero/insertarRatioSector', insertarRatioSector, name="insertarRatioSector"),
     path('analisisFinanciero/consultarRatioSector', consultarRatioSector, name="consultarRatioSector"),
     #path('analisisFinanciero/consultarRatioSector/<codAct>/<codRat>', consultarRatioSector, name="consultarRatioSector"),

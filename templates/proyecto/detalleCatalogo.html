@@ -39,16 +39,27 @@
 
     <div class="formulario" align="left">
 
-    <h4>Detalles</h4>
-    <p><span class="txt_negrita">C&oacute;digo Cuenta:</span> <br> {{object.codCuenta}}</p>
-    <p><span class="txt_negrita">Nombre Cuenta:</span> <br> {{object.nombreCuenta}}</p>
-    <p><span class="txt_negrita">C&oacute;digo Empresa:</span> <br> {{object.codEmpresa_id}}</p>
-    <p><span class="txt_negrita">C&oacute;digo Rubro:</span> <br> {{object.codRubro_id}}</p>
-    <p><span class="txt_negrita">C&oacute;digo Tipo de Cuenta:</span> <br> {{object.codTipoCuenta_id}}</p>
-    <p><span class="txt_negrita">Creado:</span> <br> {{object.created_at}}</p>
-    <p><span class="txt_negrita">Actualizado:</span> <br> {{object.updated_at}}</p>
+    <h2><strong>Detalles de la Cuenta.</strong></h2></br>
+    <p><span class="txt_negrita"><strong>C&oacute;digo Cuenta:</strong></span> <br> {{object.codCuenta}}</p>
+    <p><span class="txt_negrita"><strong>Nombre Cuenta:</strong></span> <br> {{object.nombreCuenta}}</p>
+    <p><span class="txt_negrita"><strong>C&oacute;digo Empresa:</strong></span> <br> {{object.codEmpresa_id}}</p>
+    <p><span class="txt_negrita"><strong>Nombre Empresa:</strong></span> <br> {{object.codEmpresa.nombreEmpresa}}</p>
+    <p><span class="txt_negrita"><strong>Rubro:</strong></span> <br> {{object.codRubro.nombreRubro}}</p>
+    <p><span class="txt_negrita"><strong>Tipo de Cuenta:</strong></span> <br> {{object.codTipoCuenta.nombreTipoCuenta}}</p>
+    <p><span class="txt_negrita"><strong>Creado:</strong></span> <br> {{object.created_at}}</p>
+    <p><span class="txt_negrita"><strong>Actualizado:</strong></span> <br> {{object.updated_at}}</p>
 
-    <input type="button" class="btn btn-default" onclick="history.back()" name="volver atrás" value="Volver">
+    <div align="center" class="busqueda">
+      <div class="form__group2 field">
+          <input type="submit" id="consultarBalance" class="inputfile inputfile-3"  onclick="history.back()" name="volver atrás" value="Volver">
+          <label for="consultarBalance">
+          <span class="iborrainputfile">Volver</span>
+      </div>
+    </div>
+
+
+
+    
 
     </div>
 

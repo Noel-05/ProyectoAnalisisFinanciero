@@ -18,6 +18,7 @@ class CatalogoCuentaForm(forms.ModelForm):
 		'codRubro':'Codigo del Rubro',
 		'codTipoCuenta': 'Codigo del Tipo de Cuenta',
 		}
+		
 class CuentaBalanceForm(forms.ModelForm):
 	class Meta:
 		model=CuentaBalance

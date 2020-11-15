@@ -89,7 +89,8 @@
                 <tr>
                     {% comment %} <td>{{ con.codRatio.codRazon.nombreRazon }}</td> {% endcomment %}
                     <td>{{ con.codRatio.nombreRatio }}</td>
-                    <td>{{ con.valorRatioEmpresa|floatformat:2 }}</td>
+                    {% load l10n %}
+                    <td>{{ con.valorRatioEmpresa|unlocalize }}</td>
                     {% comment %} <td><a data-toggle="modal" data-target="#RazonCirculante" ><i>An&aacute;lisis</i></a></td> {% endcomment %}
                 </tr>
             {% endfor %}

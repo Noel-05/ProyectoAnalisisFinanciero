@@ -63,26 +63,26 @@
                             <tr>
 
                                 <form method="POST" action="{% url 'analisisFinanciero:eliminarEmpresa' %}">
-                                    
                                     {% csrf_token %}
-
                                     <td>{{ q.codActividadEconomica }}</td>
                                     <td><input type="hidden" name="codE" value="{{q.codEmpresa}}"/>{{ q.nombreEmpresa }}</td>
                                     <td>{{ q.descripcionEmpresa }}</td>
-                                    <td>                                 
-                                        <input type="submit" name="btnEliminar" value="Eliminar" class="btn btn-secondary"/>
-                                    </td>
-
                                 </form>
 
                                 <form method="GET" action="{% url 'analisisFinanciero:actualizarEmpresa' %}">
-                                    
                                     {% csrf_token %}
                                     <input type="hidden" name="codE" value="{{q.codEmpresa}}"/>                                
                                     <td>                               
                                         <input type="submit" name="btnActualizar" value="Actualizar" class="btn btn-light"/>
                                     </td>
+                                </form>
 
+                                <form method="POST" action="{% url 'analisisFinanciero:eliminarEmpresa' %}">
+                                    <input type="hidden" name="codE" value="{{q.codEmpresa}}"/>
+                                    {% csrf_token %}
+                                    <td>                                 
+                                        <input type="submit" name="btnEliminar" value="Eliminar" class="btn btn-danger" style="color:white;"/>
+                                    </td>
                                 </form>
                                 
                             </tr>                 

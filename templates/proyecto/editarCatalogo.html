@@ -47,9 +47,9 @@
   {% csrf_token %}
   
   <!-- {{ form.as_p }} -->
-  <div class="form-group">
+        <div class="form-group" style="display:none;">
           <label for="codCuenta" class="txt_negrita">C&oacute;digo Cuenta</label>
-          {{ form.codCuenta|add_class:"form-control" }}
+            {{ form.codCuenta|add_class:"form-control" }}
         </div>
         <div class="form-group">
           <label for="nombreCuenta" class="txt_negrita">Nombre Cuenta</label>
@@ -68,8 +68,17 @@
           {{ form.codTipoCuenta|add_class:"form-control" }}
         </div>
  
-  <button type="submit" class="btn btn-default">Aceptar</button>
-  <input type="button" class="btn btn-default" onclick="history.back()" name="volver atrás" value="Volver">
+        <div class="form__group2 field">
+            <input type="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Aceptar">
+            <label for="consultarBalance">
+            <span class="iborrainputfile">Aceptar</span>
+        </div>
+
+        <div class="form__group2 field">
+            <input type="submit" id="consultarBalance" class="inputfile inputfile-3" onclick="history.back()" name="volver atrás" value="Volver">
+            <label for="consultarBalance">
+            <span class="iborrainputfile">Regresar</span>
+        </div>
  
 </form>
 
@@ -83,3 +92,7 @@
 </html>
 
 {% endblock %}
+
+
+  <button type="submit" class="btn btn-default">Aceptar</button>
+  <input type="button" class="btn btn-default" onclick="history.back()" name="volver atrás" value="Volver">
