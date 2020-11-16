@@ -56,8 +56,9 @@ urlpatterns = [
     path('analisisFinanciero/eliminarEmpresa', eliminarEmpresa, name="eliminarEmpresa"),
 
     path('analisisFinanciero/catalogo', CatalogoListado.as_view(template_name = "proyecto/catalogo.html"), name='catalogo'),
+    path('analisisFinanciero/consultarCatalogo', consultarCatalogo, name="consultarCatalogo"),
     path('analisisFinanciero/crearCatalogo', CatalogoCrear.as_view(template_name = "proyecto/crearCatalogo.html"), name='crearCatalogo'),
-    path('analisisFinanciero/editarCatalogo/<str:pk>', CatalogoActualizar.as_view(template_name = "proyecto/editarCatalogo.html"), name='editarCatalogo'),
+    path('analisisFinanciero/editarCatalogo2/<str:pk>', CatalogoActualizar2.as_view(template_name = "proyecto/editarCatalogo.html"), name='editarCatalogo2'),
     path('analisisFinanciero/eliminarCatalogo/<str:pk>', CatalogoEliminar.as_view(), name='eliminarCatalogo'),
     path('analisisFinanciero/detalleCatalogo/<str:pk>', CatalogoDetalle.as_view(template_name = "proyecto/detalleCatalogo.html"), name='detalleCatalogo'),
 

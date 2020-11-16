@@ -1,0 +1,89 @@
+{% extends 'base/base.html' %}
+
+{% block content %} 
+    
+    <div class="page-header-header">
+        <h1 class="text-titles"><strong>Consultar Catalogo de la Empresa.</strong></h1>
+    </div>
+        
+        </br></br><p class="lead">Selecciona los parametros de busqueda</p></br>
+
+        
+        <div align="center" class="busqueda">
+            <form method="POST" action="{% url 'analisisFinanciero:consultarCatalogo' %}">
+                {% csrf_token %} 
+
+                <div class="form__group2 field">                
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Empresa</label>
+                        </div>
+                        <select name="empresas" class="custom-select" id="inputGroupSelect01">
+                            <option selected="selected">Selecciona la Empresa</option>
+  
+                          {% for emp in empresas %}
+  
+                            <option value="{{ emp.codEmpresa }}">{{ emp.nombreEmpresa }}</option>
+  
+                          {% endfor %}
+                          </select>
+                    </div>
+                </div>
+
+
+                <div class="form__group2 field">
+                    <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Consultar">
+                    <label for="consultarBalance">
+                    <span class="iborrainputfile">Consultar</span>
+                </div>
+
+                </br>
+                
+            </form>
+        </div>
+
+
+
+<div class="table-responsive" style="width:85%; display:inline-block;">    
+  <table class="table table-hover text-center">
+    <thead>
+      <tr>
+        <th class="text-center">C&oacute;digo Cuenta</th>
+        <th class="text-center">Nombre Cuenta</th>
+        <th class="text-center">C&oacute;digo Empresa</th>
+        <th class="text-center">Nombre Empresa</th>
+        <th class="text-center">C&oacute;digo Rubro</th>
+        <th class="text-center">C&oacute;digo Tipo Cuenta</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for catalogocuenta in queryset %}
+      <tr>
+        <td>{{ catalogocuenta.codCuenta }}</td>
+        <td>{{ catalogocuenta.nombreCuenta }}</td>
+        <td>{{ catalogocuenta.codEmpresa }}</td>
+        <td>{{ catalogocuenta.codEmpresa.nombreEmpresa }}</td>
+        <td>{{ catalogocuenta.codRubro.nombreRubro }}</td>
+        <td>{{ catalogocuenta.codTipoCuenta }}</td>
+        <td>
+
+          <form method="POST" action="eliminarCatalogo/{{catalogocuenta.codCuenta}}">
+            {% csrf_token %}
+            <div class="btn-group">
+            <a href="detalleCatalogo/{{catalogocuenta.codCuenta}}" title="Ver" type="button" class="btn btn-default">Ver </a>
+            <a href="editarCatalogo2/{{catalogocuenta.codCuenta}}" title="Editar" type="button" class="btn btn-default">Editar</a>
+              <button class="btn btn-danger" onclick="return eliminarCatalogo();" type="submit" style="color:white;">
+                Eliminar
+              </button>
+              </div>
+            </form> 
+          </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+    
+
+{% endblock %}

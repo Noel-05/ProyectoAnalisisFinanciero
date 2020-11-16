@@ -27,10 +27,24 @@
             <form method="POST" action="{% url 'analisisFinanciero:informeAnalisis' %}">
                 {% csrf_token %} 
 
-                <div class="form__group2 field">
+                <div class="form__group2 field">                
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Sector</label>
+                        </div>
+                        <select name="codActividadEconomica" class="custom-select" id="inputGroupSelect01">
+                            <option selected="selected">Selecciona el Sector</option>
+                            {% for sec in actividad %}
+                                <option value="{{ sec.codActividadEconomica }}">{{ sec.nombreActividadEconomica }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                {% comment %} <div class="form__group2 field">
                     <input type="text" name="codActividadEconomica"  id = "codActividadEconomica" class="form__field2" placeholder="Ingresa el código del Sector a Consultar." required maxlength="15"></br>
                     <label for="codActividadEconomica" class="form__label2">C&oacute;digo Sector</label>
-                </div></br>
+                </div></br> {% endcomment %}
 
                 <div class="form__group2 field">
                     <input type="number" name="año"  id = "año" class="form__field2" placeholder="Ingresa el año." required pattern="([0-9]{4})" maxlength="4"></br>

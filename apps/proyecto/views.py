@@ -1448,14 +1448,27 @@ def analisisVertical(request):
 
 
 def consultarInformes(request):
+    sectorCons = ActividadEconomica.objects.all
+
+    contexto = {
+        'actividad': sectorCons,
+    }
+
     return render(
         request,
         'proyecto/InformeAnalisis.html',
+        contexto,
     )
 
 
 
 def informeAnalisis(request):
+    sectorCons = ActividadEconomica.objects.all
+
+    contexto = {
+        'actividad': sectorCons,
+    }
+
     if request.method == 'POST':
 
         codActividadEconomica = request.POST['codActividadEconomica']
@@ -2389,6 +2402,7 @@ def informeAnalisis(request):
         contexto = {
             'queryset': queryset,
             'sector': sector,
+            'actividad': sectorCons,
         }
 
         return render(
@@ -2644,6 +2658,25 @@ def eliminarEmpresa(request):
 
 class CatalogoListado(ListView):
     model = CatalogoCuenta #Llamada a la clase "CatalogoCuenta" en el archivo models.py
+    
+    
+
+def consultarCatalogo(request):
+    emp = Empresa.objects.all
+
+    contexto = {
+            'empresas':emp,
+    }
+    if request.method=='POST':
+        empresa = request.POST['empresas']          
+        if empresa:
+            queryset = CatalogoCuenta.objects.filter(codEmpresa=empresa)
+            if queryset:              
+                contexto = {   
+                    'empresas':emp,                 
+                    'queryset':queryset,
+                }       
+    return render(request, 'proyecto/ConsultarCatalogo.html', contexto)
 
 
 
@@ -2671,6 +2704,16 @@ class CatalogoActualizar(SuccessMessageMixin, UpdateView):
     
     def get_success_url(self):               
         return reverse('analisisFinanciero:catalogo') 
+
+
+class CatalogoActualizar2(SuccessMessageMixin, UpdateView): 
+    model = CatalogoCuenta 
+    form = CatalogoCuentaForm 
+    fields = "__all__" 
+    success_message = '--Catalogo Actualizado Correctamente--'  
+    
+    def get_success_url(self):               
+        return reverse('analisisFinanciero:consultarCatalogo') 
 
 
 
