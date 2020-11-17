@@ -56,6 +56,8 @@
     {% else %}
         <div class="table-responsive" style="width:50%; display:none;">
     {% endif %}
+
+    {% if empresa %}
         <table class="table table-hover text-center">
             <thead>
                 <tr>
@@ -70,6 +72,7 @@
                 </tr>
             </thead>
         </table>
+    {% endif %}
     </div>
 
 
@@ -77,39 +80,39 @@
         <table class="table table-hover text-center">
             
             {% if queryset %}
-            <thead>
-               <tr>
-                    <th class="text-center">C&oacute;digo Cuenta</th>
-                    <th class="text-center">Nombre Cuenta</th>
-                    <th class="text-center">valor</th>
-                    <th class="text-center">Tipo Cuenta</th>
-                    <th class="text-center">Acci&oacute;n</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for bal in queryset %}
+                <thead>
                 <tr>
-                    <td>{{ bal.codCuenta }}</td>
-                    <td>{{ bal.codCuenta.nombreCuenta }}</td>
-                    {% load l10n %}
-                    <td>$ {{ bal.valor|unlocalize }}</td>
-                    <td>{{ bal.codCuenta.codTipoCuenta.nombreTipoCuenta }}</td>  
+                        <th class="text-center">C&oacute;digo Cuenta</th>
+                        <th class="text-center">Nombre Cuenta</th>
+                        <th class="text-center">valor</th>
+                        <th class="text-center">Tipo Cuenta</th>
+                        <th class="text-center">Acci&oacute;n</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bal in queryset %}
+                        <tr>
+                            <td>{{ bal.codCuenta }}</td>
+                            <td>{{ bal.codCuenta.nombreCuenta }}</td>
+                            {% load l10n %}
+                            <td>$ {{ bal.valor|unlocalize }}</td>
+                            <td>{{ bal.codCuenta.codTipoCuenta.nombreTipoCuenta }}</td>  
 
-                    <form method="POST" action="{% url 'analisisFinanciero:actualizarBalance' %}">
-                        {% csrf_token %}
+                            <form method="POST" action="{% url 'analisisFinanciero:actualizarBalance' %}">
+                                {% csrf_token %}
 
-                        <input type="hidden" name="codCuenta" value="{{bal.codCuenta}}"/>
-                        <input type="hidden" name="año" value="{{bal.año}}"/>                                
-                        <input type="hidden" name="codEmpresa" value="{{bal.codEmpresa}}"/>  
-                        <td>                               
-                            <input type="submit" name="btnActualizar" value="Actualizar" class="btn btn-light"/>
-                        </td>
+                                <input type="hidden" name="codCuenta" value="{{bal.codCuenta}}"/>
+                                <input type="hidden" name="año" value="{{bal.año}}"/>                                
+                                <input type="hidden" name="codEmpresa" value="{{bal.codEmpresa}}"/>  
+                                <td>                               
+                                    <input type="submit" name="btnActualizar" value="Actualizar" class="btn btn-light"/>
+                                </td>
 
-                    </form>
+                            </form>
 
-                </tr>
-            {% endfor %}
-            </tbody>
+                        </tr>
+                    {% endfor %}
+                </tbody>
             {% endif %}
             
         </table>

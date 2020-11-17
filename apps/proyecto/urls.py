@@ -42,9 +42,11 @@ urlpatterns = [
     path('analisisFinanciero/consultarInformes', consultarInformes, name="consultarInformes"),
     path('analisisFinanciero/analisisInformes', informeAnalisis, name="informeAnalisis"),
 
+    path('analisisFinanciero/consultarInformeEmpresa', consultarInformeEmpresa, name="consultarInformeEmpresa"),
+    path('analisisFinanciero/analisisInformeEmpresa', informeAnalisisEmpresa, name="informeAnalisisEmpresa"),
+
     path('analisisFinanciero/insertarRatioSector', insertarRatioSector, name="insertarRatioSector"),
     path('analisisFinanciero/consultarRatioSector', consultarRatioSector, name="consultarRatioSector"),
-    #path('analisisFinanciero/consultarRatioSector/<codAct>/<codRat>', consultarRatioSector, name="consultarRatioSector"),
     path('analisisFinanciero/actualizarRatioSector', actualizarRatioSector, name="actualizarRatioSector"),
     path('analisisFinanciero/guardarModificacionRatioSector', guardarModificacionRatioSector, name="guardarModificacionRatioSector"),
     path('analisisFinanciero/eliminarRatioSecto', eliminarRatioSector, name="eliminarRatioSector"),
@@ -58,6 +60,7 @@ urlpatterns = [
     path('analisisFinanciero/catalogo', CatalogoListado.as_view(template_name = "proyecto/catalogo.html"), name='catalogo'),
     path('analisisFinanciero/consultarCatalogo', consultarCatalogo, name="consultarCatalogo"),
     path('analisisFinanciero/crearCatalogo', CatalogoCrear.as_view(template_name = "proyecto/crearCatalogo.html"), name='crearCatalogo'),
+    path('analisisFinanciero/editarCatalogo/<str:pk>', CatalogoActualizar.as_view(template_name = "proyecto/editarCatalogo.html"), name='editarCatalogo'),
     path('analisisFinanciero/editarCatalogo2/<str:pk>', CatalogoActualizar2.as_view(template_name = "proyecto/editarCatalogo.html"), name='editarCatalogo2'),
     path('analisisFinanciero/eliminarCatalogo/<str:pk>', CatalogoEliminar.as_view(), name='eliminarCatalogo'),
     path('analisisFinanciero/detalleCatalogo/<str:pk>', CatalogoDetalle.as_view(template_name = "proyecto/detalleCatalogo.html"), name='detalleCatalogo'),

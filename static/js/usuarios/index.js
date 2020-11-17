@@ -19,9 +19,9 @@ function listadoUsuarios(){
                 fila += '<td>' + response[i]["fields"]['email'] + '</td>';
                 fila += '<td>' + response[i]["fields"]['rol'] + '</td>';
                 fila += '<td><button type = "button" class = "btn btn-primary btn-sm tableButton"';
-                fila += ' onclick = "abrir_modal_edicion(\'/actualizar_usuario/' + response[i]['pk']+'/\');"> EDITAR </button>';
+                fila += ' onclick = "abrir_modal_edicion(\'/actualizar_usuario/' + response[i]['pk']+'/\');" style="color:white;"> EDITAR </button>';
                 fila += '<button type = "button" class = "btn btn-danger tableButton  btn-sm" ';
-                fila += 'onclick = "abrir_modal_eliminacion(\'/eliminar_usuario/' + response[i]['pk'] +'/\');"> ELIMINAR </buttton></td>';
+                fila += 'onclick = "abrir_modal_eliminacion(\'/eliminar_usuario/' + response[i]['pk'] +'/\');" style="color:white;"> ELIMINAR </buttton></td>';
                 fila += '</tr>';
                 $('#tabla_usuarios tbody').append(fila);
             }

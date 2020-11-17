@@ -1,0 +1,201 @@
+{% extends 'base/base.html' %}
+
+{% block content %} 
+    
+    <div class="page-header-header">
+        <h1 class="text-titles"><strong>An&aacute;lisis de los Ratios de su Empresa.</strong></h1>
+    </div>
+    
+    {% if queryset %}
+
+        <!-- Opciones para consultar los balances -->
+        <div align="center" class="busqueda">
+            <div class="form__group2 field">
+                <input type="submit" name="submit" id="informeAnalisis" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='{% url 'analisisFinanciero:consultarInformeEmpresa' %}'">
+                <label for="informeAnalisis">
+                <span class="iborrainputfile" onclick="window.location.href='{% url 'analisisFinanciero:consultarInformeEmpresa' %}'">Consultar Otro</span>
+            </div>
+            </br>
+        </div>
+
+    {% else %}
+        
+        </br></br><p class="lead">Ingresa el sector y el a&ntilde;o que deseas consultar para visualizar su an&aacute;lisis.</p></br>
+
+        <!-- Opciones para consultar los balances -->
+        <div align="center" class="busqueda">
+            <form method="POST" action="{% url 'analisisFinanciero:informeAnalisisEmpresa' %}">
+                {% csrf_token %} 
+
+                <div class="form__group2 field">
+                    <input type="text" name="codEmpresa"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el código de tu Empresa." required maxlength="15"></br>
+                    <label for="codEmpresa" class="form__label2">C&oacute;digo Empresa</label>
+                </div></br>
+
+                <div class="form__group2 field">
+                    <input type="number" name="año"  id = "año" class="form__field2" placeholder="Ingresa el año." required pattern="([0-9]{4})" maxlength="4"></br>
+                    <label for="año" class="form__label2">A&ntilde;o</label>
+                </div>
+
+                <div class="form__group2 field">
+                    <input type="submit" name="submit" id="informeAnalisis" class="inputfile inputfile-3"  value="Consultar">
+                    <label for="informeAnalisis">
+                    <span class="iborrainputfile">Consultar</span>
+                </div>
+
+                </br>
+                
+            </form>
+        </div>
+
+    {% endif %}
+
+    {% if queryset %}
+        <div class="table-responsive" style="width:40%; display:inline-block;">
+    {% else %}
+        <div class="table-responsive" style="width:40%; display:none;">
+    {% endif %}
+        <table class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th class="text-center">Sector</th>
+                    <th class="text-center" style="color:#7d7f7d;"><i>{{ sector }}</i></th>
+                </tr>
+                <tr>
+                    {% for emp in empresa %}
+                    <th class="text-center">Empresa</th>
+                    <th class="text-center" style="color:#7d7f7d;"><i>{{ emp.nombreEmpresa }}</i></th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th class="text-center">A&ntilde;o</th>
+                    <th class="text-center" style="color:#7d7f7d;"><i>{{ año }}</i></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="table-responsive" style="width:90%; display:inline-block;">
+        <table class="table table-hover text-center">
+            
+            {% if queryset %}
+            <thead>
+        	   <tr>
+                    <th class="text-center">Raz&oacute;n</th>
+                    <th class="text-center">Ratio</th>
+                    <th class="text-center"></th>
+                    <th class="text-center">Valor Sector</th>
+                    <th class="text-center">Valor Empresa</th>
+                    <th class="text-center">An&aacute;lisis</th>
+                    <th class="text-center"></th>
+            	    <th class="text-center">Promedio Empresas</th>
+                    <th class="text-center">Valor Empresa</th>
+                    <th class="text-center">An&aacute;lisis</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for var in queryset %}
+                <tr>
+                    <td>{{ var.codRatio.codRazon }}</td>
+
+                    <td>{{ var.codRatio }}</td>
+
+                    <td></td>
+
+                    {% load l10n %}
+
+                    <td>{{ var.valorSector|unlocalize }}</td>
+
+
+                    {% ifequal 'ADVERTENCIA: No satisface el valor estandar del sector.' var.mensajeSector %}
+                        <td style="color:red;"><strong>{{ var.valorEmpresa|unlocalize }}</strong></td>
+                    {% else %}
+                        <td>{{ var.valorEmpresa|unlocalize }}</td>
+                    {% endifequal %}
+
+                    
+
+                    {% ifequal 'ADVERTENCIA: No satisface el valor estandar del sector.' var.mensajeSector %}
+                        <td style='color:red;'><strong>{{ var.mensajeSector }}</strong></td>
+                    {% else %}
+                        <td><strong>{{ var.mensajeSector }}</strong></td>
+                    {% endifequal %}
+
+
+                    <td></td>
+                    
+                    <td>{{ var.promEmpresas|unlocalize }}</td>
+
+
+
+                    {% ifequal 'ADVERTENCIA: No satisface el valor promedio de empresas.' var.mensajePromedio %}
+                        <td style='color:red;'><strong>{{ var.valorEmpresa|unlocalize }}</strong></td>
+                    {% else %}
+                        <td>{{ var.valorEmpresa|unlocalize }}</td>
+                    {% endifequal %}
+
+
+                    {% ifequal 'ADVERTENCIA: No satisface el valor promedio de empresas.' var.mensajePromedio %}
+                        <td style='color:red;'><strong>{{ var.mensajePromedio }}</strong></td>
+                    {% else %}
+                        <td><strong>{{ var.mensajePromedio }}</strong></td>
+                    {% endifequal %}
+
+                </tr>
+            {% endfor %}
+            </tbody>
+            {% endif %}
+            
+        </table>
+    <div>
+
+
+{% endblock %}
+
+
+
+div class="table-responsive" style="width:85%; display:inline-block;">
+        <table class="table table-hover text-center">
+            
+            {% if queryset %}
+            <thead>
+        	   <tr>
+                    <th class="text-center">Tipo Raz&oacute;n</th>
+                    <th class="text-center">Tipo Ratio</th>
+            	    <th class="text-center">Valor Sector</th>
+                    <th class="text-center">Valor Empresa</th>
+                    <th class="text-center">An&aacute;lisis</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for var in queryset %}
+                
+            {% endfor %}
+            </tbody>
+            {% endif %}
+            
+        </table>
+    <div>
+
+    <div class="table-responsive" style="width:85%; display:inline-block;">
+        <table class="table table-hover text-center">
+            
+            {% if queryset %}
+            <thead>
+        	   <tr>
+                    <th class="text-center">Tipo Raz&oacute;n</th>
+                    <th class="text-center">Tipo Ratio</th>
+            	    <th class="text-center">Promedio Empresas</th>
+                    <th class="text-center">Valor Empresa</th>
+                    <th class="text-center">An&aacute;lisis</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for var in queryset %}
+                
+            {% endfor %}
+            </tbody>
+            {% endif %}
+            
+        </table>
+    <div>

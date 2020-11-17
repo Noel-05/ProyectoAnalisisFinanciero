@@ -58,14 +58,21 @@
 			<!-- SideBar User info -->
 			<div class="full-box dashboard-sideBar-UserInfo">
 				<figure class="full-box">
-					<img src="{% static 'assets/img/usuario.png' %}" alt="Icono de Usuario">
+					<img src="{% static 'assets/img/usuario.png' %}" alt="Icono de Usuario"></br>
 					<figcaption class="text-center text-titles"> {{user.username}} </figcaption>
 				</figure>
 				<ul class="full-box list-unstyled text-center">
 					<li>
-						<a href="{% url 'usuario:logout' %}" style="text-decoration:none"><input type="button" href="{% url 'usuario:logout' %}" class="btn btn-success btn-sm" name="submit" value="Cerrar Sesi&oacute;n" style="background:ffffff;"></a>
+						<a href="{% url 'usuario:logout' %}" class="btn-exit-system">
+							<i class="zmdi zmdi-power"></i>
+						</a>
 					</li>
 				</ul>
+				{% comment %} <ul class="full-box list-unstyled text-center">
+					<li>
+						<a href="{% url 'usuario:logout' %}" style="text-decoration:none"><input type="button" href="{% url 'usuario:logout' %}" class="btn btn-success btn-sm" name="submit" value="Cerrar Sesi&oacute;n" style="background:ffffff;"></a>
+					</li>
+				</ul> {% endcomment %}
 			</div>
 
 			<!-- SideBar Menu -->
@@ -165,7 +172,7 @@
 
 				<li>
 					<a href="#!" class="btn-sideBar-SubMenu">
-						<i class="zmdi zmdi-graphic-eq zmdi-hc-fw"></i> Ratios Sector <i class="zmdi zmdi-caret-down pull-right"></i>
+						<i class="zmdi zmdi-book zmdi-hc-fw"></i> Ratios Sector <i class="zmdi zmdi-caret-down pull-right"></i>
 					</a>
 					<ul class="list-unstyled full-box dashboard-sideBar-Menu">
 						<li>
@@ -179,14 +186,22 @@
 
 				</br>
 
-
 				<li>
-					<a href="{% url 'analisisFinanciero:consultarInformes'%}">
-						<i class="zmdi zmdi-book zmdi-hc-fw"></i> Informes
+					<a href="{% url 'analisisFinanciero:consultarInformeEmpresa'%}">
+						<i class="zmdi zmdi-collection-pdf zmdi-hc-fw"></i> An&aacute;lisis Empresa
 					</a>
 				</li>
 
 				</br>
+
+				<li>
+					<a href="{% url 'analisisFinanciero:consultarInformes'%}">
+						<i class="zmdi zmdi-file-plus zmdi-hc-fw"></i> Informes
+					</a>
+				</li>
+
+				</br>
+
 				<li>
 					<a href="#!" class="btn-sideBar-SubMenu">
 						<i class="zmdi zmdi-account-add zmdi-hc-fw"></i> Usuarios <i class="zmdi zmdi-caret-down pull-right"></i>
@@ -198,6 +213,7 @@
 
 					</ul>
 				</li>
+				</br>
 
 			</ul>
 		</div>

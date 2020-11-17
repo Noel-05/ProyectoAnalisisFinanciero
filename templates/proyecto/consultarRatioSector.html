@@ -75,7 +75,6 @@
                     <tbody>
                         {% for q in queryset %}
                             <tr>
-
                                 <form method="POST" action="{% url 'analisisFinanciero:eliminarRatioSector' %}">
                                     
                                     {% csrf_token %}
@@ -84,12 +83,12 @@
                                     <td><input type="hidden" name="codRat" value="{{q.codRatio.codRatio}}"/>{{ q.codRatio }}</td>
                                     {% load l10n %}
                                     <td>{{ q.parametroComparacion|unlocalize }}</td>
+                                    <td></td>
                                     <td>                                 
-                                        <input type="submit" name="btnEliminar" value="Eliminar" class="btn btn-secondary"/>
+                                        <input type="submit" name="btnEliminar" value="Eliminar" class="btn btn-danger" style="color:white;"/>
                                     </td>
 
                                 </form>
-
                                 <form method="POST" action="{% url 'analisisFinanciero:actualizarRatioSector' %}">
                                     
                                     {% csrf_token %}
@@ -97,7 +96,7 @@
                                     <input type="hidden" name="codAct" value="{{q.codActividadEconomica.codActividadEconomica}}"/>
                                     <input type="hidden" name="codRat" value="{{q.codRatio.codRatio}}"/>                                
                                     <td>                               
-                                        <input type="submit" name="btnActualizar" value="Actualizar" class="btn btn-light"/>
+                                        <input type="submit" name="btnActualizar" value="Actualizar" class="btn btn-default"/>
                                     </td>
 
                                 </form>

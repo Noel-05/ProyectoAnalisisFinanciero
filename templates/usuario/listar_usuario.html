@@ -20,25 +20,34 @@ Listado de Usuarios
             <a href="{% url 'usuario:registrar_usuario' %}">
             <input type="button" class="mdl-button mdl-js-button mdl-button- -raised mdl-js-ripple-effect mdl-button- -accent btn-buscar" name="submit" value="Agregar"></a>
         </div> -->
+    <div align="center" class="busqueda">
+        <div class="form__group2 field">
+            <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  onclick="abrir_modal_creacion('{% url 'usuario:registrar_usuario' %}');", value="Agregar">
+            <label for="consultarBalance">
+            <span class="iborrainputfile">Agregar</span>
+        </div>
+    </div>
 
-            <input type="button" class="btn-buscar btn-busqueda" onclick="abrir_modal_creacion('{% url 'usuario:registrar_usuario' %}');", value="Agregar">
+            {% comment %} <input type="button" class="btn-buscar btn-busqueda" onclick="abrir_modal_creacion('{% url 'usuario:registrar_usuario' %}');", value="Agregar"> {% endcomment %}
    
 
-      </br></br></br>
+      </br>
     </div>
   </header>
 
-    <div class="table-stats order-table ov-h">
-        <table id="tabla_usuarios" class="table">
+<div class="table-responsive" style="width:85%; display:inline-block;">
+    <table id="tabla_usuarios" class="table table-hover text-center">
+    {% comment %} <div class="table-stats order-table ov-h">
+        <table id="tabla_usuarios" class="table"> {% endcomment %}
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Username</th>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                    <th>Opciones</th>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Username</th>
+                    <th class="text-center">Nombres</th>
+                    <th class="text-center">Apellidos</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Rol</th>
+                    <th class="text-center">Opciones</th>
                 </tr>
             </thead>
             <tbody>               

@@ -74,18 +74,31 @@ def filtrarBalance(request):
         año = request.POST['año']
 
         queryset = CuentaBalance.objects.filter(codEmpresa=codEmpresa, año=año).order_by('codCuenta')
-        empresa = Empresa.objects.get(codEmpresa=codEmpresa)
 
-        contexto = {
-            'queryset': queryset, 
-            'año': año,
-            'empresa': empresa,
-        }
+        if (len(queryset) == 0):
+            contexto = {
+                'queryset': queryset, 
+                'año': año,
+            }
 
-        return render(
-            request,
-            'proyecto/ConsultaBalance.html', contexto
-        )
+            return render(
+                request,
+                'proyecto/ConsultaBalance.html', contexto
+            )
+        else:
+            empresa = Empresa.objects.get(codEmpresa=codEmpresa)
+
+            contexto = {
+                'queryset': queryset, 
+                'año': año,
+                'empresa': empresa,
+            }
+
+            return render(
+                request,
+                'proyecto/ConsultaBalance.html', contexto
+            )
+
 
 class BalanceCrear(SuccessMessageMixin, CreateView):
     model = CuentaBalance #Llamada a la clase "CatalogoCuenta" en el archivo models.py
@@ -96,6 +109,7 @@ class BalanceCrear(SuccessMessageMixin, CreateView):
     def get_success_url(self):
         return reverse('analisisFinanciero:crearBalance')
         
+        
 class BalanceActualizar(SuccessMessageMixin, UpdateView): 
     model = CuentaBalance 
     form = CuentaBalanceForm 
@@ -105,6 +119,7 @@ class BalanceActualizar(SuccessMessageMixin, UpdateView):
     
     def get_success_url(self):               
         return reverse('analisisFinanciero:editarBalance') 
+
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2403,11 +2418,1712 @@ def informeAnalisis(request):
             'queryset': queryset,
             'sector': sector,
             'actividad': sectorCons,
+            'año': año,
         }
 
         return render(
             request,
             'proyecto/InformeAnalisis.html',
+            contexto
+        )
+
+
+#-------------------------------------------------------------------------------------------------------
+
+
+def consultarInformeEmpresa(request):
+    return render(
+        request,
+        'proyecto/analisisEmpresa.html',
+    )
+
+
+def informeAnalisisEmpresa(request):
+    if request.method == 'POST':
+        #codActividadEconomica = request.POST['codActividadEconomica']
+        año = request.POST['año']
+        codEmpresa = request.POST['codEmpresa']
+
+        sector = Empresa.objects.filter(codEmpresa=codEmpresa)
+        i=0
+        while(i < len(sector)):
+            codActividadEconomica = sector[i].codActividadEconomica_id
+            codActividadEconomicaNombre = sector[i].codActividadEconomica.nombreActividadEconomica
+            i+=1
+
+        empresa = Empresa.objects.filter(codEmpresa=codEmpresa)
+
+        valRatioSector = RatiosSector.objects.filter(codActividadEconomica=codActividadEconomica)
+        empresas = RatiosEmpresa.objects.filter(año=año)
+
+
+        #CALCULO DEL PROMEDIO PARA CADA SECTOR
+
+        #----LIQ-------
+        sumaRC = 0
+        sumaRCT = 0
+        sumaRE = 0
+        sumaRR = 0
+        sumaRDAC = 0
+        #----ACT-------
+        sumaIMB = 0
+        sumaIMO = 0
+        sumaIRAF = 0
+        sumaIRAT = 0
+        sumaRDI = 0
+        sumaRPMC = 0
+        sumaRPMP = 0
+        sumaRRCC = 0
+        sumaRRCP = 0
+        sumaRRI = 0
+        #----APA--------
+        sumaGE = 0
+        sumaGP = 0
+        sumaRCGF = 0
+        sumaREP = 0
+        #----REN--------
+        sumaRDAC = 0
+        sumaRNP = 0
+        sumaRSI = 0
+        sumaRSV = 0
+
+
+        #-------------
+        contRC = 1
+        contRCT = 1
+        contRE = 1
+        contRR = 1
+        contRDAC = 1
+        #-------------
+        contIMB = 1
+        contIMO = 1
+        contIRAF = 1
+        contIRAT = 1
+        contRDI = 1
+        contRPMC = 1
+        contRPMP = 1
+        contRRCC = 1
+        contRRCP = 1
+        contRRI = 1
+        #-------------
+        contGE = 1
+        contGP = 1
+        contRCGF = 1
+        contREP = 1
+        #-------------
+        contRDAC = 1
+        contRNP = 1
+        contRSI = 1
+        contRSV = 1
+
+
+        #Guardo la Suma del valor de ese ratio de todas las empresas
+        i=0
+        while(i < len(empresas)):
+            sectorEmpresa = empresas[i].codEmpresa.codActividadEconomica_id
+            valorRatio = empresas[i].valorRatioEmpresa
+            tipoRatio = empresas[i].codRatio_id
+
+            if(sectorEmpresa == codActividadEconomica):
+                if(tipoRatio == "RC"):
+                    sumaRC = sumaRC + valorRatio
+                    contRC+=1
+                elif(tipoRatio == "RCT"):
+                    sumaRCT = sumaRCT + valorRatio
+                    contRCT+=1
+                elif(tipoRatio == "RR"):
+                    sumaRR = sumaRE + valorRatio
+                    contRR+=1
+                elif(tipoRatio == "RE"):
+                    sumaRE = sumaRE + valorRatio
+                    contRE+=1
+                elif(tipoRatio == "RDAC"):
+                    sumaRDAC = sumaRDAC + valorRatio
+                    contRDAC+=1
+                #----------------------------------------
+                elif(tipoRatio == "IMB"):
+                    sumaIMB = sumaIMB + valorRatio
+                    contIMB+=1
+                elif(tipoRatio == "IMO"):
+                    sumaIMO = sumaIMO + valorRatio
+                    contIMO+=1
+                elif(tipoRatio == "IRAF"):
+                    sumaIRAF = sumaIRAF + valorRatio
+                    contIRAF+=1
+                elif(tipoRatio == "IRAT"):
+                    sumaIRAT = sumaIRAT + valorRatio
+                    contIRAT+=1
+                elif(tipoRatio == "RDI"):
+                    sumaRDI = sumaRDI + valorRatio
+                    contRDI+=1
+                elif(tipoRatio == "RPMC"):
+                    sumaRPMC = sumaRPMC + valorRatio
+                    contRPMC+=1
+                elif(tipoRatio == "RPMP"):
+                    sumaRPMP = sumaRPMP + valorRatio
+                    contRPMP+=1
+                elif(tipoRatio == "RRCC"):
+                    sumaRRCC = sumaRRCC + valorRatio
+                    contRRCC+=1
+                elif(tipoRatio == "RRCP"):
+                    sumaRRCP = sumaRRCP + valorRatio
+                    contRRCP+=1
+                elif(tipoRatio == "RRI"):
+                    sumaRRI = sumaRRI + valorRatio
+                    contRRI+=1
+                #----------------------------------------
+                elif(tipoRatio == "GE"):
+                    sumaGE = sumaGE + valorRatio
+                    contGE+=1
+                elif(tipoRatio == "GP"):
+                    sumaGP = sumaGP + valorRatio
+                    contGP+=1
+                elif(tipoRatio == "RCGF"):
+                    sumaRCGF = sumaRCGF + valorRatio
+                    contRCGF+=1
+                elif(tipoRatio == "REP"):
+                    sumaREP = sumaREP + valorRatio
+                    contREP+=1
+                #----------------------------------------
+                elif(tipoRatio == "RDAC"):
+                    sumaRDAC = sumaRDAC + valorRatio
+                    contRDAC+=1
+                elif(tipoRatio == "RNP"):
+                    sumaRNP = sumaRNP + valorRatio
+                    contRNP+=1
+                elif(tipoRatio == "RSI"):
+                    sumaRSI = sumaRSI + valorRatio
+                    contRSI+=1
+                elif(tipoRatio == "RSV"):
+                    sumaRSV = sumaRSV + valorRatio
+                    contRSV+=1
+            i+=1
+
+        # Calculo del Promedio de las empresas
+        # Le resto 1 porque lo inicalice a 1 para que no de error de Div/0 cuando no se use en el while
+        if(contRC > 1):
+            promedioRC = sumaRC / (contRC - 1)
+        if(contRCT > 1):
+            promedioRCT = sumaRCT / (contRCT - 1)
+        if(contRE > 1):
+            promedioRE = sumaRE / (contRE - 1)
+        if(contRR > 1):
+            promedioRR = sumaRR / (contRR - 1)
+        if(contRDAC > 1):
+            promedioRDAC = sumaRDAC / (contRDAC - 1)
+        #-----------------------------------------------
+        if(contIMB > 1):
+            promedioIMB = sumaIMB / (contIMB - 1)
+        if(contIMO > 1):
+            promedioIMO = sumaIMO / (contIMO - 1)
+        if(contIRAF > 1):
+            promedioIRAF = sumaIRAF / (contIRAF - 1)
+        if(contIRAT > 1):
+            promedioIRAT = sumaIRAT / (contIRAT - 1)
+        if(contRDI > 1):
+            promedioRDI = sumaRDI / (contRDI - 1)
+        if(contRPMC > 1):
+            promedioRPMC = sumaRPMC / (contRPMC - 1)
+        if(contRPMP > 1):
+            promedioRPMP = sumaRPMP / (contRPMP - 1)
+        if(contRRCC > 1):
+            promedioRRCC = sumaRRCC / (contRRCC - 1)
+        if(contRRCP > 1):
+            promedioRRCP = sumaRRCP / (contRRCP - 1)
+        if(contRRI > 1):
+            promedioRRI = sumaRRI / (contRRI - 1)
+        #-----------------------------------------------
+        if(contGE > 1):
+            promedioGE = sumaGE / (contGE - 1)
+        if(contGP > 1):
+            promedioGP = sumaGP / (contGP - 1)
+        if(contRCGF > 1):
+            promedioRCGF = sumaRCGF / (contRCGF - 1)
+        if(contREP > 1):
+            promedioREP = sumaREP / (contREP - 1)
+        #-----------------------------------------------
+        if(contRDAC > 1):
+            promedioRDAC = sumaRDAC / (contRDAC - 1)
+        if(contRNP > 1):
+            promedioRNP = sumaRNP / (contRNP - 1)
+        if(contRSI > 1):
+            promedioRSI = sumaRSI / (contRSI - 1)
+        if(contRSV > 1):
+            promedioRSV = sumaRSV / (contRSV - 1)
+
+
+        cumplenRC = ""
+        cumplenRCT = ""
+        cumplenRR = ""
+        cumplenRE = ""
+        cumplenRDAC = ""
+        #--------------------
+        cumplenIMB = ""
+        cumplenIMO = ""
+        cumplenIRAF = ""
+        cumplenIRAT = ""
+        cumplenRDI = ""
+        cumplenRPMC = ""
+        cumplenRRCC = ""
+        cumplenRRCP = ""
+        cumplenRRI = ""
+        #--------------------
+        cumplenGE = ""
+        cumplenGP = ""
+        cumplenRCGF = ""
+        cumplenREP = ""
+        #--------------------
+        cumplenRDAC = ""
+        cumplenRNP = ""
+        cumplenRSI = ""
+        cumplenRSV = ""
+
+
+        #---------------------
+        noCumpleRC = ""
+        noCumpleRCT = ""
+        noCumpleRR = ""
+        noCumpleRE = ""
+        noCumpleRDAC = ""
+        #---------------------
+        noCumpleIMB = ""
+        noCumpleIMO = ""
+        noCumpleIRAF = ""
+        noCumpleIRAT = ""
+        noCumpleRDI = ""
+        noCumpleRPMC = ""
+        noCumpleRRCC = ""
+        noCumpleRRCP = ""
+        noCumpleRRI = ""
+        #---------------------
+        noCumpleGE = ""
+        noCumpleGP = ""
+        noCumpleRCGF = ""
+        noCumpleREP = ""
+        #--------------------
+        noCumpleRDAC = ""
+        noCumpleRNP = ""
+        noCumpleRSI = ""
+        noCumpleRSV = ""
+
+        #Verificacion de las empresas que son mayores que el ratio segun Promedio de Empresa.
+
+        j=0
+        while(j < len(empresas)):
+            sectorEmpresa = empresas[j].codEmpresa.codActividadEconomica_id
+            valorRatio = empresas[j].valorRatioEmpresa
+            tipoRatio = empresas[j].codRatio_id
+            emp = empresas[j].codEmpresa_id
+            msjEmpresa = "La empresa cumple con el valor promedio de empresas."
+            msjEmpresaNO = "ADVERTENCIA: No satisface el valor promedio de empresas."
+
+            if(sectorEmpresa == codActividadEconomica):
+                if(tipoRatio == "RC"):
+                    if(valorRatio >= promedioRC):
+                        cumplenRC = cumplenRC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRC
+                            obtener.save()
+
+                    else:
+                        noCumpleRC = noCumpleRC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRC
+                            obtener.save()
+
+                elif(tipoRatio == "RCT"):
+                    if(valorRatio >= promedioRCT):
+                        cumplenRCT = cumplenRCT + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRCT)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRCT
+                            obtener.save()
+
+                    else:
+                        noCumpleRCT = noCumpleRCT + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRCT)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRCT
+                            obtener.save()
+
+                elif(tipoRatio == "RR"):
+                    if(valorRatio >= promedioRR):
+                        cumplenRR = cumplenRR + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRR)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRR
+                            obtener.save()
+
+                    else:
+                        noCumpleRR = noCumpleRR + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRR)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRR
+                            obtener.save()
+
+                elif(tipoRatio == "RE"):
+                    if(valorRatio >= promedioRE):
+                        cumplenRE = cumplenRE + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRE)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRE
+                            obtener.save()
+
+                    else:
+                        noCumpleRE = noCumpleRE + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRE)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRE
+                            obtener.save()
+
+                elif(tipoRatio == "RDAC"):
+                    if(valorRatio >= promedioRDAC):
+                        cumplenRDAC = cumplenRDAC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRDAC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRDAC
+                            obtener.save()
+
+                    else:
+                        noCumpleRDAC = noCumpleRDAC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRDAC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRDAC
+                            obtener.save()
+
+                #--------------------------------------------------------------------------------------------
+                elif(tipoRatio == "IMB"):
+                    if(valorRatio >= promedioIMB):
+                        cumplenIMB = cumplenIMB + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioIMB)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioIMB
+                            obtener.save()
+
+                    else:
+                        noCumpleIMB = noCumpleIMB + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioIMB)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioIMB
+                            obtener.save()
+
+                elif(tipoRatio == "IMO"):
+                    if(valorRatio >= promedioIMO):
+                        cumplenIMO = cumplenIMO + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioIMO)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioIMO
+                            obtener.save()
+
+                    else:
+                        noCumpleIMO = noCumpleIMO + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]     "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioIMO)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioIMO
+                            obtener.save()
+
+                elif(tipoRatio == "IRAF"):
+                    if(valorRatio >= promedioIRAF):
+                        cumplenIRAF = cumplenIRAF + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioIRAF)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioIRAF
+                            obtener.save()
+
+                    else:
+                        noCumpleIRAF = noCumpleIRAF + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioIRAF)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioIRAF
+                            obtener.save()
+
+                elif(tipoRatio == "IRAT"):
+                    if(valorRatio >= promedioIRAT):
+                        cumplenIRAT = cumplenIRAT + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioIRAT)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioIRAT
+                            obtener.save()
+
+                    else:
+                        noCumpleIRAT = noCumpleIRAT + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioIRAT)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioIRAT
+                            obtener.save()
+
+                elif(tipoRatio == "RDI"):
+                    if(valorRatio >= promedioRDI):
+                        cumplenRDI = cumplenRDI + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRDI)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRDI
+                            obtener.save()
+
+                    else:
+                        noCumpleRDI = noCumpleRDI + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRDI)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRDI
+                            obtener.save()
+
+                elif(tipoRatio == "RPMC"):
+                    if(valorRatio >= promedioRPMC):
+                        cumplenRPMC = cumplenRPMC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRPMC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRPMC
+                            obtener.save()
+
+                    else:
+                        noCumpleRPMC = noCumpleRPMC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRPMC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRPMC
+                            obtener.save()
+
+                elif(tipoRatio == "RRCC"):
+                    if(valorRatio >= promedioRRCC):
+                        cumplenRRCC = cumplenRRCC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRRCC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRRCC
+                            obtener.save()
+
+                    else:
+                        noCumpleRRCC = noCumpleRRCC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRRCC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRRCC
+                            obtener.save()
+
+                elif(tipoRatio == "RRCP"):
+                    if(valorRatio >= promedioRRCP):
+                        cumplenRRCP = cumplenRRCP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRRCP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRRCP
+                            obtener.save()
+
+                    else:
+                        noCumpleRRCP = noCumpleRRCP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRRCP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRRCP
+                            obtener.save()
+
+                elif(tipoRatio == "RRI"):
+                    if(valorRatio >= promedioRRI):
+                        cumplenRRI = cumplenRRI + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRRI)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRRI
+                            obtener.save()
+
+                    else:
+                        noCumpleRRI = noCumpleRRI + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRRI)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRRI
+                            obtener.save()
+
+                #--------------------------------------------------------------------------------------------
+                elif(tipoRatio == "GE"):
+                    if(valorRatio >= promedioGE):
+                        cumplenGE = cumplenGE + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioGE)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioGE
+                            obtener.save()
+
+                    else:
+                        noCumpleGE = noCumpleGE + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioGE)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioGE
+                            obtener.save()
+
+                elif(tipoRatio == "GP"):
+                    if(valorRatio >= promedioGP):
+                        cumplenGP = cumplenGP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioGP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioGP
+                            obtener.save()
+
+                    else:
+                        noCumpleGP = noCumpleGP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioGP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioGP
+                            obtener.save()
+
+                elif(tipoRatio == "RCGF"):
+                    if(valorRatio >= promedioRCGF):
+                        cumplenRCGF = cumplenRCGF + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRCGF)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRCGF
+                            obtener.save()
+
+                    else:
+                        noCumpleRCGF = noCumpleRCGF + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRCGF)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRCGF
+                            obtener.save()
+
+                elif(tipoRatio == "REP"):
+                    if(valorRatio >= promedioREP):
+                        cumplenREP = cumplenREP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioREP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioREP
+                            obtener.save()
+
+                    else:
+                        noCumpleREP = noCumpleREP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioREP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioREP
+                            obtener.save()
+
+                #--------------------------------------------------------------------------------------------
+                elif(tipoRatio == "RDAC"):
+                    if(valorRatio >= promedioRDAC):  
+                        cumplenRDAC = cumplenRDAC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRDAC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRDAC
+                            obtener.save()
+
+                    else:
+                        noCumpleRDAC = noCumpleRDAC + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRDAC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRDAC
+                            obtener.save()
+
+                elif(tipoRatio == "RNP"):
+                    if(valorRatio >= promedioRNP):
+                        cumplenRNP = cumplenRNP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRNP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRNP
+                            obtener.save()
+
+                    else:
+                        noCumpleRNP = noCumpleRNP + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRNP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRNP
+                            obtener.save()
+
+                elif(tipoRatio == "RSI"):
+                    if(valorRatio >= promedioRSI):
+                        cumplenRSI = cumplenRSI + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRSI)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRSI
+                            obtener.save()
+
+                    else:
+                        noCumpleRSI = noCumpleRSI + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRSI)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRSI
+                            obtener.save()
+
+                elif(tipoRatio == "RSV"):
+                    if(valorRatio >= promedioRSV):
+                        cumplenRSV = cumplenRSV + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresa, promEmpresas=promedioRSV)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresa
+                            obtener.promEmpresas=promedioRSV
+                            obtener.save()
+
+                    else:
+                        noCumpleRSV = noCumpleRSV + " ["+ empresas[j].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ") " +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio, valorEmpresa=valorRatio, mensajePromedio=msjEmpresaNO, promEmpresas=promedioRSV)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.valorEmpresa=valorRatio
+                            obtener.mensajePromedio=msjEmpresaNO
+                            obtener.promEmpresas=promedioRSV
+                            obtener.save()
+
+            j+=1
+
+
+        #----LIQ-------
+        valSectorRC = 0
+        valSectorRCT = 0
+        valSectorRE = 0
+        valSectorRR = 0
+        valSectorRDAC = 0
+        #----ACT-------
+        valSectorIMB = 0
+        valSectorIMO = 0
+        valSectorIRAF = 0
+        valSectorIRAT = 0
+        valSectorRDI = 0
+        valSectorRPMC = 0
+        valSectorRPMP = 0
+        valSectorRRCC = 0
+        valSectorRRCP = 0
+        valSectorRRI = 0
+        #----APA--------
+        valSectorGE = 0
+        valSectorGP = 0
+        valSectorRCGF = 0
+        valSectorREP = 0
+        #----REN--------
+        valSectorRDAC = 0
+        valSectorRNP = 0
+        valSectorRSI = 0
+        valSectorRSV = 0
+
+        #Recuperacion del valor de cada Ratio de la tabla Ratio Empresa segun el Tipo de Ratio
+        z=0
+        while(z < len(valRatioSector)):
+            valSectorTipoRatio = valRatioSector[z].codRatio_id
+            valSectorActEco = valRatioSector[z].codActividadEconomica_id
+
+            if(valSectorActEco == codActividadEconomica):
+                if(valSectorTipoRatio == "RC"):
+                    valSectorRC = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RCT"):
+                    valSectorRCT = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RR"):
+                    valSectorRR = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RE"):
+                    valSectorRE = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RDAC"):
+                    valSectorRDAC = valRatioSector[z].parametroComparacion
+                #-----------------------------------------------------------------
+                elif(valSectorTipoRatio == "IMB"):
+                    valSectorIMB = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "IMO"):
+                    valSectorIMO = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "IRAF"):
+                    valSectorIRAF = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "IRAT"):
+                    valSectorIRAT = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RDI"):
+                    valSectorRDI = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RPMC"):
+                    valSectorRPMC = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RPMP"):
+                    valSectorRPMP = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RRCC"):
+                    valSectorRRCC = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RRCP"):
+                    valSectorRRCP = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RRI"):
+                    valSectorRRI = valRatioSector[z].parametroComparacion
+                #-----------------------------------------------------------------
+                elif(valSectorTipoRatio == "GE"):
+                    valSectorGE = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "GP"):
+                    valSectorGP = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RCGF"):
+                    valSectorRCGF = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "REP"):
+                    valSectorREP = valRatioSector[z].parametroComparacion
+                #-----------------------------------------------------------------
+                elif(valSectorTipoRatio == "RDAC"):
+                    valSectorRDAC = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RNP"):
+                    valSectorRNP = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RSI"):
+                    valSectorRSI = valRatioSector[z].parametroComparacion
+                elif(valSectorTipoRatio == "RSV"):
+                    valSectorRSV = valRatioSector[z].parametroComparacion
+            z+=1
+
+
+        cumplenSectorRC = ""
+        cumplenSectorRCT = ""
+        cumplenSectorRR = ""
+        cumplenSectorRE = ""
+        cumplenSectorRDAC = ""
+        #--------------------
+        cumplenSectorIMB = ""
+        cumplenSectorIMO = ""
+        cumplenSectorIRAF = ""
+        cumplenSectorIRAT = ""
+        cumplenSectorRDI = ""
+        cumplenSectorRPMC = ""
+        cumplenSectorRRCC = ""
+        cumplenSectorRRCP = ""
+        cumplenSectorRRI = ""
+        #--------------------
+        cumplenSectorGE = ""
+        cumplenSectorGP = ""
+        cumplenSectorRCGF = ""
+        cumplenSectorREP = ""
+        #--------------------
+        cumplenSectorRDAC = ""
+        cumplenSectorRNP = ""
+        cumplenSectorRSI = ""
+        cumplenSectorRSV = ""
+
+
+        noCumpleSectorRC = ""
+        noCumpleSectorRCT = ""
+        noCumpleSectorRR = ""
+        noCumpleSectorRE = ""
+        noCumpleSectorRDAC = ""
+        #---------------------
+        noCumpleSectorIMB = ""
+        noCumpleSectorIMO = ""
+        noCumpleSectorIRAF = ""
+        noCumpleSectorIRAT = ""
+        noCumpleSectorRDI = ""
+        noCumpleSectorRPMC = ""
+        noCumpleSectorRRCC = ""
+        noCumpleSectorRRCP = ""
+        noCumpleSectorRRI = ""
+        #---------------------
+        noCumpleSectorGE = ""
+        noCumpleSectorGP = ""
+        noCumpleSectorRCGF = ""
+        noCumpleSectorREP = ""
+        #--------------------
+        noCumpleSectorRDAC = ""
+        noCumpleSectorRNP = ""
+        noCumpleSectorRSI = ""
+        noCumpleSectorRSV = ""
+
+        #Verificacion de las empresas que son mayores que el ratio segun el Ratio de Empresa.
+        x=0
+        while(x < len(empresas)):
+            sectorEmpresa = empresas[x].codEmpresa.codActividadEconomica_id
+            valorRatio = empresas[x].valorRatioEmpresa
+            tipoRatio = empresas[x].codRatio_id
+            emp = empresas[x].codEmpresa_id
+            msjSector = "La empresa cumple con el valor estandar del sector."
+            msjSectorNO = "ADVERTENCIA: No satisface el valor estandar del sector."
+
+            if(sectorEmpresa == codActividadEconomica):
+                if(tipoRatio == "RC"):
+                    if(valorRatio >= valSectorRC):
+                        cumplenSectorRC = cumplenSectorRC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRC
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRC = noCumpleSectorRC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRC
+                            obtener.save()
+
+                elif(tipoRatio == "RCT"):
+                    if(valorRatio >= valSectorRCT):
+                        cumplenSectorRCT = cumplenSectorRCT + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRCT)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRCT
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRCT = noCumpleSectorRCT + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRCT)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRCT
+                            obtener.save()
+
+                elif(tipoRatio == "RR"):
+                    if(valorRatio >= valSectorRR):
+                        cumplenSectorRR = cumplenSectorRR + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRR)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRR
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRR = noCumpleSectorRR + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRR)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRR
+                            obtener.save()
+
+                elif(tipoRatio == "RE"):
+                    if(valorRatio >= valSectorRE):
+                        cumplenSectorRE = cumplenSectorRE + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRE)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRE
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRE = noCumpleSectorRE + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRE)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRE
+                            obtener.save()
+
+                elif(tipoRatio == "RDAC"):
+                    if(valorRatio >= valSectorRDAC):
+                        cumplenSectorRDAC = cumplenSectorRDAC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRDAC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRDAC
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRDAC = noCumpleSectorRDAC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRDAC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRDAC
+                            obtener.save()
+
+                #----------------------------------------------------------------------------------------------------------
+                elif(tipoRatio == "IMB"):
+                    if(valorRatio >= valSectorIMB):
+                        cumplenSectorIMB = cumplenSectorIMB + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorIMB)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorIMB
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorIMB = noCumpleSectorIMB + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorIMB)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorIMB
+                            obtener.save()
+
+                elif(tipoRatio == "IMO"):
+                    if(valorRatio >= valSectorIMO):
+                        cumplenSectorIMO = cumplenSectorIMO + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorIMO)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorIMO
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorIMO = noCumpleSectorIMO + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorIMO)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorIMO
+                            obtener.save()
+
+                elif(tipoRatio == "IRAF"):
+                    if(valorRatio >= valSectorIRAF):
+                        cumplenSectorIRAF = cumplenSectorIRAF + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorIRAF)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorIRAF
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorIRAF = noCumpleSectorIRAF + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorIRAF)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorIRAF
+                            obtener.save()
+
+                elif(tipoRatio == "IRAT"):
+                    if(valorRatio >= valSectorIRAT):
+                        cumplenSectorIRAT = cumplenSectorIRAT + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorIRAT)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorIRAT
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorIRAT = noCumpleSectorIRAT + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorIRAT)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorIRAT
+                            obtener.save()
+
+                elif(tipoRatio == "RDI"):
+                    if(valorRatio >= valSectorRDI):
+                        cumplenSectorRDI = cumplenSectorRDI + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRDI)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRDI
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRDI = noCumpleSectorRDI + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRDI)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRDI
+                            obtener.save()
+
+                elif(tipoRatio == "RPMC"):
+                    if(valorRatio >= valSectorRPMC):
+                        cumplenSectorRPMC = cumplenSectorRPMC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRPMC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRPMC
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRPMC = noCumpleSectorRPMC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRPMC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRPMC
+                            obtener.save()
+
+                elif(tipoRatio == "RRCC"):
+                    if(valorRatio >= valSectorRRCC):
+                        cumplenSectorRRCC = cumplenSectorRRCC+ " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRRCC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRRCC
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRRCC = noCumpleSectorRRCC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRRCC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRRCC
+                            obtener.save()
+
+                elif(tipoRatio == "RRCP"):
+                    if(valorRatio >= valSectorRRCP):
+                        cumplenSectorRRCP = cumplenSectorRRCP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRRCP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRRCP
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRRCP = noCumpleSectorRRCP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRRCP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRRCP
+                            obtener.save()
+
+                elif(tipoRatio == "RRI"):
+                    if(valorRatio >= valSectorRRI):
+                        cumplenSectorRRI = cumplenSectorRRI + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRRI)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRRI
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRRI = noCumpleSectorRRI + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRRI)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRRI
+                            obtener.save()
+
+                #----------------------------------------------------------------------------------------------------------
+                elif(tipoRatio == "GE"):
+                    if(valorRatio >= valSectorGE):
+                        cumplenSectorGE = cumplenSectorGE + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorGE)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorGE
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorGE = noCumpleSectorGE + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorGE)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorGE
+                            obtener.save()
+
+                elif(tipoRatio == "GP"):
+                    if(valorRatio >= valSectorGP):
+                        cumplenSectorGP = cumplenSectorGP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorGP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorGP
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorGP = noCumpleSectorGP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorGP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorGP
+                            obtener.save()
+
+                elif(tipoRatio == "RCGF"):
+                    if(valorRatio >= valSectorRCGF):
+                        cumplenSectorRCGF = cumplenSectorRCGF + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRCGF)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRCGF
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRCGF = noCumpleSectorRCGF + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRCGF)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRCGF
+                            obtener.save()
+
+                elif(tipoRatio == "REP"):
+                    if(valorRatio >= valSectorREP):
+                        cumplenSectorREP = cumplenSectorREP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorREP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorREP
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorREP = noCumpleSectorREP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorREP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorREP
+                            obtener.save()
+
+                #----------------------------------------------------------------------------------------------------------
+                elif(tipoRatio == "RDAC"):
+                    if(valorRatio >= valSectorRDAC):
+                        cumplenSectorRDAC = cumplenSectorRDAC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRDAC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRDAC
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRDAC = noCumpleSectorRDAC + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRDAC)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRDAC
+                            obtener.save()
+
+                elif(tipoRatio == "RNP"):
+                    if(valorRatio >= valSectorRNP):
+                        cumplenSectorRNP = cumplenSectorRNP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRNP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRNP
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRNP = noCumpleSectorRNP + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRNP)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRNP
+                            obtener.save()
+
+                elif(tipoRatio == "RSI"):
+                    if(valorRatio >= valSectorRSI):
+                        cumplenSectorRSI = cumplenSectorRSI + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRSI)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRSI
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRSI = noCumpleSectorRSI + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRSI)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRSI
+                            obtener.save()
+
+                elif(tipoRatio == "RSV"):
+                    if(valorRatio >= valSectorRSV):
+                        cumplenSectorRSV = cumplenSectorRSV + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"]   "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSector, valorSector=valSectorRSV)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSector
+                            obtener.valorSector=valSectorRSV
+                            obtener.save()
+
+                    else:
+                        noCumpleSectorRSV = noCumpleSectorRSV + " ["+ empresas[x].codEmpresa.nombreEmpresa +" (" +str(valorRatio)+ ")" +"] "
+                        
+                        comprobar = AnalisisEmpresaSector.objects.filter(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                        if(len(comprobar) == 0):
+                            analisisEmpresaSector = AnalisisEmpresaSector(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio,  valorEmpresa=valorRatio, mensajeSector=msjSectorNO, valorSector=valSectorRSV)
+                            analisisEmpresaSector.save()
+                        else:
+                            obtener = AnalisisEmpresaSector.objects.get(codEmpresa_id=emp, año=año, codRatio_id=tipoRatio)
+                            obtener.mensajeSector=msjSectorNO
+                            obtener.valorSector=valSectorRSV
+                            obtener.save()
+
+            x+=1
+
+
+        queryset = AnalisisEmpresaSector.objects.filter(codEmpresa_id=codEmpresa, año=año)
+
+        contexto = {
+            'queryset': queryset,
+            'año': año,
+            'empresa': empresa,
+            'sector': codActividadEconomicaNombre,
+        }
+
+        return render(
+            request,
+            'proyecto/analisisEmpresa.html',
             contexto
         )
 

@@ -77,6 +77,10 @@
                     <th class="text-center" style="color:#7d7f7d;"><i>{{ var.nombreActividadEconomica }}</i></th>
                     {% endfor %}
                 </tr>
+                <tr>
+                    <th class="text-center">A&ntilde;o</th>
+                    <th class="text-center" style="color:#7d7f7d;"><i>{{ año }}</i></th>
+                </tr>
             </thead>
         </table>
     </div>
@@ -100,9 +104,10 @@
                 <tr>
                     <td>{{ var.codRatio.codRazon }}</td>
                     <td>{{ var.codRatio }}</td>
-                    <td>{{ var.valorSector }}</td>
+                    {% load l10n %}
+                    <td>{{ var.valorSector|unlocalize }}</td>
                     <td>{{ var.empresasCumplenSector }}</td>
-                    <td>{{ var.promEmpresas }}</td>
+                    <td>{{ var.promEmpresas|unlocalize }}</td>
                     <td>{{ var.empresasCumplenEmpresa }}</td>
                     {% comment %} <td>{{ promedio|floatformat:3 }}</td> {% endcomment %}
                 </tr>

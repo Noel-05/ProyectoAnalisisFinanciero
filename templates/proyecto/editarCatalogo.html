@@ -55,7 +55,7 @@
           <label for="nombreCuenta" class="txt_negrita">Nombre Cuenta</label>
           {{ form.nombreCuenta|add_class:"form-control" }}
         </div>
-        <div class="form-group">
+        <div class="form-group"  style="display:none;">
           <label for="codEmpresa_id" class="txt_negrita">C&oacute;digo Empresa</label>
           {{ form.codEmpresa|add_class:"form-control" }}
         </div>
@@ -68,16 +68,20 @@
           {{ form.codTipoCuenta|add_class:"form-control" }}
         </div>
  
-        <div class="form__group2 field">
-            <input type="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Aceptar">
-            <label for="consultarBalance">
-            <span class="iborrainputfile">Aceptar</span>
+        <div align="center" class="busqueda">
+          <div class="form__group2 field">
+              <input type="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Aceptar">
+              <label for="consultarBalance">
+              <span class="iborrainputfile">Aceptar</span>
+          </div>
         </div>
 
-        <div class="form__group2 field">
-            <input type="submit" id="consultarBalance" class="inputfile inputfile-3" onclick="history.back()" name="volver atrás" value="Volver">
-            <label for="consultarBalance">
-            <span class="iborrainputfile">Regresar</span>
+        <div align="center" class="busqueda">
+          <div class="form__group2 field">
+              <input type="submit" id="consultarBalance" class="inputfile inputfile-3" onclick="history.back()" name="volver atrás" value="Volver">
+              <label for="consultarBalance">
+              <span class="iborrainputfile">Regresar</span>
+          </div>
         </div>
  
 </form>

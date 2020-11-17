@@ -181,3 +181,20 @@ class RatiosEmpresaSector(models.Model):
     
     def __str__(self):
         return self.codActividadEconomica.__str__() + self.año.__str__() + self.codRatio.__str__()
+
+
+class AnalisisEmpresaSector(models.Model):
+    codEmpresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
+    año = models.IntegerField(null=False)
+    codRatio = models.ForeignKey(Ratio, on_delete=models.CASCADE)
+    valorSector = models.DecimalField(max_digits=18, decimal_places=3, null=True, blank=True)
+    valorEmpresa = models.DecimalField(max_digits=18, decimal_places=3, null=True, blank=True)
+    mensajeSector = models.CharField(max_length=250, null=True, blank=True)
+    promEmpresas = models.DecimalField(max_digits=18, decimal_places=3, null=True, blank=True)
+    mensajePromedio = models.CharField(max_length=250, null=True, blank=True)
+    
+    class Meta:
+        unique_together = ("codEmpresa", "año", "codRatio")
+    
+    def __str__(self):
+        return self.codEmpresa.__str__() + self.año.__str__() + self.codRatio.__str__()

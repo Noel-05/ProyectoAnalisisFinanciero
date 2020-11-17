@@ -45,6 +45,7 @@
 
 
 <div class="table-responsive" style="width:85%; display:inline-block;">    
+  {% if queryset %}
   <table class="table table-hover text-center">
     <thead>
       <tr>
@@ -54,7 +55,7 @@
         <th class="text-center">Nombre Empresa</th>
         <th class="text-center">C&oacute;digo Rubro</th>
         <th class="text-center">C&oacute;digo Tipo Cuenta</th>
-        
+        <th class="text-center">Acci&oacute;n</th>
       </tr>
     </thead>
     <tbody>
@@ -83,6 +84,7 @@
         {% endfor %}
     </tbody>
   </table>
+    {% endif %}
 </div>
     
 

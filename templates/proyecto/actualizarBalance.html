@@ -16,40 +16,19 @@
                     <table class="table table-hover text-center">
                         <thead>
                             <tr>
-                                <th class="text-center">C&oacute;digo Empresa</th>
-                                <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.codEmpresa}}</i></th>
+                                <th class="text-center">Empresa</th>
+                                <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.codEmpresa.nombreEmpresa}}</i></th>
                                 <input type="hidden" name="codEmpresa" value="{{queryset.codEmpresa}}"/>
                             </tr>
-                        </thead>                        
-                    </table>
-                </div>
-
-                <div class="table-responsive" style="width:50%; display:inline-block;">
-                    <table class="table table-hover text-center">
-                        <thead>
                             <tr>
                                 <th class="text-center">C&oacute;digo Cuenta</th>
                                 <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.codCuenta}}</i></th>
                                 <input type="hidden" name="codCuenta" value="{{queryset.codCuenta}}"/>
                             </tr>
-                        </thead>                        
-                    </table>
-                </div>
-
-                <div class="table-responsive" style="width:50%; display:inline-block;">
-                    <table class="table table-hover text-center">
-                        <thead>
                             <tr>
                                 <th class="text-center">Nombre Cuenta</th>
                                 <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.codCuenta.nombreCuenta}}</i></th>
                             </tr>
-                        </thead>                        
-                    </table>
-                </div>
-
-                <div class="table-responsive" style="width:50%; display:inline-block;">
-                    <table class="table table-hover text-center">
-                        <thead>
                             <tr>
                                 <th class="text-center">A&ntilde;o</th>
                                 <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.año}}</i></th>
