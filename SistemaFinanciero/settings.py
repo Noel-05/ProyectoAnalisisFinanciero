@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.proyecto',
+    'apps.usuario',
     'import_export',
     'bootstrap4',
     'widget_tweaks',
@@ -81,8 +82,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'analisis',
-        'USER': 'renderos',
-        'PASSWORD': 'renderos',
+        'USER': 'root',
+        'PASSWORD': 'admin',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -106,6 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+#Modelo de Usuario de Autentificacion 
+AUTH_USER_MODEL = 'usuario.Usuario'
 
 
 # Internationalization

@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{%block title%}
+Listado de Usuarios
+{%endblock%}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/lib/datatable/dataTables.bootstrap.min.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+
+  <header>
+    <div class="container">
+      <h2 align="center" class="form-titulo" style ="margin-left: 5px;">Registro de Usuarios</h2>
+<!-- Crear Usuario otra pantalla 
+        <div>
+            <a href="{% url 'usuario:registrar_usuario' %}">
+            <input type="button" class="mdl-button mdl-js-button mdl-button- -raised mdl-js-ripple-effect mdl-button- -accent btn-buscar" name="submit" value="Agregar"></a>
+        </div> -->
+
+            <input type="button" class="btn-buscar btn-busqueda" onclick="abrir_modal_creacion('{% url 'usuario:registrar_usuario' %}');", value="Agregar">
+   
+
+      </br></br></br>
+    </div>
+  </header>
+
+    <div class="table-stats order-table ov-h">
+        <table id="tabla_usuarios" class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Username</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>               
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="creacion" role="dialog">
+
+</div>
+<div class="modal fade" id="edicion" role="dialog">
+
+</div>
+<div class="modal fade" id="eliminacion" role="dialog">
+
+{% block extrajs %}
+    <script src="{% static 'js/lib/data-table/datatables.min.js' %}"></script>
+    <script src="{% static 'js/lib/data-table/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/usuarios/index.js' %}"></script>
+
+
+{% endblock extrajs %}
+
+{% endblock %}
+
