@@ -13,16 +13,6 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<link rel="stylesheet" href="{% static 'css/main.css' %}">
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
-<<<<<<< Updated upstream
-=======
-
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
->>>>>>> Stashed changes
 	
 
 	<!--====== Scripts -->
@@ -32,18 +22,7 @@
 	<script src="{% static 'js/material.min.js' %}"></script>
 	<script src="{% static 'js/ripples.min.js' %}"></script>
 	<script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
-  	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>	
 	<script src="{% static 'js/main.js' %}"></script>
-
-	<script>
-      {% if messages %}
-          var html_mensaje = '';
-          {% for mensaje in messages %}
-              html_mensaje += '{{ mensaje }}';
-          {% endfor %}
-          notificacionError(html_mensaje);
-      {% endif %}
-  	</script>
 
 	{% endblock %}
 {% endblock %}
@@ -62,11 +41,18 @@
 			<div class="full-box dashboard-sideBar-UserInfo">
 				<figure class="full-box">
 					<img src="{% static 'assets/img/usuario.png' %}" alt="Icono de Usuario">
-					<figcaption class="text-center text-titles"> {{user.username}} </figcaption>
+					<figcaption class="text-center text-titles"> Nombre Usuario </figcaption>
 				</figure>
 				<ul class="full-box list-unstyled text-center">
 					<li>
-						<a href="{% url 'usuario:logout' %}" style="text-decoration:none"><input type="button" href="{% url 'usuario:logout' %}" class="btn btn-success btn-sm" name="submit" value="Cerrar Sesi&oacute;n" style="background:ffffff;"></a>
+						<a href="#!">
+							<i class="zmdi zmdi-settings"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#!" class="btn-exit-system">
+							<i class="zmdi zmdi-power"></i>
+						</a>
 					</li>
 				</ul>
 			</div>
@@ -146,26 +132,23 @@
 
 				</br>
 
-<<<<<<< Updated upstream
-=======
-
-				<li>
-					<a href="{% url 'analisisFinanciero:consultarInformes'%}">
-						<i class="zmdi zmdi-book zmdi-hc-fw"></i> Informes
-					</a>
-				</li>
-
-				</br>
->>>>>>> Stashed changes
 				<li>
 					<a href="#!" class="btn-sideBar-SubMenu">
 						<i class="zmdi zmdi-account-add zmdi-hc-fw"></i> Usuarios <i class="zmdi zmdi-caret-down pull-right"></i>
 					</a>
 					<ul class="list-unstyled full-box">
 						<li>
-							<a href="{% url 'usuario:inicio_usuarios' %}"><i class="zmdi zmdi-account zmdi-hc-fw"></i>Administrar Usuarios</a>
+							<a href="admin.html"><i class="zmdi zmdi-account zmdi-hc-fw"></i> Admin</a>
 						</li>
-
+						<li>
+							<a href="teacher.html"><i class="zmdi zmdi-male-alt zmdi-hc-fw"></i> Teacher</a>
+						</li>
+						<li>
+							<a href="student.html"><i class="zmdi zmdi-face zmdi-hc-fw"></i> Student</a>
+						</li>
+						<li>
+							<a href="representative.html"><i class="zmdi zmdi-male-female zmdi-hc-fw"></i> Representative</a>
+						</li>
 					</ul>
 				</li>
 
