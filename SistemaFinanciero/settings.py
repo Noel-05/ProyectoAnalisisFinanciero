@@ -82,8 +82,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'analisis',
-        'USER': 'renderos',
-        'PASSWORD': 'renderos',
+        'USER': 'root',
+        'PASSWORD': 'admin',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -138,3 +138,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 LOGIN_REDIRECT_URL = reverse_lazy('analisisfinanciero:index')
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True 
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True 

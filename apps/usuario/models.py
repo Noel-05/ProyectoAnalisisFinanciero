@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
+from apps.proyecto.models import *
+
 
 roles=[
     ('ADM', 'Administrador'),
@@ -40,6 +42,7 @@ class UsuarioManager(BaseUserManager):
 class Usuario(AbstractBaseUser):
     username = models.CharField('Nombre de usuario',unique = True, max_length=100)
     email = models.EmailField('Correo Electrónico', max_length=254,unique = True)
+    codEmpresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, null=True, blank=True)
     nombres = models.CharField('Nombres', max_length=200, blank = True, null = True)
     apellidos = models.CharField('Apellidos', max_length=200,blank = True, null = True)
     imagen = models.ImageField('Imagen de Perfil', upload_to='perfil/', max_length=200,blank = True,null = True)

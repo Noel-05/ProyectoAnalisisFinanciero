@@ -1,121 +1,138 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block content %} 
-    
-    <div class="page-header-header">
-        <h1 class="text-titles"><strong>An&aacute;lisis de los Ratios.</strong></h1>
-    </div>
-    
-    {% if queryset %}
+{% if user.is_authenticated %}
 
-        <!-- Opciones para consultar los balances -->
-        <div align="center" class="busqueda">
-            <div class="form__group2 field">
-                <input type="submit" name="submit" id="informeAnalisis" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='{% url 'analisisFinanciero:consultarInformes' %}'">
-                <label for="informeAnalisis">
-                <span class="iborrainputfile" onclick="window.location.href='{% url 'analisisFinanciero:consultarInformes' %}'">Consultar Otro</span>
-            </div>
-            </br>
+    {% if request.user.rol == 'ADM' %}
+    
+        <div class="page-header-header">
+            <h1 class="text-titles"><strong>An&aacute;lisis de los Ratios.</strong></h1>
         </div>
-
-    {% else %}
         
-        </br></br><p class="lead">Ingresa el sector y el a&ntilde;o que deseas consultar para visualizar su an&aacute;lisis.</p></br>
+        {% if queryset %}
 
-        <!-- Opciones para consultar los balances -->
-        <div align="center" class="busqueda">
-            <form method="POST" action="{% url 'analisisFinanciero:informeAnalisis' %}">
-                {% csrf_token %} 
-
-                <div class="form__group2 field">                
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="inputGroupSelect01">Sector</label>
-                        </div>
-                        <select name="codActividadEconomica" class="custom-select" id="inputGroupSelect01">
-                            <option selected="selected">Selecciona el Sector</option>
-                            {% for sec in actividad %}
-                                <option value="{{ sec.codActividadEconomica }}">{{ sec.nombreActividadEconomica }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-
-                {% comment %} <div class="form__group2 field">
-                    <input type="text" name="codActividadEconomica"  id = "codActividadEconomica" class="form__field2" placeholder="Ingresa el código del Sector a Consultar." required maxlength="15"></br>
-                    <label for="codActividadEconomica" class="form__label2">C&oacute;digo Sector</label>
-                </div></br> {% endcomment %}
-
+            <!-- Opciones para consultar los balances -->
+            <div align="center" class="busqueda">
                 <div class="form__group2 field">
-                    <input type="number" name="año"  id = "año" class="form__field2" placeholder="Ingresa el año." required pattern="([0-9]{4})" maxlength="4"></br>
-                    <label for="año" class="form__label2">A&ntilde;o</label>
-                </div>
-
-                <div class="form__group2 field">
-                    <input type="submit" name="submit" id="informeAnalisis" class="inputfile inputfile-3"  value="Consultar">
+                    <input type="submit" name="submit" id="informeAnalisis" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='{% url 'analisisFinanciero:consultarInformes' %}'">
                     <label for="informeAnalisis">
-                    <span class="iborrainputfile">Consultar</span>
+                    <span class="iborrainputfile" onclick="window.location.href='{% url 'analisisFinanciero:consultarInformes' %}'">Consultar Otro</span>
                 </div>
-
                 </br>
-                
-            </form>
+            </div>
+
+        {% else %}
+            
+            </br></br><p class="lead">Ingresa el sector y el a&ntilde;o que deseas consultar para visualizar su an&aacute;lisis.</p></br>
+
+            <!-- Opciones para consultar los balances -->
+            <div align="center" class="busqueda">
+                <form method="POST" action="{% url 'analisisFinanciero:informeAnalisis' %}">
+                    {% csrf_token %} 
+
+                    <div class="form__group2 field">                
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="inputGroupSelect01">Sector</label>
+                            </div>
+                            <select name="codActividadEconomica" class="custom-select" id="inputGroupSelect01">
+                                <option selected="selected">Selecciona el Sector</option>
+                                {% for sec in actividad %}
+                                    <option value="{{ sec.codActividadEconomica }}">{{ sec.nombreActividadEconomica }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    {% comment %} <div class="form__group2 field">
+                        <input type="text" name="codActividadEconomica"  id = "codActividadEconomica" class="form__field2" placeholder="Ingresa el código del Sector a Consultar." required maxlength="15"></br>
+                        <label for="codActividadEconomica" class="form__label2">C&oacute;digo Sector</label>
+                    </div></br> {% endcomment %}
+
+                    <div class="form__group2 field">
+                        <input type="number" name="año"  id = "año" class="form__field2" placeholder="Ingresa el año." required pattern="([0-9]{4})" maxlength="4"></br>
+                        <label for="año" class="form__label2">A&ntilde;o</label>
+                    </div>
+
+                    <div class="form__group2 field">
+                        <input type="submit" name="submit" id="informeAnalisis" class="inputfile inputfile-3"  value="Consultar">
+                        <label for="informeAnalisis">
+                        <span class="iborrainputfile">Consultar</span>
+                    </div>
+
+                    </br>
+                    
+                </form>
+            </div>
+
+        {% endif %}
+
+        {% if queryset %}
+            <div class="table-responsive" style="width:40%; display:inline-block;">
+        {% else %}
+            <div class="table-responsive" style="width:40%; display:none;">
+        {% endif %}
+            <table class="table table-hover text-center">
+                <thead>
+                    <tr>
+                        <th class="text-center">Sector</th>
+                        {% for var in sector %}
+                        <th class="text-center" style="color:#7d7f7d;"><i>{{ var.nombreActividadEconomica }}</i></th>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th class="text-center">A&ntilde;o</th>
+                        <th class="text-center" style="color:#7d7f7d;"><i>{{ año }}</i></th>
+                    </tr>
+                </thead>
+            </table>
         </div>
 
+        <div class="table-responsive" style="width:85%; display:inline-block;">
+            <table class="table table-hover text-center">
+                
+                {% if queryset %}
+                <thead>
+            	   <tr>
+                        <th class="text-center">Tipo Raz&oacute;n</th>
+                        <th class="text-center">Tipo Ratio</th>
+                	    <th class="text-center">Valor Sector</th>
+                        <th class="text-center">Empresas que Cumplen Segun Valor Sector</th>
+                        <th class="text-center">Promedio Empresas</th>
+                        <th class="text-center">Empresas que Cumplen Segun Promedio Empresa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for var in queryset %}
+                    <tr>
+                        <td>{{ var.codRatio.codRazon }}</td>
+                        <td>{{ var.codRatio }}</td>
+                        {% load l10n %}
+                        <td>{{ var.valorSector|unlocalize }}</td>
+                        <td>{{ var.empresasCumplenSector }}</td>
+                        <td>{{ var.promEmpresas|unlocalize }}</td>
+                        <td>{{ var.empresasCumplenEmpresa }}</td>
+                        {% comment %} <td>{{ promedio|floatformat:3 }}</td> {% endcomment %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+                {% endif %}
+                
+            </table>
+        <div>
+
     {% endif %}
 
-    {% if queryset %}
-        <div class="table-responsive" style="width:40%; display:inline-block;">
-    {% else %}
-        <div class="table-responsive" style="width:40%; display:none;">
+    {% if request.user.rol == 'EMP' or request.user.rol == 'GER'  %}
+        <div class="page-header-header">
+            <h1 class="text-titles"><strong>No posee permisos para realizar esta accion.</strong></h1>
+        </div>
+        <img src="{% static 'img/error.gif' %}">
+
+
     {% endif %}
-        <table class="table table-hover text-center">
-            <thead>
-                <tr>
-                    <th class="text-center">Sector</th>
-                    {% for var in sector %}
-                    <th class="text-center" style="color:#7d7f7d;"><i>{{ var.nombreActividadEconomica }}</i></th>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <th class="text-center">A&ntilde;o</th>
-                    <th class="text-center" style="color:#7d7f7d;"><i>{{ año }}</i></th>
-                </tr>
-            </thead>
-        </table>
-    </div>
 
-    <div class="table-responsive" style="width:85%; display:inline-block;">
-        <table class="table table-hover text-center">
-            
-            {% if queryset %}
-            <thead>
-        	   <tr>
-                    <th class="text-center">Tipo Raz&oacute;n</th>
-                    <th class="text-center">Tipo Ratio</th>
-            	    <th class="text-center">Valor Sector</th>
-                    <th class="text-center">Empresas que Cumplen Segun Valor Sector</th>
-                    <th class="text-center">Promedio Empresas</th>
-                    <th class="text-center">Empresas que Cumplen Segun Promedio Empresa</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for var in queryset %}
-                <tr>
-                    <td>{{ var.codRatio.codRazon }}</td>
-                    <td>{{ var.codRatio }}</td>
-                    {% load l10n %}
-                    <td>{{ var.valorSector|unlocalize }}</td>
-                    <td>{{ var.empresasCumplenSector }}</td>
-                    <td>{{ var.promEmpresas|unlocalize }}</td>
-                    <td>{{ var.empresasCumplenEmpresa }}</td>
-                    {% comment %} <td>{{ promedio|floatformat:3 }}</td> {% endcomment %}
-                </tr>
-            {% endfor %}
-            </tbody>
-            {% endif %}
-            
-        </table>
-    <div>
 
+{% endif %}
 {% endblock %}

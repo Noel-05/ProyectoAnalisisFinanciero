@@ -2,15 +2,19 @@
 
 {% block content %} 
     
+{% if user.is_authenticated %}
+
     <div class="page-header-header">
         <h1 class="text-titles"><strong>Consultar Catalogo de la Empresa.</strong></h1>
     </div>
+
+    {% if request.user.rol == 'ADM' %}
         
         </br></br><p class="lead">Selecciona los parametros de busqueda</p></br>
 
         
         <div align="center" class="busqueda">
-            <form method="POST" action="{% url 'analisisFinanciero:consultarCatalogo' %}">
+            <form method="POST" action="{% url 'analisisFinanciero:consultarCatalogo' user.username %}">
                 {% csrf_token %} 
 
                 <div class="form__group2 field">                
@@ -41,11 +45,10 @@
                 
             </form>
         </div>
-
+    {% endif %}    
 
 
 <div class="table-responsive" style="width:85%; display:inline-block;">    
-  {% if queryset %}
   <table class="table table-hover text-center">
     <thead>
       <tr>
@@ -55,7 +58,7 @@
         <th class="text-center">Nombre Empresa</th>
         <th class="text-center">C&oacute;digo Rubro</th>
         <th class="text-center">C&oacute;digo Tipo Cuenta</th>
-        <th class="text-center">Acci&oacute;n</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -69,14 +72,16 @@
         <td>{{ catalogocuenta.codTipoCuenta }}</td>
         <td>
 
-          <form method="POST" action="eliminarCatalogo/{{catalogocuenta.codCuenta}}">
+          <form method="POST" action="{% url 'analisisFinanciero:eliminarCatalogo' catalogocuenta.codCuenta  %}">
             {% csrf_token %}
             <div class="btn-group">
-            <a href="detalleCatalogo/{{catalogocuenta.codCuenta}}" title="Ver" type="button" class="btn btn-default">Ver </a>
-            <a href="editarCatalogo2/{{catalogocuenta.codCuenta}}" title="Editar" type="button" class="btn btn-default">Editar</a>
+            <a href="{% url 'analisisFinanciero:detalleCatalogo' catalogocuenta.codCuenta  %}" title="Ver" type="button" class="btn btn-default">Ver </a>
+    {% if request.user.rol == 'ADM' or request.user.rol == 'GER' %}
+            <a href="{% url 'analisisFinanciero:editarCatalogo2' catalogocuenta.codCuenta  %}" title="Editar" type="button" class="btn btn-default">Editar</a>
               <button class="btn btn-danger" onclick="return eliminarCatalogo();" type="submit" style="color:white;">
                 Eliminar
               </button>
+    {% endif %}
               </div>
             </form> 
           </td>
@@ -84,8 +89,8 @@
         {% endfor %}
     </tbody>
   </table>
-    {% endif %}
 </div>
-    
+
+{% endif %}    
 
 {% endblock %}

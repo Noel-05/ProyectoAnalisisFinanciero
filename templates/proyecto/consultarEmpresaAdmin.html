@@ -2,9 +2,6 @@
 
 {% block content %} 
     
-{% if user.is_authenticated %}
-
-    {% if request.user.rol == 'ADM'%}
     <div class="page-header-header">
         <h1 class="text-titles"><strong>Consultar Empresas Registradas.</strong></h1>
     </div>
@@ -13,7 +10,7 @@
 
         
         <div align="center" class="busqueda">
-            <form method="POST" action="{% url 'analisisFinanciero:consultarEmpresa' user.username %}">
+            <form method="POST" action="{% url 'analisisFinanciero:consultarEmpresa' %}">
                 {% csrf_token %} 
 
                 <div class="form__group2 field">                
@@ -45,7 +42,7 @@
             </form>
         </div>
 
-        {% endif %}
+
 
     
     <div class="table-responsive" style="width:85%; display:inline-block;">            
@@ -58,9 +55,7 @@
                             <th class="text-center">Actividad Econ&oacute;mica</th>
                             <th class="text-center">Nombre Empresa</th>
                             <th class="text-center">Descripcion</th>
-                        {% if request.user.rol == 'ADM' or request.user.rol == 'GER' %}                            
                             <th colspan="3" class="text-center">Acci&oacute;n</th>
-                        {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -73,7 +68,7 @@
                                     <td><input type="hidden" name="codE" value="{{q.codEmpresa}}"/>{{ q.nombreEmpresa }}</td>
                                     <td>{{ q.descripcionEmpresa }}</td>
                                 </form>
-                            {% if request.user.rol == 'ADM' or request.user.rol == 'GER' %}
+
                                 <form method="GET" action="{% url 'analisisFinanciero:actualizarEmpresa' %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="codE" value="{{q.codEmpresa}}"/>                                
@@ -81,9 +76,7 @@
                                         <input type="submit" name="btnActualizar" value="Actualizar" class="btn btn-light"/>
                                     </td>
                                 </form>
-                            {% endif %}
 
-                            {% if request.user.rol == 'ADM' %}
                                 <form method="POST" action="{% url 'analisisFinanciero:eliminarEmpresa' %}">
                                     <input type="hidden" name="codE" value="{{q.codEmpresa}}"/>
                                     {% csrf_token %}
@@ -91,7 +84,7 @@
                                         <input type="submit" name="btnEliminar" value="Eliminar" class="btn btn-danger" style="color:white;"/>
                                     </td>
                                 </form>
-                            {% endif %}                                
+                                
                             </tr>                 
                         {% endfor %}
                     </tbody>
@@ -100,7 +93,6 @@
             </table>
      
     <div>
-
-{% endif %}    
+    
 
 {% endblock %}

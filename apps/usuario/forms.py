@@ -32,7 +32,7 @@ class FormularioUsuarioLogin(forms.ModelForm):
 
 	class Meta:
 		model=Usuario
-		fields=('email', 'username', 'nombres', 'apellidos')
+		fields=('email', 'username', 'nombres', 'apellidos', 'codEmpresa')
 		widgets ={
 			'email': forms.EmailInput(
 				attrs={
@@ -101,7 +101,7 @@ class FormularioUsuario(forms.ModelForm):
 
 	class Meta:
 		model=Usuario
-		fields=('email', 'username', 'nombres', 'apellidos', 'rol')
+		fields=('email', 'username', 'nombres', 'apellidos', 'rol', 'codEmpresa')
 		widgets ={
 			'email': forms.EmailInput(
 				attrs={
@@ -152,7 +152,7 @@ class FormularioUsuarioEditar(forms.ModelForm):
 
 	class Meta:
 		model=Usuario
-		fields=('email', 'username', 'nombres', 'apellidos', 'rol')
+		fields=('email', 'username', 'nombres', 'apellidos', 'rol', 'codEmpresa')
 		widgets ={
 			'email': forms.EmailInput(
 				attrs={

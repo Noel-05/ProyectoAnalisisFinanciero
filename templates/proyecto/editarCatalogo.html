@@ -20,7 +20,7 @@
     {# CSS Bootstrap #}
     {% bootstrap_css %} 
 
-	{# Widget Tweaks #}
+  {# Widget Tweaks #}
     {% load widget_tweaks %}
 
     {# Archivos #}
@@ -32,14 +32,14 @@
     </head>
 
   <body>
-	<nav aria-label="breadcrumb mb-3">
+  <nav aria-label="breadcrumb mb-3">
         <ol class="breadcrumb">
-        	<li class="breadcrumb-item active">Gestionar Cátalogo</li>
-        	<li class="breadcrumb-item active">Actualizar</li>
+          <li class="breadcrumb-item active">Gestionar Cátalogo</li>
+          <li class="breadcrumb-item active">Actualizar</li>
         </ol>
     </nav>
 
-	<div class="formulario" align="left">
+  <div class="formulario" align="left">
 
     <h4>Actualizar</h4>
 
@@ -55,7 +55,7 @@
           <label for="nombreCuenta" class="txt_negrita">Nombre Cuenta</label>
           {{ form.nombreCuenta|add_class:"form-control" }}
         </div>
-        <div class="form-group"  style="display:none;">
+        <div class="form-group">
           <label for="codEmpresa_id" class="txt_negrita">C&oacute;digo Empresa</label>
           {{ form.codEmpresa|add_class:"form-control" }}
         </div>
@@ -67,10 +67,11 @@
           <label for="codTipoCuenta_id" class="txt_negrita">C&oacute;digo Tipo de Cuenta</label>
           {{ form.codTipoCuenta|add_class:"form-control" }}
         </div>
- 
+
+
         <div align="center" class="busqueda">
           <div class="form__group2 field">
-              <input type="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Aceptar">
+              <input type="submit" id="consultarBalance" class="inputfile inputfile-3" onclick="history.back()" name="volver atrás"  value="Aceptar">
               <label for="consultarBalance">
               <span class="iborrainputfile">Aceptar</span>
           </div>
@@ -78,12 +79,12 @@
 
         <div align="center" class="busqueda">
           <div class="form__group2 field">
-              <input type="submit" id="consultarBalance" class="inputfile inputfile-3" onclick="history.back()" name="volver atrás" value="Volver">
+              <input type="submit" id="consultarBalance" class="inputfile inputfile-3"  onclick="history.back()" name="volver atrás" value="Volver">
               <label for="consultarBalance">
-              <span class="iborrainputfile">Regresar</span>
+              <span class="iborrainputfile">Volver</span>
           </div>
         </div>
- 
+     
 </form>
 
 </div>

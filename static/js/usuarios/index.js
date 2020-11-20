@@ -1,15 +1,15 @@
 function listadoUsuarios(){
-	activarBoton();
-	$.ajax({
-		url:"/listado_usuarios/",
-		type:"get",
-		dataType: "json",
-		success: function(response){
-			console.log(response);
+    activarBoton();
+    $.ajax({
+        url:"/listado_usuarios/",
+        type:"get",
+        dataType: "json",
+        success: function(response){
+            console.log(response);
             if($.fn.DataTable.isDataTable('#tabla_usuarios')){
                 $('#tabla_usuarios').DataTable().destroy();
             }
-			$('#tabla_usuarios tbody').html("");
+            $('#tabla_usuarios tbody').html("");
             for(let i = 0;i < response.length;i++){
                 let fila = '<tr>';
                 fila += '<td>' + (i +1 ) + '</td>';
@@ -18,16 +18,17 @@ function listadoUsuarios(){
                 fila += '<td>' + response[i]["fields"]['apellidos'] + '</td>';
                 fila += '<td>' + response[i]["fields"]['email'] + '</td>';
                 fila += '<td>' + response[i]["fields"]['rol'] + '</td>';
+                fila += '<td>' + response[i]["fields"]['codEmpresa'] + '</td>';
                 fila += '<td><button type = "button" class = "btn btn-primary btn-sm tableButton"';
-                fila += ' onclick = "abrir_modal_edicion(\'/actualizar_usuario/' + response[i]['pk']+'/\');" style="color:white;"> EDITAR </button>';
+                fila += ' onclick = "abrir_modal_edicion(\'/actualizar_usuario/' + response[i]['pk']+'/\');"> EDITAR </button>';
                 fila += '<button type = "button" class = "btn btn-danger tableButton  btn-sm" ';
-                fila += 'onclick = "abrir_modal_eliminacion(\'/eliminar_usuario/' + response[i]['pk'] +'/\');" style="color:white;"> ELIMINAR </buttton></td>';
+                fila += 'onclick = "abrir_modal_eliminacion(\'/eliminar_usuario/' + response[i]['pk'] +'/\');"> ELIMINAR </buttton></td>';
                 fila += '</tr>';
                 $('#tabla_usuarios tbody').append(fila);
             }
-			$('#tabla_usuarios').DataTable({
-				language: {
- 					"decimal": "",
+            $('#tabla_usuarios').DataTable({
+                language: {
+                    "decimal": "",
                     "emptyTable": "No hay información",
                     "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
                     "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
@@ -44,14 +45,14 @@ function listadoUsuarios(){
                         "last": "Ultimo",
                         "next": "Siguiente",
                         "previous": "Anterior"
-		          },
-		        },				
-			});
-		},
-		error: function(error){
-			console.log(error);
-		}
-	});
+                  },
+                },              
+            });
+        },
+        error: function(error){
+            console.log(error);
+        }
+    });
 }
 
 function registrar() {
@@ -106,5 +107,5 @@ function eliminar(pk) {
 }
 
 $(document).ready(function(){
-	listadoUsuarios();
+    listadoUsuarios();
 });

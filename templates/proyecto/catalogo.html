@@ -1,113 +1,131 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block content %}
+{% if user.is_authenticated %}
 
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    {% if request.user.rol == 'ADM' %}
 
-    <meta name="theme-color" content="#000000" />
+      <!doctype html>
+      <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+          <meta name="description" content="">
+          <meta name="author" content="">
 
-    <title>C&aacute;talogo de Cuentas </title>
+          <meta name="theme-color" content="#000000" />
 
-    {# Cargamos la librería #}
-    {% load bootstrap4 %}
- 
-    {# CSS Bootstrap #}
-    {% bootstrap_css %} 
+          <title>C&aacute;talogo de Cuentas </title>
 
-    {# Archivos #}
-    {% load static %}
+          {# Cargamos la librería #}
+          {% load bootstrap4 %}
+       
+          {# CSS Bootstrap #}
+          {% bootstrap_css %} 
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    
-  </head>
+          {# Archivos #}
+          {% load static %}
 
-  <body> 
+          <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+          
+        </head>
 
-<div class="page-header-header">
-    <h1 class="text-titles"><strong>Consultar C&aacute;talogo de Cuentas.</strong></h1>
-</div>
-</br><p class="lead">Consulta los c&aacute;talogos de cuentas existentes o crea uno nuevo</p>
-      
-{% if messages %}
-  <ul class="messages list-group mb-3">
-    {% for message in messages %}
-    <li {% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
-    {% endfor %}
-  </ul>
+        <body> 
+
+      <div class="page-header-header">
+          <h1 class="text-titles"><strong>Consultar C&aacute;talogo de Cuentas.</strong></h1>
+      </div>
+      </br><p class="lead">Consulta los c&aacute;talogos de cuentas existentes o crea uno nuevo</p>
+            
+      {% if messages %}
+        <ul class="messages list-group mb-3">
+          {% for message in messages %}
+          <li {% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <div align="center" class="busqueda">
+          <div class="form__group2 field">
+              <input type="submit" name="submit" id="consultarActividad" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='crearCatalogo'">
+              <label for="consultarActividad">
+              <span class="iborrainputfile" onclick="window.location.href='crearCatalogo'">Crear Cuenta</span>
+          </div>
+          </br>
+      </div>
+
+      <div class="table-responsive" style="width:85%; display:inline-block;">    
+        <table class="table table-hover text-center">
+          <thead>
+            <tr>
+              <th class="text-center">C&oacute;digo Cuenta</th>
+              <th class="text-center">Nombre Cuenta</th>
+              <th class="text-center">C&oacute;digo Empresa</th>
+              <th class="text-center">Nombre Empresa</th>
+              <th class="text-center">C&oacute;digo Rubro</th>
+              <th class="text-center">C&oacute;digo Tipo Cuenta</th>
+              <th class="text-center">Acci&oacute;n</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for catalogocuenta in object_list %}
+            <tr>
+              <td>{{ catalogocuenta.codCuenta }}</td>
+              <td>{{ catalogocuenta.nombreCuenta }}</td>
+              <td>{{ catalogocuenta.codEmpresa }}</td>
+              <td>{{ catalogocuenta.codEmpresa.nombreEmpresa }}</td>
+              <td>{{ catalogocuenta.codRubro.nombreRubro }}</td>
+              <td>{{ catalogocuenta.codTipoCuenta }}</td>
+              <td>
+
+                <form method="POST" action="eliminarCatalogo/{{catalogocuenta.codCuenta}}">
+                  {% csrf_token %}
+                  <div class="btn-group">
+                  <a href="detalleCatalogo/{{catalogocuenta.codCuenta}}" title="Ver" type="button" class="btn btn-default">Ver </a>
+                  <a href="editarCatalogo/{{catalogocuenta.codCuenta}}" title="Editar" type="button" class="btn btn-default">Editar
+                    </a>
+                    <button class="btn btn-danger" onclick="return eliminarCatalogo();" type="submit" style="color:white;">
+                      Eliminar
+                    </button>
+                    </div>
+                  </form> 
+                </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+
+          {# JS y jQuery Bootstrap #}
+          {% bootstrap_javascript jquery='full' %} 
+
+           <script type="text/javascript">
+              function eliminarCatalogo() {
+                var x = confirm("Eliminar ?");
+                if (x)
+                  return true;
+                else
+                  return false;
+              }
+            </script>
+
+        </body>
+      </html>
+    {% endif %}
+
+
+    {% if request.user.rol == 'GER' or request.user.rol == 'EMP' %}
+        <div class="page-header-header">
+            <h1 class="text-titles"><strong>No posee permisos para realizar esta accion.</strong></h1>
+        </div>
+        <img src="{% static 'img/error.gif' %}">
+
+
+    {% endif %}
+
+
 {% endif %}
-
-<div align="center" class="busqueda">
-    <div class="form__group2 field">
-        <input type="submit" name="submit" id="consultarActividad" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='crearCatalogo'">
-        <label for="consultarActividad">
-        <span class="iborrainputfile" onclick="window.location.href='crearCatalogo'">Crear Cuenta</span>
-    </div>
-    </br>
-</div>
-
-<div class="table-responsive" style="width:85%; display:inline-block;">    
-  <table class="table table-hover text-center">
-    <thead>
-      <tr>
-        <th class="text-center">C&oacute;digo Cuenta</th>
-        <th class="text-center">Nombre Cuenta</th>
-        <th class="text-center">C&oacute;digo Empresa</th>
-        <th class="text-center">Nombre Empresa</th>
-        <th class="text-center">C&oacute;digo Rubro</th>
-        <th class="text-center">C&oacute;digo Tipo Cuenta</th>
-        <th class="text-center">Acci&oacute;n</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for catalogocuenta in object_list %}
-      <tr>
-        <td>{{ catalogocuenta.codCuenta }}</td>
-        <td>{{ catalogocuenta.nombreCuenta }}</td>
-        <td>{{ catalogocuenta.codEmpresa }}</td>
-        <td>{{ catalogocuenta.codEmpresa.nombreEmpresa }}</td>
-        <td>{{ catalogocuenta.codRubro.nombreRubro }}</td>
-        <td>{{ catalogocuenta.codTipoCuenta }}</td>
-        <td>
-
-          <form method="POST" action="eliminarCatalogo/{{catalogocuenta.codCuenta}}">
-            {% csrf_token %}
-            <div class="btn-group">
-            <a href="detalleCatalogo/{{catalogocuenta.codCuenta}}" title="Ver" type="button" class="btn btn-default">Ver </a>
-            <a href="editarCatalogo/{{catalogocuenta.codCuenta}}" title="Editar" type="button" class="btn btn-default">Editar
-              </a>
-              <button class="btn btn-danger" onclick="return eliminarCatalogo();" type="submit" style="color:white;">
-                Eliminar
-              </button>
-              </div>
-            </form> 
-          </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-  </table>
-</div>
-
-
-    {# JS y jQuery Bootstrap #}
-    {% bootstrap_javascript jquery='full' %} 
-
-     <script type="text/javascript">
-        function eliminarCatalogo() {
-          var x = confirm("Eliminar ?");
-          if (x)
-            return true;
-          else
-            return false;
-        }
-      </script>
-
-  </body>
-</html>
 
 {% endblock %}

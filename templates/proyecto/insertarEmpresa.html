@@ -1,74 +1,89 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block content %} 
-    
-    <div class="page-header-header">
-        <h1 class="text-titles"><strong>Agregar nueva Empresa.</strong></h1>
-    </div>
-           
-        </br></br><p class="lead">Ingresa los datos para crear una Empresa.</p></br>
+{% if user.is_authenticated %}
 
-        {% if exist %}
-          <p>{{exist}}</p>
-          </br>
-        {% endif %}
+    {% if request.user.rol == 'ADM' %}
 
-        <div align="center" class="busqueda">
-            <form method="POST" action="{% url 'analisisFinanciero:insertarEmpresa' %}">
-                {% csrf_token %} 
-
-                <div class="form__group2 field">                
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="inputGroupSelect01">Actividad Economica</label>
-                        </div>
-                        <select name="actividades" class="custom-select" id="inputGroupSelect01">
-                          <option selected="selected">Selecciona la Actividad Econ&oacute;mica</option>
-
-                        {% for act in actividad %}
-
-                          <option value="{{ act.codActividadEconomica }}">{{ act.nombreActividadEconomica }}</option>
-
-                        {% endfor %}
-                        </select>
-                    </div>
-                </div>               
-
-                </br>
-
-                <div class="form__group2 field">
-                    <input type="text" name="codE"  id = "codEmpresa" class="form__field2" placeholder="Ingresa un codigo identificador" required maxlength="15"></br>
-                    <label for="codEmpresa" class="form__label2">Codigo de Empresa</label>
-                </div>
-            
-                </br>
-
-                <div class="form__group2 field">
-                  <input type="text" name="nomE"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el nombre de la empresa" required maxlength="100"></br>
-                  <label for="codEmpresa" class="form__label2">Nombre de Empresa</label>
-                </div>
-
-                </br>
-
-                <div class="form__group2 field">
-                   
-                  <textarea  type="text" name="descE"  id = "codEmpresa" class="form__field2" placeholder="Ingresa una descripcion de la empresa"  maxlength="250" cols="30" rows="5"></textarea> </br>                 
-                  
-                  <label for="codEmpresa" class="form__label2">Descripci&oacute;n</label>
-                </div>
-
-                </br>
-
-                <div class="form__group2 field">
-                    <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Consultar">
-                    <label for="consultarBalance">
-                    <span class="iborrainputfile">Guardar</span>
-                </div>
-
-                </br>
-                
-            </form>
+        <div class="page-header-header">
+            <h1 class="text-titles"><strong>Agregar nueva Empresa.</strong></h1>
         </div>
+               
+            </br></br><p class="lead">Ingresa los datos para crear una Empresa.</p></br>
+
+            {% if exist %}
+              <p>{{exist}}</p>
+              </br>
+            {% endif %}
+
+            <div align="center" class="busqueda">
+                <form method="POST" action="{% url 'analisisFinanciero:insertarEmpresa' %}">
+                    {% csrf_token %} 
+
+                    <div class="form__group2 field">                
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="inputGroupSelect01">Actividad Economica</label>
+                            </div>
+                            <select name="actividades" class="custom-select" id="inputGroupSelect01">
+                              <option selected="selected">Selecciona la Actividad Econ&oacute;mica</option>
+
+                            {% for act in actividad %}
+
+                              <option value="{{ act.codActividadEconomica }}">{{ act.nombreActividadEconomica }}</option>
+
+                            {% endfor %}
+                            </select>
+                        </div>
+                    </div>               
+
+                    </br>
+
+                    <div class="form__group2 field">
+                        <input type="text" name="codE"  id = "codEmpresa" class="form__field2" placeholder="Ingresa un codigo identificador" required maxlength="15"></br>
+                        <label for="codEmpresa" class="form__label2">Codigo de Empresa</label>
+                    </div>
+                
+                    </br>
+
+                    <div class="form__group2 field">
+                      <input type="text" name="nomE"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el nombre de la empresa" required maxlength="100"></br>
+                      <label for="codEmpresa" class="form__label2">Nombre de Empresa</label>
+                    </div>
+
+                    </br>
+
+                    <div class="form__group2 field">
+                       
+                      <textarea  type="text" name="descE"  id = "codEmpresa" class="form__field2" placeholder="Ingresa una descripcion de la empresa"  maxlength="250" cols="30" rows="5"></textarea> </br>                 
+                      
+                      <label for="codEmpresa" class="form__label2">Descripci&oacute;n</label>
+                    </div>
+
+                    </br>
+
+                    <div class="form__group2 field">
+                        <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Consultar">
+                        <label for="consultarBalance">
+                        <span class="iborrainputfile">Guardar</span>
+                    </div>
+
+                    </br>
+                    
+                </form>
+            </div>
+    {% endif %}
+
+    {% if request.user.rol == 'GER' or request.user.rol == 'EMP' %}
+        <div class="page-header-header">
+            <h1 class="text-titles"><strong>No posee permisos para realizar esta accion.</strong></h1>
+        </div>
+        <img src="{% static 'img/error.gif' %}">
 
 
+    {% endif %}
+
+
+{% endif %}
 {% endblock %}

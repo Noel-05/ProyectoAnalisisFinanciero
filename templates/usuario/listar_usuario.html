@@ -1,76 +1,78 @@
 {% extends 'base/base.html' %}
-
 {% load static %}
 
-{%block title%}
-Listado de Usuarios
-{%endblock%}
+{% block content %} 
+{% if user.is_authenticated %}
 
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/lib/datatable/dataTables.bootstrap.min.css' %}">
-{% endblock extra_css %}
+    {% if request.user.rol == 'ADM' %}
 
-{% block content %}
+        {% block extra_css %}
+            <link rel="stylesheet" href="{% static 'css/lib/datatable/dataTables.bootstrap.min.css' %}">
+        {% endblock extra_css %}
 
-  <header>
-    <div class="container">
-      <h2 align="center" class="form-titulo" style ="margin-left: 5px;">Registro de Usuarios</h2>
-<!-- Crear Usuario otra pantalla 
-        <div>
-            <a href="{% url 'usuario:registrar_usuario' %}">
-            <input type="button" class="mdl-button mdl-js-button mdl-button- -raised mdl-js-ripple-effect mdl-button- -accent btn-buscar" name="submit" value="Agregar"></a>
-        </div> -->
-    <div align="center" class="busqueda">
-        <div class="form__group2 field">
-            <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  onclick="abrir_modal_creacion('{% url 'usuario:registrar_usuario' %}');", value="Agregar">
-            <label for="consultarBalance">
-            <span class="iborrainputfile">Agregar</span>
+          <header>
+            <div class="container">
+              <h2 align="center" class="form-titulo" style ="margin-left: 5px;">Registro de Usuarios</h2>
+        <!-- Crear Usuario otra pantalla 
+                <div>
+                    <a href="{% url 'usuario:registrar_usuario' %}">
+                    <input type="button" class="mdl-button mdl-js-button mdl-button- -raised mdl-js-ripple-effect mdl-button- -accent btn-buscar" name="submit" value="Agregar"></a>
+                </div> -->
+
+                    <input type="button" class="btn-buscar btn-busqueda" onclick="abrir_modal_creacion('{% url 'usuario:registrar_usuario' %}');", value="Agregar">
+           
+
+              </br></br></br>
+            </div>
+          </header>
+
+            <div class="table-stats order-table ov-h">
+                <table id="tabla_usuarios" class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Empresa</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>               
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-            {% comment %} <input type="button" class="btn-buscar btn-busqueda" onclick="abrir_modal_creacion('{% url 'usuario:registrar_usuario' %}');", value="Agregar"> {% endcomment %}
-   
+        <div class="modal fade" id="creacion" role="dialog">
 
-      </br>
-    </div>
-  </header>
+        </div>
+        <div class="modal fade" id="edicion" role="dialog">
 
-<div class="table-responsive" style="width:85%; display:inline-block;">
-    <table id="tabla_usuarios" class="table table-hover text-center">
-    {% comment %} <div class="table-stats order-table ov-h">
-        <table id="tabla_usuarios" class="table"> {% endcomment %}
-            <thead>
-                <tr>
-                    <th class="text-center">#</th>
-                    <th class="text-center">Username</th>
-                    <th class="text-center">Nombres</th>
-                    <th class="text-center">Apellidos</th>
-                    <th class="text-center">Email</th>
-                    <th class="text-center">Rol</th>
-                    <th class="text-center">Opciones</th>
-                </tr>
-            </thead>
-            <tbody>               
-            </tbody>
-        </table>
-    </div>
-</div>
+        </div>
+        <div class="modal fade" id="eliminacion" role="dialog">
 
-<div class="modal fade" id="creacion" role="dialog">
-
-</div>
-<div class="modal fade" id="edicion" role="dialog">
-
-</div>
-<div class="modal fade" id="eliminacion" role="dialog">
-
-{% block extrajs %}
-    <script src="{% static 'js/lib/data-table/datatables.min.js' %}"></script>
-    <script src="{% static 'js/lib/data-table/dataTables.bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/usuarios/index.js' %}"></script>
+        {% block extrajs %}
+            <script src="{% static 'js/lib/data-table/datatables.min.js' %}"></script>
+            <script src="{% static 'js/lib/data-table/dataTables.bootstrap.min.js' %}"></script>
+            <script src="{% static 'js/usuarios/index.js' %}"></script>
 
 
-{% endblock extrajs %}
+        {% endblock extrajs %}
 
+    {% endif %}
+
+    {% if request.user.rol == 'EMP' or request.user.rol == 'GER'  %}
+        <div class="page-header-header">
+            <h1 class="text-titles"><strong>No posee permisos para realizar esta accion.</strong></h1>
+        </div>
+        <img src="{% static 'img/error.gif' %}">
+
+
+    {% endif %}
+
+
+{% endif %}
 {% endblock %}
-

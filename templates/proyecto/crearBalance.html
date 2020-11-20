@@ -1,90 +1,107 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
-{% block content %}
+{% block content %} 
+{% if user.is_authenticated %}
 
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    {% if request.user.rol == 'ADM' or request.user.rol == 'GER' %}
 
-   <meta name="theme-color" content="#000000" />
+      <!doctype html>
+      <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+          <meta name="description" content="">
+          <meta name="author" content="">
 
-    <title>Crear Balance </title>
+         <meta name="theme-color" content="#000000" />
 
-     {# Cargamos la librería #}
-    {% load bootstrap4 %}
- 
-    {# CSS Bootstrap #}
-    {% bootstrap_css %} 
+          <title>Crear Balance </title>
 
-	{# Widget Tweaks #}
-    {% load widget_tweaks %}
+           {# Cargamos la librería #}
+          {% load bootstrap4 %}
+       
+          {# CSS Bootstrap #}
+          {% bootstrap_css %} 
 
-    {# Archivos #}
-    {% load static %}
+      	{# Widget Tweaks #}
+          {% load widget_tweaks %}
 
-   
+          {# Archivos #}
+          {% load static %}
 
-   <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">-->
-    </head>
+         
 
-  <body>
-    
+         <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">-->
+          </head>
 
-	<div class="formulario" align="left">
+        <body>
+          
 
-    <h4>Crear Balance </h4>
+      	<div class="formulario" align="left">
 
-  	<form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <!-- {{ form.as_p }} -->
-        <div class="form-group">
-        	<label for="codCuenta" class="txt_negrita">C&oacute;digo Cuenta</label>
-        	{{ form.codCuenta|add_class:"form-control" }}
+          <h4>Crear Balance </h4>
+
+        	<form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <!-- {{ form.as_p }} -->
+              <div class="form-group">
+              	<label for="codCuenta" class="txt_negrita">C&oacute;digo Cuenta</label>
+              	{{ form.codCuenta|add_class:"form-control" }}
+              </div>
+
+              <div class="form-group">
+              	<label for="codEmpresa_id" class="txt_negrita">C&oacute;digo Empresa</label>
+              	{{ form.codEmpresa|add_class:"form-control" }}
+
+              </div>
+              <div class="form-group">
+              	<label for="año" class="txt_negrita">Año</label>
+              	{{ form.año|add_class:"form-control" }}
+              </div>
+              <div class="form-group">
+              	<label for="valor" class="txt_negrita">Valor</label>
+              	{{ form.valor|add_class:"form-control" }}
+              </div>
+
+              <div align="center" class="busqueda">
+                <div class="form__group2 field">
+                    <input type="submit" id="consultarBalance" class="inputfile inputfile-3"  name="volver atrás" value="Aceptar">
+                    <label for="consultarBalance">
+                    <span class="iborrainputfile">Aceptar</span>
+                </div>
+              </div>
+
+              <div align="center" class="busqueda">
+                <div class="form__group2 field">
+                    <input type="reset" id="reset" class="inputfile inputfile-3"  name="volver atrás" value="Cancel">
+                    <label for="reset">
+                    <span class="iborrainputfile">Cancelar</span>
+                </div>
+              </div>
+              
+          </form>
+
+           </div>
+
+      {# JS y jQuery Bootstrap #}
+      {% bootstrap_javascript jquery='full' %} 
+
+
+      </body>
+      </html>
+
+    {% endif %}
+
+    {% if request.user.rol == 'EMP' %}
+        <div class="page-header-header">
+            <h1 class="text-titles"><strong>No posee permisos para realizar esta accion.</strong></h1>
         </div>
-
-        <div class="form-group">
-        	<label for="codEmpresa_id" class="txt_negrita">C&oacute;digo Empresa</label>
-        	{{ form.codEmpresa|add_class:"form-control" }}
-
-        </div>
-        <div class="form-group">
-        	<label for="año" class="txt_negrita">Año</label>
-        	{{ form.año|add_class:"form-control" }}
-        </div>
-        <div class="form-group">
-        	<label for="valor" class="txt_negrita">Valor</label>
-        	{{ form.valor|add_class:"form-control" }}
-        </div>
-
-        <div align="center" class="busqueda">
-          <div class="form__group2 field">
-              <input type="submit" id="consultarBalance" class="inputfile inputfile-3"  name="volver atrás" value="Aceptar">
-              <label for="consultarBalance">
-              <span class="iborrainputfile">Aceptar</span>
-          </div>
-        </div>
-
-        <div align="center" class="busqueda">
-          <div class="form__group2 field">
-              <input type="reset" id="reset" class="inputfile inputfile-3"  name="volver atrás" value="Cancel">
-              <label for="reset">
-              <span class="iborrainputfile">Cancelar</span>
-          </div>
-        </div>
-        
-    </form>
-
-     </div>
-
-{# JS y jQuery Bootstrap #}
-{% bootstrap_javascript jquery='full' %} 
+        <img src="{% static 'img/error.gif' %}">
 
 
-</body>
-</html>
+    {% endif %}
 
+
+{% endif %}
 {% endblock %}

@@ -12,6 +12,7 @@ from django.contrib.auth import login, logout
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView,TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import *
+from apps.usuario.models import *
 from .forms import *
 from django.conf import settings
 from django.urls import reverse
@@ -35,37 +36,27 @@ def index(request):
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
+def consultarBalance(request, username):
 
-def consultarBalance(request):
-    return render(
-        request,
-        'proyecto/ConsultaBalance.html'
-    )
+    #Obtener el codigo de la empresa del Usuario
+    usuarioRec = Usuario.objects.filter(username=username)
+    i=0
+    while(i<len(usuarioRec)):
+        codEmp = usuarioRec[i].codEmpresa
+        rol =usuarioRec[i].rol
+        i+=1
 
-
-
-def subirBalance(request):
-    error = 0
-    if request.method == 'POST':
-        balance_resource = BalanceResource()  
-        dataset = Dataset()
-        print(dataset)  
-        nuevo_balance = request.FILES['xlsfile']  
-        print(nuevo_balance)  
-        imported_data = dataset.load(nuevo_balance.read())  
-        print(dataset)  
-        result = balance_resource.import_data(dataset, dry_run=True) # Test the data import  
-        print(result.has_errors())  
-        
-        if result.has_errors():
-            return render(request, 'proyecto/error.html')
-        
-        if not result.has_errors():
-            balance_resource.import_data(dataset, dry_run=False) # Actually import now 
-    
-    return render(request, 'proyecto/SubirBalance.html')
-
-
+    if rol == 'ADM':
+        emp = Empresa.objects.all()
+        querysetRA =Empresa.objects.all()
+    else:
+        emp = Empresa.objects.filter(codEmpresa=codEmp)
+        querysetRA= Empresa.objects.filter(codEmpresa=codEmp)
+    contexto = {
+            'empresas':emp,
+            'querysetRA':querysetRA,
+    } 
+    return render(request,'proyecto/ConsultaBalance.html', contexto)
 
 def filtrarBalance(request):
     if request.method == 'POST':
@@ -100,6 +91,29 @@ def filtrarBalance(request):
             )
 
 
+
+def subirBalance(request):
+    error = 0
+    if request.method == 'POST':
+        balance_resource = BalanceResource()  
+        dataset = Dataset()
+        print(dataset)  
+        nuevo_balance = request.FILES['xlsfile']  
+        print(nuevo_balance)  
+        imported_data = dataset.load(nuevo_balance.read())  
+        print(dataset)  
+        result = balance_resource.import_data(dataset, dry_run=True) # Test the data import  
+        print(result.has_errors())  
+        
+        if result.has_errors():
+            return render(request, 'proyecto/error.html')
+        
+        if not result.has_errors():
+            balance_resource.import_data(dataset, dry_run=False) # Actually import now 
+    
+    return render(request, 'proyecto/SubirBalance.html')
+
+
 class BalanceCrear(SuccessMessageMixin, CreateView):
     model = CuentaBalance #Llamada a la clase "CatalogoCuenta" en el archivo models.py
     form = CuentaBalanceForm #Definición del formulario ubicado en forms.py
@@ -123,12 +137,27 @@ class BalanceActualizar(SuccessMessageMixin, UpdateView):
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
+def consultarRazonActividad(request, username):
 
-def consultarRazonActividad(request):
-    return render(
-        request,
-        'proyecto/ConsultaRazonActividad.html'
-    )
+    #Obtener el codigo de la empresa del Usuario
+    usuarioRec = Usuario.objects.filter(username=username)
+    i=0
+    while(i<len(usuarioRec)):
+        codEmp = usuarioRec[i].codEmpresa
+        rol =usuarioRec[i].rol
+        i+=1
+
+    if rol == 'ADM':
+        emp = Empresa.objects.all()
+        querysetRA =Empresa.objects.all()
+    else:
+        emp = Empresa.objects.filter(codEmpresa=codEmp)
+        querysetRA= Empresa.objects.filter(codEmpresa=codEmp)
+    contexto = {
+            'empresas':emp,
+            'querysetRA':querysetRA,
+    } 
+    return render(request,'proyecto/ConsultaRazonActividad.html', contexto)
 
 
 
@@ -439,13 +468,27 @@ def ratiosActividad(request):
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
+def consultarRazonLiquidez(request, username):
 
-def consultarRazonLiquidez(request):
-    return render(
-        request,
-        'proyecto/ConsultaRazonLiquidez.html'
-    )
+    #Obtener el codigo de la empresa del Usuario
+    usuarioRec = Usuario.objects.filter(username=username)
+    i=0
+    while(i<len(usuarioRec)):
+        codEmp = usuarioRec[i].codEmpresa
+        rol =usuarioRec[i].rol
+        i+=1
 
+    if rol == 'ADM':
+        emp = Empresa.objects.all()
+        querysetRA =Empresa.objects.all()
+    else:
+        emp = Empresa.objects.filter(codEmpresa=codEmp)
+        querysetRA= Empresa.objects.filter(codEmpresa=codEmp)
+    contexto = {
+            'empresas':emp,
+            'querysetRA':querysetRA,
+    } 
+    return render(request,'proyecto/ConsultaRazonLiquidez.html', contexto)
 
 
 def ratiosLiquidez(request):
@@ -601,11 +644,27 @@ def ratiosLiquidez(request):
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
 
-def consultarRazonApalancamiento(request):
-    return render(
-        request,
-        'proyecto/ConsultaRazonApalancamiento.html'
-    )
+def consultarRazonApalancamiento(request, username):
+
+    #Obtener el codigo de la empresa del Usuario
+    usuarioRec = Usuario.objects.filter(username=username)
+    i=0
+    while(i<len(usuarioRec)):
+        codEmp = usuarioRec[i].codEmpresa
+        rol =usuarioRec[i].rol
+        i+=1
+
+    if rol == 'ADM':
+        emp = Empresa.objects.all()
+        querysetRA =Empresa.objects.all()
+    else:
+        emp = Empresa.objects.filter(codEmpresa=codEmp)
+        querysetRA= Empresa.objects.filter(codEmpresa=codEmp)
+    contexto = {
+            'empresas':emp,
+            'querysetRA':querysetRA,
+    } 
+    return render(request,'proyecto/ConsultaRazonApalancamiento.html', contexto)
 
 
 
@@ -762,11 +821,27 @@ def ratiosApalancamiento(request):
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
 
-def consultarRazonRentabilidad(request):
-    return render(
-        request,
-        'proyecto/ConsultaRazonRentabilidad.html'
-    )
+def consultarRazonRentabilidad(request, username):
+
+    #Obtener el codigo de la empresa del Usuario
+    usuarioRec = Usuario.objects.filter(username=username)
+    i=0
+    while(i<len(usuarioRec)):
+        codEmp = usuarioRec[i].codEmpresa
+        rol =usuarioRec[i].rol
+        i+=1
+
+    if rol == 'ADM':
+        emp = Empresa.objects.all()
+        querysetRA =Empresa.objects.all()
+    else:
+        emp = Empresa.objects.filter(codEmpresa=codEmp)
+        querysetRA= Empresa.objects.filter(codEmpresa=codEmp)
+    contexto = {
+            'empresas':emp,
+            'querysetRA':querysetRA,
+    } 
+    return render(request,'proyecto/ConsultaRazonRentabilidad.html', contexto)
 
 
 
@@ -986,12 +1061,27 @@ def ratiosRentabilidad(request):
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
 
-def consultarAnalisisDupont(request):
-    return render(
-        request,
-        'proyecto/ConsultaAnalisisDupont.html'
-    )
+def consultarAnalisisDupont(request, username):
 
+    #Obtener el codigo de la empresa del Usuario
+    usuarioRec = Usuario.objects.filter(username=username)
+    i=0
+    while(i<len(usuarioRec)):
+        codEmp = usuarioRec[i].codEmpresa
+        rol =usuarioRec[i].rol
+        i+=1
+
+    if rol == 'ADM':
+        emp = Empresa.objects.all()
+        querysetRA =Empresa.objects.all()
+    else:
+        emp = Empresa.objects.filter(codEmpresa=codEmp)
+        querysetRA= Empresa.objects.filter(codEmpresa=codEmp)
+    contexto = {
+            'empresas':emp,
+            'querysetRA':querysetRA,
+    } 
+    return render(request,'proyecto/ConsultaAnalisisDupont.html', contexto)
 
 
 def analisisDupont(request):
@@ -1227,12 +1317,27 @@ def analisisDupont(request):
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
 
-def consultarAnalisisHorizontal(request):
-    return render(
-        request,
-        'proyecto/ConsultaAnalisisHorizontal.html'
-    )
+def consultarAnalisisHorizontal(request, username):
 
+    #Obtener el codigo de la empresa del Usuario
+    usuarioRec = Usuario.objects.filter(username=username)
+    i=0
+    while(i<len(usuarioRec)):
+        codEmp = usuarioRec[i].codEmpresa
+        rol =usuarioRec[i].rol
+        i+=1
+
+    if rol == 'ADM':
+        emp = Empresa.objects.all()
+        querysetRA =Empresa.objects.all()
+    else:
+        emp = Empresa.objects.filter(codEmpresa=codEmp)
+        querysetRA= Empresa.objects.filter(codEmpresa=codEmp)
+    contexto = {
+            'empresas':emp,
+            'querysetRA':querysetRA,
+    } 
+    return render(request,'proyecto/ConsultaAnalisisHorizontal.html', contexto)
 
 
 def analisisHorizontal(request):
@@ -1321,11 +1426,26 @@ def analisisHorizontal(request):
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
 
-def consultarAnalisisVertical(request):
-    return render(
-        request,
-        'proyecto/ConsultaAnalisisVertical.html'
-    )
+def consultarAnalisisVertical(request, username):
+    #Obtener el codigo de la empresa del Usuario
+    usuarioRec = Usuario.objects.filter(username=username)
+    i=0
+    while(i<len(usuarioRec)):
+        codEmp = usuarioRec[i].codEmpresa
+        rol =usuarioRec[i].rol
+        i+=1
+
+    if rol == 'ADM':
+        emp = Empresa.objects.all()
+        querysetRA =Empresa.objects.all()
+    else:
+        emp = Empresa.objects.filter(codEmpresa=codEmp)
+        querysetRA= Empresa.objects.filter(codEmpresa=codEmp)
+    contexto = {
+            'empresas':emp,
+            'querysetRA':querysetRA,
+    } 
+    return render(request,'proyecto/ConsultaAnalisisVertical.html', contexto)
 
 
 
@@ -2431,12 +2551,26 @@ def informeAnalisis(request):
 #-------------------------------------------------------------------------------------------------------
 
 
-def consultarInformeEmpresa(request):
-    return render(
-        request,
-        'proyecto/analisisEmpresa.html',
-    )
+def consultarInformeEmpresa(request, username):
+    #Obtener el codigo de la empresa del Usuario
+    usuarioRec = Usuario.objects.filter(username=username)
+    i=0
+    while(i<len(usuarioRec)):
+        codEmp = usuarioRec[i].codEmpresa
+        rol =usuarioRec[i].rol
+        i+=1
 
+    if rol == 'ADM':
+        emp = Empresa.objects.all()
+        querysetRA =Empresa.objects.all()
+    else:
+        emp = Empresa.objects.filter(codEmpresa=codEmp)
+        querysetRA= Empresa.objects.filter(codEmpresa=codEmp)
+    contexto = {
+            'empresas':emp,
+            'querysetRA':querysetRA,
+    } 
+    return render(request,'proyecto/analisisEmpresa.html', contexto)
 
 def informeAnalisisEmpresa(request):
     if request.method == 'POST':
@@ -4294,7 +4428,52 @@ def insertarEmpresa(request):
 
 
 
-def consultarEmpresa(request):
+def consultarEmpresa(request, username):
+    usuarioRec = Usuario.objects.filter(username=username)
+    i=0
+    while(i<len(usuarioRec)):
+        codEmp = usuarioRec[i].codEmpresa
+        i+=1
+    emp = Empresa.objects.filter(codEmpresa=codEmp)
+    contexto = {
+            'empresas':emp,
+    } 
+    return render(request, 'proyecto/consultarEmpresa.html', contexto)
+
+def consultarEmpresa(request, username):
+
+    usuarioRec = Usuario.objects.filter(username=username)
+    i=0
+    while(i<len(usuarioRec)):
+        codEmp = usuarioRec[i].codEmpresa
+        i+=1
+
+    emp = Empresa.objects.filter(codEmpresa=codEmp)
+    queryset= Empresa.objects.filter(codEmpresa=codEmp)
+
+
+    contexto = {
+            'empresas':emp,
+            'queryset':queryset,
+    }
+
+    if request.method=='POST':
+
+        empresa = request.POST['empresas']          
+
+        if empresa:
+            queryset = Empresa.objects.filter(codEmpresa=empresa)
+
+            if queryset:              
+                contexto = {   
+                    'empresas':emp,                 
+                    'queryset':queryset,
+                }  
+    
+    return render(request, 'proyecto/consultarEmpresa.html', contexto)
+
+def consultarEmpresaAdmin(request):
+
     emp = Empresa.objects.all
     queryset =Empresa.objects.all
 
@@ -4369,20 +4548,32 @@ def eliminarEmpresa(request):
 
 
 #-----------------------------------------------------------------------------------------------------------------
-
-
-
 class CatalogoListado(ListView):
     model = CatalogoCuenta #Llamada a la clase "CatalogoCuenta" en el archivo models.py
     
     
+def consultarCatalogo(request, username):
 
-def consultarCatalogo(request):
-    emp = Empresa.objects.all
+    #Obtener el codigo de la empresa del Usuario
+    usuarioRec = Usuario.objects.filter(username=username)
+    i=0
+    while(i<len(usuarioRec)):
+        codEmp = usuarioRec[i].codEmpresa
+        rol =usuarioRec[i].rol
+        i+=1
 
+    if rol == 'ADM':
+        emp = Empresa.objects.all()
+        queryset =CatalogoCuenta.objects.all()
+    else:
+        emp = Empresa.objects.filter(codEmpresa=codEmp)
+        queryset= CatalogoCuenta.objects.filter(codEmpresa=codEmp)        
+       
     contexto = {
             'empresas':emp,
+            'queryset':queryset,
     }
+
     if request.method=='POST':
         empresa = request.POST['empresas']          
         if empresa:
@@ -4391,7 +4582,8 @@ def consultarCatalogo(request):
                 contexto = {   
                     'empresas':emp,                 
                     'queryset':queryset,
-                }       
+                }      
+
     return render(request, 'proyecto/ConsultarCatalogo.html', contexto)
 
 
@@ -4408,7 +4600,7 @@ class CatalogoCrear(SuccessMessageMixin, CreateView):
 
 
 class CatalogoDetalle(DetailView):
-    model = CatalogoCuenta 
+    model = CatalogoCuenta  
 
 
 
@@ -4429,7 +4621,7 @@ class CatalogoActualizar2(SuccessMessageMixin, UpdateView):
     success_message = '--Catalogo Actualizado Correctamente--'  
     
     def get_success_url(self):               
-        return reverse('analisisFinanciero:consultarCatalogo') 
+        return reverse('analisisFinanciero:index') 
 
 
 
@@ -4442,7 +4634,7 @@ class CatalogoEliminar(SuccessMessageMixin, DeleteView):
     def get_success_url(self): 
         success_message = '--Catalogo Eliminado Correctamente--' 
         messages.success (self.request, (success_message))       
-        return reverse('analisisFinanciero:catalogo') 
+        return reverse('analisisFinanciero:index') 
 
 
 #----------------------------------------------------------------------------------------------------
@@ -4476,4 +4668,4 @@ def guardarModificacionBalance(request):
         queryset.valor = valor
         queryset.save()
              
-    return redirect('analisisFinanciero:consultarBalance')
+    return redirect('analisisFinanciero:index')

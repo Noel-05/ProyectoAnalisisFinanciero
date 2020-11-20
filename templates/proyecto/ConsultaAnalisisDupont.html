@@ -11,9 +11,9 @@
         <!-- Opciones para consultar los balances -->
         <div align="center" class="busqueda">
             <div class="form__group2 field">
-                <input type="submit" name="submit" id="analisisDupont" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='{% url 'analisisFinanciero:consultarAnalisisDupont' %}'">
+                <input type="submit" name="submit" id="analisisDupont" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='{% url 'analisisFinanciero:consultarAnalisisDupont' user.username %}'">
                 <label for="analisisDupont">
-                <span class="iborrainputfile" onclick="window.location.href='{% url 'analisisFinanciero:consultarAnalisisDupont' %}'">Consultar Otro</span>
+                <span class="iborrainputfile" onclick="window.location.href='{% url 'analisisFinanciero:consultarAnalisisDupont' user.username %}'">Consultar Otro</span>
             </div>
             </br>
         </div>
@@ -27,10 +27,22 @@
             <form method="POST" action="{% url 'analisisFinanciero:analisisDupont' %}">
                 {% csrf_token %} 
 
-                <div class="form__group2 field">
-                    <input type="text" name="codEmpresa"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el código de la empresa." required maxlength="15"></br>
-                    <label for="codEmpresa" class="form__label2">C&oacute;digo Empresa</label>
-                </div></br>
+                <div class="form__group2 field">                
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Empresa</label>
+                        </div>
+                        <select name="codEmpresa" class="custom-select" id="inputGroupSelect01">
+                            <option selected="selected">Selecciona la Empresa</option>
+  
+                          {% for emp in empresas %}
+  
+                            <option value="{{ emp.codEmpresa }}">{{ emp.codEmpresa }}</option>
+  
+                          {% endfor %}
+                          </select>
+                    </div>
+                </div>
 
                 <div class="form__group2 field">
                     <input type="number" name="año"  id = "año" class="form__field2" placeholder="Ingresa el año." required pattern="([0-9]{4})" maxlength="4"></br>
@@ -77,11 +89,11 @@
         <table class="table table-hover text-center">
             {% if consulta %}
             <thead>
-        	   <tr>
+               <tr>
                     {% comment %} <th class="text-center">Raz&oacute;n</th> {% endcomment %}
                     <th class="text-center">Ratio</th>
-            		<th class="text-center">Valor Ratio</th>
-            	    {% comment %} <th class="text-center">An&aacute;lisis</th> {% endcomment %}
+                    <th class="text-center">Valor Ratio</th>
+                    {% comment %} <th class="text-center">An&aacute;lisis</th> {% endcomment %}
                 </tr>
             </thead>
             <tbody>
