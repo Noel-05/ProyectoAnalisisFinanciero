@@ -4,8 +4,6 @@
 {% block content %}
 {% if user.is_authenticated %}
 
-    {% if request.user.rol == 'ADM' %}
-
       <!doctype html>
       <html lang="es">
         <head>
@@ -32,6 +30,32 @@
         </head>
 
         <body> 
+
+        {% if request.user.rol == 'GER' %}
+            <div class="page-header-header">
+                <h1 class="text-titles"><strong>Consultar C&aacute;talogo de Cuentas.</strong></h1>
+            </div>
+            </br><p class="lead">Consulta los c&aacute;talogos de cuentas existentes o crea uno nuevo</p>
+                  
+            {% if messages %}
+              <ul class="messages list-group mb-3">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            <div align="center" class="busqueda">
+                <div class="form__group2 field">
+                    <input type="submit" name="submit" id="consultarActividad" class="inputfile inputfile-3"  value="Consultar"  onclick="window.location.href='crearCatalogo'">
+                    <label for="consultarActividad">
+                    <span class="iborrainputfile" onclick="window.location.href='crearCatalogo'">Crear Cuenta</span>
+                </div>
+                </br>
+            </div>
+        {% endif %}
+
+    {% if request.user.rol == 'ADM' %}
 
       <div class="page-header-header">
           <h1 class="text-titles"><strong>Consultar C&aacute;talogo de Cuentas.</strong></h1>

@@ -4528,7 +4528,39 @@ def guardarModificacionEmpresa(request):
         queryset.save()
              
     #return render(request, 'proyecto/consultarRatioSector.html', contexto)
-    return redirect('analisisFinanciero:consultarEmpresa')
+    return redirect('analisisFinanciero:consultarEmpresaAdmin')
+
+
+def actualizarEmpresa2(request):   
+    codEm = request.GET['codE']
+
+    contexto = {}
+         
+    if codEm:            
+        regFilter = Empresa.objects.get(codEmpresa=codEm)  
+        contexto = {  
+            'queryset':regFilter,
+        } 
+
+    return render(request, 'proyecto/actualizarEmpresa2.html', contexto)
+
+
+
+def guardarModificacionEmpresa2(request):
+    codEm = request.POST['codE']
+    nomEm = request.POST['nomE']
+    descripcion = request.POST['descE']
+
+    regFilter = Empresa.objects.filter(codEmpresa=codEm)
+
+    if regFilter:
+        queryset = Empresa.objects.get(codEmpresa=codEm)
+        queryset.nombreEmpresa = nomEm
+        queryset.descripcionEmpresa = descripcion
+        queryset.save()
+             
+    #return render(request, 'proyecto/consultarRatioSector.html', contexto)
+    return redirect('analisisFinanciero:index')
 
 
 
@@ -4544,7 +4576,7 @@ def eliminarEmpresa(request):
             
 
     #return render(request, 'proyecto/consultarRatioSector.html', contexto)
-    return redirect('analisisFinanciero:consultarEmpresa')
+    return redirect('analisisFinanciero:consultarEmpresaAdmin')
 
 
 #-----------------------------------------------------------------------------------------------------------------

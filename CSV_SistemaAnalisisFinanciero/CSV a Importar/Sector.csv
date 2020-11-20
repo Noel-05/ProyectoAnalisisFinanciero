@@ -1,3 +1,4 @@
 codSector,nombreSector,descripcionSector
-SIND,"Sector Industrial",NULL
-STEXT,"Sector Textil",NULL
+SPRIM,"Sector Primario",NULL
+SSEC,"Sector Secundario",NULL
+STER,"Sector Terciario",NULL

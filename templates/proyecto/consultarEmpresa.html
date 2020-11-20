@@ -73,8 +73,17 @@
                                     <td><input type="hidden" name="codE" value="{{q.codEmpresa}}"/>{{ q.nombreEmpresa }}</td>
                                     <td>{{ q.descripcionEmpresa }}</td>
                                 </form>
-                            {% if request.user.rol == 'ADM' or request.user.rol == 'GER' %}
+                            {% if request.user.rol == 'ADM' %}
                                 <form method="GET" action="{% url 'analisisFinanciero:actualizarEmpresa' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="codE" value="{{q.codEmpresa}}"/>                                
+                                    <td>                               
+                                        <input type="submit" name="btnActualizar" value="Actualizar" class="btn btn-light"/>
+                                    </td>
+                                </form>
+                            {% endif %}
+                            {% if request.user.rol == 'GER' %}
+                                <form method="GET" action="{% url 'analisisFinanciero:actualizarEmpresa2' %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="codE" value="{{q.codEmpresa}}"/>                                
                                     <td>                               

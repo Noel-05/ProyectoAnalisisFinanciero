@@ -1,0 +1,64 @@
+{% extends 'base/base.html' %}
+
+{% block content %} 
+    
+    <div class="page-header-header">
+        <h1 class="text-titles"><strong>Actualizar datos de Empresa.</strong></h1>
+    </div>
+    
+
+        </br></br><p class="lead">Ingresa los nuevos datos de la empresa.</p></br>
+
+        <div align="center" class="busqueda">
+            <form method="POST" action="{% url 'analisisFinanciero:guardarModificacionEmpresa2' %}">
+                {% csrf_token %} 
+
+
+                <div class="table-responsive" style="width:50%; display:inline-block;">
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th class="text-center">C&oacute;digo Empresa</th>
+                                <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.codEmpresa}}</i></th>
+                                <input type="hidden" name="codE" value="{{queryset.codEmpresa}}"/>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Actividad Econ&oacute;nica</th>
+                                <th class="text-center" style="color:#7d7f7d;"><i>{{queryset.codActividadEconomica}}</i></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                </br> </br>
+
+                <div class="form__group2 field">
+                    <input type="text" name="nomE" value="{{queryset.nombreEmpresa}}"  id = "codEmpresa" class="form__field2" placeholder="Ingresa el nombre de la empresa" required maxlength="100"></br>
+                    <label for="codEmpresa" class="form__label2">Nombre de Empresa</label>
+                </div>
+
+                </br>
+
+                <div class="form__group2 field">
+                   
+                    <textarea  type="text" name="descE"  id = "codEmpresa" class="form__field2" placeholder="Ingresa una descripcion de la empresa"  maxlength="250" cols="30" rows="5">{{queryset.descripcionEmpresa}}</textarea> </br>                 
+                    
+                    <label for="codEmpresa" class="form__label2">Descripci&oacute;n</label>
+                </div>
+
+
+                </br>
+
+                <div class="form__group2 field">
+                    <input type="submit" name="submit" id="consultarBalance" class="inputfile inputfile-3"  value="Actualizar">
+                    <label for="consultarBalance">
+                    <span class="iborrainputfile">Actualizar</span>
+                </div>
+
+                </br>
+                
+            </form>
+        </div>
+    
+
+{% endblock %}
