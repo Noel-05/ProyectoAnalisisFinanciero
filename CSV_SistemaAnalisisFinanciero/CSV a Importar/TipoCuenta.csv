@@ -9,6 +9,7 @@ EFEC,Efectivo
 GASTFI,"Gastos Financieros"
 ING,Ingresos
 INV,Inventario
+OTR,"Otro Tipo de Cuenta"
 PASCIR,"Pasivo Circulante"
 PASTOT,"Pasivo Total"
 PATR,Patrimonio

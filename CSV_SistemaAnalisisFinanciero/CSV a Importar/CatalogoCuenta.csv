@@ -1,4 +1,57 @@
 codCuenta,nombreCuenta,codEmpresa_id,codRubro_id,codTipoCuenta_id
+1.00.1,Efectivo,AFP,ACT,EFEC
+1.00.10,"Total Activos Fijos",AFP,ACT,ACFI
+1.00.11,"Total Activos",AFP,ACT,ACTO
+1.00.2,Inventario,AFP,ACT,INV
+1.00.3,"Cuentas por Cobrar",AFP,ACT,CxC
+1.00.4,"Gastos pagados por anticipado",AFP,ACT,OTR
+1.00.5,"Total Activos Corrientes",AFP,ACT,ACCIR
+1.00.6,"Inversiones en cuotas del fondo de pensiones",AFP,ACT,OTR
+1.00.7,"Propiedad, planta y equipo",AFP,ACT,OTR
+1.00.8,"Otros activos e intangibles",AFP,ACT,OTR
+1.00.9,"Activo por impuesto diferido",AFP,ACT,OTR
+10.00.01,Efectivo,CTES,ACT,EFEC
+10.00.02,"Cuentas por Cobrar",CTES,ACT,CxC
+10.00.03,Inventario,CTES,ACT,INV
+10.00.04,"Pago a cuentae IVA crédito fiscal",CTES,ACT,OTR
+10.00.05,"Pagos anticipados y otros activos financieros",CTES,ACT,OTR
+10.00.06,"Total Activos Corrientes",CTES,ACT,ACCIR
+10.00.07,"Propiedad, planta y equipo",CTES,ACT,OTR
+10.00.08,"Inventario para planta",CTES,ACT,OTR
+10.00.09,"Activos intangibles",CTES,ACT,OTR
+10.00.10,"Inversiones mantenidas hasta su vencimiento",CTES,ACT,OTR
+10.00.11,"Inversiones en acciones",CTES,ACT,OTR
+10.00.12,"Activo por impuesto sobre la renta",CTES,ACT,OTR
+10.00.13,"Cuentas por cobrar a partes relacionadas",CTES,ACT,OTR
+10.00.14,"Prestamos por cobrar a partes relacionadas",CTES,ACT,OTR
+10.00.15,"Otros activos financieros",CTES,ACT,OTR
+10.00.16,"Total Activos Fijos",CTES,ACT,ACFI
+10.00.17,"Total Activos",CTES,ACT,ACTO
+10.000.01,Efectivo,SARAM,ACT,EFEC
+10.000.02,"Inversiones financieras a Corto plazo",SARAM,ACT,OTR
+10.000.03,"Cuentas por Cobrar",SARAM,ACT,CxC
+10.000.04,Inventario,SARAM,ACT,INV
+10.000.05,"Pagos anticipados",SARAM,ACT,OTR
+10.000.06,"Total Activos Corrientes",SARAM,ACT,ACCIR
+10.000.07,"Propiedad, planta y equipo",SARAM,ACT,OTR
+10.000.08,"Activo biologico",SARAM,ACT,OTR
+10.000.09,Intangibles,SARAM,ACT,OTR
+10.000.10,"Proyectos en proceso",SARAM,ACT,OTR
+10.000.11,"Total Activos Fijos",SARAM,ACT,ACFI
+10.000.12,"Total Activos",SARAM,ACT,ACTO
+11.00.01,Efectivo,TGSV,ACT,EFEC
+11.00.02,"Inversiones financieras a corto plazo",TGSV,ACT,OTR
+11.00.03,"Cuentas por Cobrar",TGSV,ACT,CxC
+11.00.04,Inventario,TGSV,ACT,INV
+11.00.05,"Anticipo a proveedores",TGSV,ACT,OTR
+11.00.06,"Impuesto sobre la renta a recuperar",TGSV,ACT,OTR
+11.00.07,"Total Activos Corrientes",TGSV,ACT,ACCIR
+11.00.08,Equipos,TGSV,ACT,OTR
+11.00.09,Intangibles,TGSV,ACT,OTR
+11.00.10,"Otros activos no circulantes",TGSV,ACT,OTR
+11.00.11,"Activo por impuesto sobre la renta",TGSV,ACT,OTR
+11.00.12,"Total Activos Fijos",TGSV,ACT,ACFI
+11.00.13,"Total Activos",TGSV,ACT,ACTO
 11.000,"Efectivo y Equivalente",AAN,ACT,EFEC
 11.001,Inventarios,AAN,ACT,INV
 11.002,"Total Activos Corrientes",AAN,ACT,ACCIR
@@ -33,3 +86,108 @@ codCuenta,nombreCuenta,codEmpresa_id,codRubro_id,codTipoCuenta_id
 11014,"Gastos Financieros",UES,UTL,GASTFI
 11015,"Utilidad Antes de Impuestos",UES,UTL,UTAI
 11016,"Utilidad Neta",UES,UTL,UTNET
+12.00.01,"Prestamos por pagar",TGSV,PAS,OTR
+12.00.02,"Depositos recibidos desde distribuidores",TGSV,PAS,OTR
+12.00.03,"Cuentas por Pagar",TGSV,PAS,CxP
+12.00.04,"Prestamos por pagar a compañias relacionadas",TGSV,PAS,OTR
+12.00.05,Provisiones,TGSV,PAS,OTR
+12.00.06,"Otras cuentas por pagar y gastos acumulados",TGSV,PAS,OTR
+12.00.07,"Total Pasivos Circulantes",TGSV,PAS,PASCIR
+12.00.08,"Capital Social",TGSV,PAS,OTR
+12.00.09,"Reserva legal",TGSV,PAS,OTR
+12.00.10,"Perdidas acumuladas",TGSV,PAS,OTR
+12.00.11,"Total Patrimonio",TGSV,PAS,PATR
+12.00.12,"Total Pasivos",TGSV,PAS,PASTOT
+13.00.01,"Ingresos por comisiones",TGSV,UTL,ING
+13.00.02,Costos,TGSV,ACT,COSVEN
+13.00.03,"Utilidad Bruta",TGSV,UTL,UTBR
+13.00.04,"Gastos de Operacion",TGSV,UTL,OTR
+13.00.05,"Utilidad de Operacion",TGSV,UTL,UTOP
+13.00.06,"Gastos Financieros",TGSV,UTL,GASTFI
+13.00.07,"Utilidad antes de Impuestos",TGSV,UTL,UTAI
+13.00.08,"Impuesto sobre la renta",TGSV,UTL,OTR
+13.00.09,"Utilidad Neta",TGSV,UTL,UTNET
+2.00.1,"Cuentas por Pagar",AFP,PAS,CxP
+2.00.10,"Total Patrimonio",AFP,PAS,PATR
+2.00.11,"Total Pasivos",AFP,PAS,PASTOT
+2.00.2,"Obligaciones por impuestos y contribuciones",AFP,PAS,OTR
+2.00.3,"Total Pasivos Corrientes",AFP,PAS,PASCIR
+2.00.4,Proviciones,AFP,PAS,OTR
+2.00.5,"Total Pasivos Fijos",AFP,PAS,OTR
+2.00.6,"Capital Social",AFP,PAS,OTR
+2.00.7,"Reservas de capital",AFP,PAS,OTR
+2.00.8,"Revaluacion de inversiones financieras",AFP,PAS,OTR
+2.00.9,"Resultado del presente ejercicio",AFP,PAS,OTR
+20.00.01,"Cuentas por Pagar",CTES,PAS,CxP
+20.00.02,"Gastos acumulados por pagar",CTES,PAS,OTR
+20.00.03,"Otras cuentas por pagar",CTES,PAS,OTR
+20.00.04,"Dividendos por pagar",CTES,PAS,OTR
+20.00.05,"Cuentas por pagar a partes relacionadas",CTES,PAS,OTR
+20.00.06,"Impuesto sobre la renta",CTES,PAS,OTR
+20.00.07,"Ingresos diferidos",CTES,PAS,OTR
+20.00.08,"Provision para contingencias",CTES,PAS,OTR
+20.00.09,"Total Pasivos Circulantes",CTES,PAS,PASCIR
+20.00.10,"Pasivo por impuesto sobre la renta diferido",CTES,PAS,OTR
+20.00.11,"Cuentas por pagar a partes relacionadas",CTES,PAS,OTR
+20.00.12,"Prestamos por pagar a partes relacionadas",CTES,PAS,OTR
+20.00.13,"Provision para contingencias",CTES,PAS,OTR
+20.00.14,"Utilidad diferida por instalacion de lineas",CTES,PAS,OTR
+20.00.15,"Provision por desmantelamiento de sitios",CTES,PAS,OTR
+20.00.16,"Capital Social pagado",CTES,PAS,OTR
+20.00.17,"Reserva legal",CTES,PAS,OTR
+20.00.18,"Utilidades acumuladas",CTES,PAS,OTR
+20.00.19,"Efecto de conversion de entidades extranjeras",CTES,PAS,OTR
+20.00.20,"Patrimonio atribuible a los accionistas de la controladora",CTES,PAS,OTR
+20.00.21,"Interes minoritario",CTES,PAS,OTR
+20.00.22,"Total Patrimonio",CTES,PAS,PATR
+20.00.23,"Total Pasivos",CTES,PAS,PASTOT
+20.000.01,"Deudas financieras a corto plazo",SARAM,PAS,OTR
+20.000.02,"Cuentas por Pagar",SARAM,PAS,CxP
+20.000.03,"Beneficios a empleados a corto plazo",SARAM,PAS,OTR
+20.000.04,"Impuestos por pagar",SARAM,PAS,OTR
+20.000.05,"Dividendos por pagar",SARAM,PAS,OTR
+20.000.06,"Total Pasivos Circulantes",SARAM,PAS,PASCIR
+20.000.07,"Deudas financieras a largo plazo",SARAM,PAS,OTR
+20.000.08,"Provisiones y otros pasivos a largo plazo",SARAM,PAS,OTR
+20.000.09,"Capital Social",SARAM,PAS,OTR
+20.000.10,Reservas,SARAM,PAS,OTR
+20.000.11,"Resultados acumulados",SARAM,PAS,OTR
+20.000.12,"Resultados del ejercicio",SARAM,PAS,OTR
+20.000.13,"Total Patrimonio",SARAM,PAS,PATR
+20.000.14,"Total Pasivos",SARAM,PAS,PASTOT
+3.00.1,"Ingresos por comisiones",AFP,UTL,ING
+3.00.10,"Impuesto sobre la renta",AFP,UTL,OTR
+3.00.11,"Contribucion especial plan de seguridad ciudadana",AFP,UTL,OTR
+3.00.12,"Utilidad antes de Impuestos",AFP,UTL,UTAI
+3.00.13,"Ingresos estraordinarios",AFP,UTL,OTR
+3.00.14,"Utilidad Neta",AFP,UTL,UTNET
+3.00.2,Costos,AFP,UTL,COSVEN
+3.00.3,"Utilidad Bruta",AFP,UTL,UTBR
+3.00.4,"Gastos de Operacion",AFP,UTL,OTR
+3.00.5,"Gastos Financieros",AFP,UTL,GASTFI
+3.00.6,"Otros gastos",AFP,UTL,OTR
+3.00.7,"Otros ingresos",AFP,UTL,OTR
+3.00.8,"Gastos de ejercicios anteriores",AFP,UTL,OTR
+3.00.9,"Utilidad de Operacion",AFP,UTL,UTOP
+30.00.01,"Ingresos por servicios, ventas de equipos y accesorios",CTES,UTL,ING
+30.00.02,"Costos de servicios y ventas de productos",CTES,UTL,COSVEN
+30.00.03,"Utilidad Bruta",CTES,UTL,UTBR
+30.00.04,"Gastos Financieros",CTES,UTL,GASTFI
+30.00.05,"Depreciacion y amortizacion",CTES,UTL,OTR
+30.00.06,"Utilidad de Operacion",CTES,UTL,UTOP
+30.00.07,"Ingresos financieros",CTES,UTL,OTR
+30.00.08,"Otros gastos",CTES,UTL,OTR
+30.00.09,"Utilidad antes de Impuestos",CTES,UTL,UTAI
+30.00.10,"Impuesto sobre la renta",CTES,UTL,OTR
+30.00.11,"Utilidad Neta",CTES,UTL,UTNET
+30.000.01,"Ingresos por ventas",SARAM,UTL,ING
+30.000.02,"Costos de venta",SARAM,UTL,COSVEN
+30.000.03,"Utilidad Bruta",SARAM,UTL,UTBR
+30.000.04,"Gastos Financieros",SARAM,UTL,GASTFI
+30.000.05,"Utilidad de Operacion",SARAM,UTL,UTOP
+30.000.06,"Gastos no operacionales financieros",SARAM,UTL,OTR
+30.000.07,"Otros gastos no operacionales",SARAM,UTL,OTR
+30.000.08,"Utilidad antes de Impuestos",SARAM,UTL,UTAI
+30.000.09,"Impuesto sobre la renta",SARAM,UTL,OTR
+30.000.10,"Cesc grandes contribuyentes",SARAM,UTL,OTR
+30.000.11,"Utilidad Neta",SARAM,UTL,UTNET

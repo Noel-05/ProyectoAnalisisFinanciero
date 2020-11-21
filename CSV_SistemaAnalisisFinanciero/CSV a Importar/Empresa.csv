@@ -1,4 +1,7 @@
 codEmpresa,nombreEmpresa,descripcionEmpresa,codActividadEconomica_id
-AAN,"Anglo American","Empresa de mineria",MIN
-UES,"Universidad de El Salvador",NULL,MIN
-USAM,"Universidad Salvadoreña Alberto Masferrer",NULL,EXT
+AAN,"Anglo American (Prueba)",,MIN
+AFP,"Administradora de Fondo de Pensiones.","Compañía salvadoreña subsidiaria de Administradora de Pensiones y Cesantías Protección, S.A. del domicilio de Colombia.",FDP
+CTES,"Compañía de Telecomunicaciones de El Salvador.","Compañía Salvadoreña subsidiaria de AMX El Salvador, S.A. de C.V.",IMM
+SARAM,"SARAM S.A. de C.V.","Fabrica de Alimentos Balanceados para animales "MOR". ",FAA
+TGSV,"TIGO El Salvador","Sociedad Proveedora de Dinero Electrónico Mobile Cash, S.A. de Millicom International One, S.L.",IMM
+UES,"Universidad de El Salvador (PRUEBA)",,MIN

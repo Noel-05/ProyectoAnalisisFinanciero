@@ -1,3 +1,6 @@
 codActividadEconomica,nombreActividadEconomica,descripcionActividadEconomica,codSector_id
-EXT,"Sector Extracción",NULL,SPRIM
-MIN,"Sector Minería",NULL,SPRIM
+EXT,"Sector Extracción (Prueba)",NULL,SPRIM
+FAA,"Fabricación de productos de alimentación animal.",NULL,SSEC
+FDP,"Fondos de pensiones.",NULL,STER
+IMM,"Intermediación monetaria.",NULL,STER
+MIN,"Sector Minería (Prueba)",NULL,SPRIM
