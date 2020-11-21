@@ -91,6 +91,7 @@
             {% if analVert %}
             <thead>
                 <tr>
+                    <th class="text-center">Tipo de Cuenta</th>
                     <th class="text-center">Cuenta</th>
                     {% comment %} <th class="text-center">{{ año }}</th> {% endcomment %}
                     <th class="text-center">Valor</th>
@@ -99,10 +100,93 @@
             <tbody>
                 {% for an in analVert %}
                     <tr>
-                        <td>{{ an.codCuenta.nombreCuenta }}</td> 
-                        {% load l10n %}
-                        {% comment %} <td>$ {{ an.valor }}</td>  {% endcomment %}
-                        <td>{{ an.valor|unlocalize }} %</td> 
+                        {% ifequal 'Total Activos Corrientes' an.codCuenta.nombreCuenta %}
+                            <td><strong>{{ an.codCuenta.codRubro.nombreRubro }}</strong></td> 
+                            <td><strong>{{ an.codCuenta.nombreCuenta }}</strong></td> 
+                            {% load l10n %}
+                            {% comment %} <td>$ {{ an.valor }}</td>  {% endcomment %}
+                            <td><strong>{{ an.valor|unlocalize }} %</strong></td>
+                        {% else %}
+
+                        {% ifequal 'Total Activos Fijos' an.codCuenta.nombreCuenta %}
+                            <td><strong>{{ an.codCuenta.codRubro.nombreRubro }}</strong></td> 
+                            <td><strong>{{ an.codCuenta.nombreCuenta }}</strong></td> 
+                            {% load l10n %}
+                            {% comment %} <td>$ {{ an.valor }}</td>  {% endcomment %}
+                            <td><strong>{{ an.valor|unlocalize }} %</strong></td>
+                        {% else %}
+
+                        {% ifequal 'Total Activos' an.codCuenta.nombreCuenta %}
+                            <td><strong>{{ an.codCuenta.codRubro.nombreRubro }}</strong></td> 
+                            <td><strong>{{ an.codCuenta.nombreCuenta }}</strong></td> 
+                            {% load l10n %}
+                            {% comment %} <td>$ {{ an.valor }}</td>  {% endcomment %}
+                            <td><strong>{{ an.valor|unlocalize }} %</strong></td>
+                        {% else %}
+
+                        {% ifequal 'Total Patrimonio' an.codCuenta.nombreCuenta %}
+                            <td><strong>{{ an.codCuenta.codRubro.nombreRubro }}</strong></td> 
+                            <td><strong>{{ an.codCuenta.nombreCuenta }}</strong></td> 
+                            {% load l10n %}
+                            {% comment %} <td>$ {{ an.valor }}</td>  {% endcomment %}
+                            <td><strong>{{ an.valor|unlocalize }} %</strong></td>
+                        {% else %}
+
+                        {% ifequal 'Total Pasivos Corrientes' an.codCuenta.nombreCuenta %}
+                            <td><strong><i>{{ an.codCuenta.codRubro.nombreRubro }}</i></strong></td> 
+                            <td><strong><i>{{ an.codCuenta.nombreCuenta }}</i></strong></td> 
+                            {% load l10n %}
+                            {% comment %} <td>$ {{ an.valor }}</td>  {% endcomment %}
+                            <td><strong><i>{{ an.valor|unlocalize }} %</i></strong></td>
+                        {% else %}
+
+                        {% ifequal 'Total Pasivos Fijos' an.codCuenta.nombreCuenta %}
+                            <td><strong><i>{{ an.codCuenta.codRubro.nombreRubro }}</i></strong></td> 
+                            <td><strong><i>{{ an.codCuenta.nombreCuenta }}</i></strong></td> 
+                            {% load l10n %}
+                            {% comment %} <td>$ {{ an.valor }}</td>  {% endcomment %}
+                            <td><strong><i>{{ an.valor|unlocalize }} %</i></strong></td>
+                        {% else %}
+
+                        {% ifequal 'Total Pasivos' an.codCuenta.nombreCuenta %}
+                           <td><strong><i>{{ an.codCuenta.codRubro.nombreRubro }}</i></strong></td> 
+                            <td><strong><i>{{ an.codCuenta.nombreCuenta }}</i></strong></td> 
+                            {% load l10n %}
+                            {% comment %} <td>$ {{ an.valor }}</td>  {% endcomment %}
+                            <td><strong><i>{{ an.valor|unlocalize }} %</i></strong></td>
+                        {% else %}
+
+                        {% ifequal 'Total Patrimonio' an.codCuenta.nombreCuenta %}
+                            <td><strong><i>{{ an.codCuenta.codRubro.nombreRubro }}</i></strong></td> 
+                            <td><strong><i>{{ an.codCuenta.nombreCuenta }}</i></strong></td> 
+                            {% load l10n %}
+                            {% comment %} <td>$ {{ an.valor }}</td>  {% endcomment %}
+                            <td><strong><i>{{ an.valor|unlocalize }} %</i></strong></td>
+                        {% else %}
+
+                        {% ifequal 'Pasivos' an.codCuenta.codRubro.nombreRubro %}
+                            <td><i>{{ an.codCuenta.codRubro.nombreRubro }}</i></td> 
+                            <td><i>{{ an.codCuenta.nombreCuenta }}</i></td> 
+                            {% load l10n %}
+                            {% comment %} <td>$ {{ an.valor }}</td>  {% endcomment %}
+                            <td><i>{{ an.valor|unlocalize }} %</i></td>
+                        {% else %}
+
+                            <td>{{ an.codCuenta.codRubro.nombreRubro }}</td> 
+                            <td>{{ an.codCuenta.nombreCuenta }}</td> 
+                            {% load l10n %}
+                            {% comment %} <td>$ {{ an.valor }}</td>  {% endcomment %}
+                            <td>{{ an.valor|unlocalize }} %</td>
+                        {% endifequal %}
+
+                        {% endifequal %}
+                        {% endifequal %}
+                        {% endifequal %}
+                        {% endifequal %}
+                        {% endifequal %}
+                        {% endifequal %}
+                        {% endifequal %}
+                        {% endifequal %}
                     </tr>
                 {% endfor %} 
             </tbody>
